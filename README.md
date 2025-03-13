@@ -38,6 +38,7 @@ Follow the following steps to set up a development environment:
 6. To run the server, you can use the following command:
     
     ```bash
+    cd project
     python manage.py migrate
     python manage.py runserver
     ```
