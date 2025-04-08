@@ -115,6 +115,8 @@ AUTH_USER_MODEL = "accounts.User"
 
 ALLOW_REGISTRATION = env("ALLOW_REGISTRATION")
 
+WHITELIST_EMAIL_DOMAINS = env.list("WHITELIST_EMAIL_DOMAINS", default=[])
+
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
