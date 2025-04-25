@@ -8,6 +8,6 @@ class Ride(models.Model):
     comment = models.TextField()
 
 class Vehicle(models.Model):
-    name = models.CharField(max_length=100)
-    nbPlaces = models.IntegerField()
-    couleur = models.CharField(max_length=50)
+    name = models.CharField(max_length=50)
+    seats = models.PositiveIntegerField()
+    color = models.CharField(max_length=50)
