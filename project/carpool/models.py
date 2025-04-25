@@ -7,7 +7,6 @@ class Ride(models.Model):
     end_dt = models.DateTimeField()
     comment = models.TextField()
 
-
 class Vehicle(models.Model):
     name = models.CharField(max_length=50)
     seats = models.PositiveIntegerField()
