@@ -6,3 +6,9 @@ class Ride(models.Model):
     start_dt = models.DateTimeField()
     end_dt = models.DateTimeField()
     comment = models.TextField()
+
+
+class Vehicle(models.Model):
+    name = models.CharField(max_length=50)
+    seats = models.PositiveIntegerField()
+    color = models.CharField(max_length=50)
