@@ -26,6 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 environ.Env.read_env(os.path.join(BASE_DIR.parent, ".env"))
 
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
@@ -58,6 +59,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "accounts.middleware.VerifyEmailMiddleware",
 ]
 
 ROOT_URLCONF = "project.urls"
@@ -97,24 +99,31 @@ DATABASES = {
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
-    },
-]
+if DEBUG:
+    AUTH_PASSWORD_VALIDATORS = []
+else:
+    AUTH_PASSWORD_VALIDATORS = [
+        {
+            "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+        },
+        {
+            "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+        },
+        {
+            "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
+        },
+        {
+            "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
+        },
+    ]
 
 AUTH_USER_MODEL = "accounts.User"
 
 ALLOW_REGISTRATION = env("ALLOW_REGISTRATION")
+
+LOGIN_URL = "accounts:login"
+
+LOGIN_REDIRECT_URL = "rides_list"
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
@@ -137,3 +146,29 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Email settings
+EMAIL_BACKEND = env("DJANGO_EMAIL_BACKEND")
+EMAIL_HOST = env("DJANGO_EMAIL_HOST")
+EMAIL_PORT = env("DJANGO_EMAIL_PORT")
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+EMAIL_HOST_USER = env("DJANGO_EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = env("DJANGO_EMAIL_HOST_PASSWORD")
+DEFAULT_FROM_EMAIL = env("DJANGO_DEFAULT_FROM_EMAIL")
+
+# Celery settings
+CELERY_BROKER_URL = env("CELERY_BROKER_URL")
+CELERY_RESULT_BACKEND = env("CELERY_RESULT_BACKEND")
+CELERYD_NODES = env("CELERYD_NODES")
+CELERY_BIN = env("CELERY_BIN")
+CELERYD_MULTI = env("CELERYD_MULTI")
+CELERYD_OPTS = env("CELERYD_OPTS")
+CELERYD_PID_FILE = env("CELERYD_PID_FILE")
+CELERYD_LOG_FILE = env("CELERYD_LOG_FILE")
+CELERYD_LOG_LEVEL = env("CELERYD_LOG_LEVEL")
+CELERY_TASK_ALWAYS_EAGER = env("CELERY_TASK_ALWAYS_EAGER", default=False)
+CELERY_TASK_EAGER_PROPAGATES = env("CELERY_TASK_EAGER_PROPAGATES", default=False)
+CELERY_ACCEPT_CONTENT = ["json"]
+CELERY_TASK_SERIALIZER = "json"
+CELERY_RESULT_SERIALIZER = "json"

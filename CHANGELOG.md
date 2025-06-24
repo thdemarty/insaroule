@@ -12,5 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Register and login, logout for users
 - Create, list, subscribe to a rides
 - Basic interface for users
+- Email verification workflow for user
+
 
 [Unreleased]: https://github.com/insaroule/insaroule/compare/main...develop

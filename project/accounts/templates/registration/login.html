@@ -1,18 +1,12 @@
-
-{% extends 'base.html' %}
+{% extends 'registration/base.html' %}
 
 {% block content %}
 <div class="container mt-5">
-    {% if not_allowed %}
-    <div class="alert alert-warning" role="alert">
-        Les inscriptions sont désactivées.
-    </div>
-    {% else %}
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div class="card shadow-sm">
                 <div class="card-body">
-                    <h2 class="card-title mb-4 text-center">Créer un compte</h2>
+                    <h2 class="card-title mb-4 text-center">Connexion</h2>
                     <form action="" method="post">
                         {% csrf_token %}
                         {% for field in form %}
@@ -28,13 +22,12 @@
                         </div>
                         {% endfor %}
                         <div class="d-grid">
-                            <button type="submit" class="btn btn-primary">S'enregistrer</button>
+                            <button type="submit" class="btn btn-primary">Se connecter</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-    {% endif %}
 </div>
 {% endblock %}
