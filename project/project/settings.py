@@ -123,7 +123,7 @@ ALLOW_REGISTRATION = env("ALLOW_REGISTRATION")
 
 LOGIN_URL = "accounts:login"
 
-LOGIN_REDIRECT_URL = "rides_list"
+LOGIN_REDIRECT_URL = "carpool:list"
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
@@ -172,3 +172,8 @@ CELERY_TASK_EAGER_PROPAGATES = env("CELERY_TASK_EAGER_PROPAGATES", default=False
 CELERY_ACCEPT_CONTENT = ["json"]
 CELERY_TASK_SERIALIZER = "json"
 CELERY_RESULT_SERIALIZER = "json"
+
+
+# Tasks rate limit
+GEOCODAGE_TASK_RATE_LIMIT = env("GEOCODAGE_TASK_RATE_LIMIT", default="50/s")
+ROUTING_TASK_RATE_LIMIT = env("ROUTING_TASK_RATE_LIMIT", default="5/s")
