@@ -1,0 +1,367 @@
+{% extends 'base.html' %}
+
+
+{% block extrahead %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
+<style>
+    #departure {
+        z-index: 999;
+    }
+    #arrival {
+        z-index: 998;
+    }
+</style>
+
+
+{% endblock extrahead %}
+
+
+{% block content %}
+<div class="container-fluid mt-3">
+    <div class="row">
+        <div class="col-lg h-100">
+
+            <div id="map" style="height: 90vh"></div>
+        </div>
+        <div class="col-lg-4">
+            <h2>Publish a new ride</h2>
+            <!-- Departure address autocomplete -->
+            <div class="mb-3">
+                <label for="departure">Departure address</label>
+                {% if form.departure_lat.errors or form.departure_lng.errors %}
+                <span class="text-danger">This field is required</span>
+                {% endif %}
+                <select class="form-select" id="departure"></select>
+            </div>
+            <!-- Arrival address autocomplete -->
+            <div class="mb-3">
+                <label for="arrival">Arrival address</label>
+                {% if form.arrival_lat.errors or form.arrival_lng.errors %}
+                <span class="text-danger">This field is required</span>
+                {% endif %}
+                <select class="form-select" id="arrival"></select>
+                
+            </div>
+
+            <form action="" method="post">
+                {% csrf_token %}
+
+                <!-- Hidden inputs DO NOT DELETE -->
+                {{ form.departure_fullname }}
+                {{ form.arrival_fullname }}
+                {{ form.departure_lat }}
+                {{ form.departure_lng }}
+                {{ form.arrival_lat }}
+                {{ form.arrival_lng }}
+                {{ form.route }}
+
+                <div class="mb-3">
+                    {{ form.departure_datetime }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form.seats }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form.price_per_seat }}
+                </div>
+
+                <div class="mb-3">
+                    <label for="">Payment method</label>
+                    <div class="mb-3">
+                        {{form.payment_method}}
+                    </div>
+                </div>
+
+                <button class="btn btn-primary w-100" type="submit">Publish ride</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+
+{% block extrascript %}
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+<script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+
+<script>
+    var map = L.map('map', 
+        {
+            doubleClickZoom: false,
+            boxZoom: false,
+            dragging: false,
+            doubleClickZoom: false,
+            scrollWheelZoom: false,
+            zoomControl: false,
+
+        }
+    ).setView([46.2321929, 2.209666999999996], 6.4);
+    
+
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+</script>
+
+
+<script>
+    const WAITING_BEFORE_REQUEST = 500; // ms
+
+    const departureEl = document.getElementById('departure');
+    const arrivalEl = document.getElementById('arrival');
+    const routeEl = document.getElementById('id_route');
+
+
+    const hiddenDepartureFullname = document.getElementById('id_departure_fullname');
+    const hiddenDepartureLat = document.getElementById('id_departure_lat');
+    const hiddenDepartureLng = document.getElementById('id_departure_lng');
+    const hiddenArrivalFullname = document.getElementById('id_arrival_fullname');
+    const hiddenArrivalLat = document.getElementById('id_arrival_lat');
+    const hiddenArrivalLng = document.getElementById('id_arrival_lng');
+    const hiddenRoute = document.getElementById('id_route');
+
+    const departure = new Choices(departureEl, {
+        placeholder: true,
+        placeholderValue: 'Search for a precise departure address',
+        loadingText: 'Loading addresses...',
+    })
+    const arrival = new Choices(arrivalEl, {
+        placeholder: true,
+        placeholderValue: 'Search for a precise arrival address',
+        loadingText: 'Loading addresses...',
+    })
+
+
+    var departureM, arrivalM, route = null;
+
+
+    function updateCoordinates(inputEl, fullnameInputId, latInputId, lngInputId, marker) {
+        // Get the innerHTML of the first selected option
+        const fullname = inputEl.selectedOptions[0].innerHTML;
+        const [lat, lng] = inputEl.value.split('/');
+
+        document.getElementById(fullnameInputId).value = fullname;
+        document.getElementById(latInputId).value = lat;
+        document.getElementById(lngInputId).value = lng;
+
+        if (marker) {
+            marker.setLatLng([lat, lng]);
+        }
+
+        if (inputEl.id === 'departure') {
+            if (!departureM) {
+                // Create a new marker for departure if it doesn't exist
+                departureM = L.marker([lat, lng]).addTo(map);
+            } else {
+                departureM.setLatLng([lat, lng]);
+            }
+        } else if (inputEl.id === 'arrival') {
+            if (!arrivalM) {
+                // Create a new marker for arrival if it doesn't exist
+                arrivalM = L.marker([lat, lng]).addTo(map);
+            } else {
+                arrivalM.setLatLng([lat, lng]);
+            }
+        }
+        updateMap();
+
+        if (departureM && arrivalM) {
+            // If both markers are set, fetch the route
+            getRouteFromCoordinates(
+                departureM.getLatLng().lat,
+                departureM.getLatLng().lng,
+                arrivalM.getLatLng().lat,
+                arrivalM.getLatLng().lng
+            );
+        }
+    }
+
+    function updateMap() {
+        // Ensure both markers are defined before calculating bounds
+        // and add a padding to the bounds
+        
+        var bounds = L.latLngBounds(
+            
+            departureM ? departureM.getLatLng() : [48.120799, -1.635791],
+            arrivalM ? arrivalM.getLatLng() : [48.120799, -1.635791],
+        )
+
+        map.fitBounds(bounds, padding = [50, 50]);
+    }
+
+
+    function getRouteFromCoordinates(departureLat, departureLng, arrivalLat, arrivalLng) {
+        console.log("Fetching route from coordinates:", departureLat, departureLng, arrivalLat, arrivalLng);
+        const start = encodeURIComponent(`${departureLng},${departureLat}`); 
+        const end = encodeURIComponent(`${arrivalLng},${arrivalLat}`);
+
+        const url = `https://data.geopf.fr/navigation/itineraire?resource=bdtopo-osrm&start=${start}&end=${end}&profile=car&optimization=fastest&geometryFormat=geojson&getSteps=true&getBbox=true&distanceUnit=kilometer&timeUnit=hour&crs=EPSG%3A4326`;
+        fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        }).then(data => {
+            // Show geometry on the map
+            if (data.geometry) {
+                // Remove previous route if it exists
+                if (route) {
+                    map.removeLayer(route);
+                }
+                route = L.geoJSON(data.geometry, {
+                    style: {
+                        color: '#3388ff',
+                        weight: 5,
+                        opacity: 0.7
+                    }
+                }).addTo(map);
+                // TODO: store duration
+
+                // Store the route in the hidden input field
+                routeEl.value = JSON.stringify(data.geometry);
+                
+                // Fit the map to the route bounds
+                map.fitBounds(route.getBounds(), { padding: [50, 50] });
+            } else {
+                console.error('No geometry found in the response');
+            }
+
+
+            console.log(data);
+
+        }).catch(error => {
+            console.error('Error fetching route:', error);
+        });
+
+
+
+    }
+
+    departureEl.addEventListener('change', function () { updateCoordinates(this, 'id_departure_fullname', 'id_departure_lat', 'id_departure_lng'); });
+    arrivalEl.addEventListener('change', function () { updateCoordinates(this, 'id_arrival_fullname', 'id_arrival_lat', 'id_arrival_lng'); });
+
+
+    // =================================================================
+    // Event listeners for addresses search
+    // =================================================================
+
+    departure.passedElement.element.addEventListener('search', function(event) {
+        clearTimeout(event.target.timer);
+        
+        event.target.timer = setTimeout(() => {
+            fetch(`https://data.geopf.fr/geocodage/completion/?text=${event.detail.value}&terr=METROPOLE&type=StreetAddress`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status !== 'OK') {
+                        return;
+                    }
+                    const results = data.results.map(result => ({
+                        value: `${result.y}/${result.x}`,
+                        label: result.fulltext
+                    }));
+                    departure.clearChoices();
+                    departure.setChoices(results, 'value', 'label', true);
+                })
+                .catch(error => console.error('Error fetching addresses:', error));
+        }, WAITING_BEFORE_REQUEST); 
+    })
+
+    // TODO: we should pass a function that returns Promise of choices (to have the loading state)
+    // see below:
+    //
+    // const example = new Choices(element);
+    //
+    // // Passing a function that returns Promise of choices
+    // example.setChoices(async () => {
+    // try {
+    //     const items = await fetch('/items');
+    //     return items.json();
+    // } catch (err) {
+    //     console.error(err);
+    // }
+    // });
+    //
+
+
+    arrival.passedElement.element.addEventListener('search', function(event) {
+        clearInterval(event.target.timer);
+        
+        event.target.timer = setTimeout(() => {
+            fetch(`https://data.geopf.fr/geocodage/completion/?text=${event.detail.value}&terr=METROPOLE&type=StreetAddress`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status !== 'OK') {
+                        return;
+                    }
+                    const results = data.results.map(result => ({
+                        value: `${result.y}/${result.x}`,
+                        label: result.fulltext
+                    }));
+                    arrival.clearChoices();
+                    arrival.setChoices(results, 'value', 'label', true);
+                })
+                .catch(error => console.error('Error fetching addresses:', error));
+        }, WAITING_BEFORE_REQUEST); 
+    })
+
+    // =================================================================
+    // Initial map setup
+    // =================================================================
+
+    document.addEventListener('DOMContentLoaded', function() {
+        if (hiddenDepartureLat.value && hiddenDepartureLng.value && departureM === undefined) {
+            // If departure coordinates are set, create the marker
+            const lat = parseFloat(hiddenDepartureLat.value);
+            const lng = parseFloat(hiddenDepartureLng.value);
+            departureM = L.marker([lat, lng]).addTo(map);
+            updateMap();
+        }
+
+        if (hiddenArrivalLat.value && hiddenArrivalLng.value && arrivalM === undefined) {
+            // If arrival coordinates are set, create the marker
+            const lat = parseFloat(hiddenArrivalLat.value);
+            const lng = parseFloat(hiddenArrivalLng.value);
+            arrivalM = L.marker([lat, lng]).addTo(map);
+            updateMap();
+        }
+
+        if (hiddenRoute.value) {
+            // If route is set, display it on the map
+            const routeData = JSON.parse(hiddenRoute.value);
+            route = L.geoJSON(routeData, {
+                style: {
+                    color: '#3388ff',
+                    weight: 5,
+                    opacity: 0.7
+                }
+            }).addTo(map);
+            map.fitBounds(route.getBounds(), { padding: [50, 50] });
+        }
+
+        // Update value of Choices when already set in hidden inputs
+        if (hiddenDepartureFullname.value) {
+            departure.setValue([`${hiddenDepartureLat.value}/${hiddenDepartureLng.value}`, hiddenDepartureFullname.value])
+        }
+        
+        if (hiddenArrivalFullname.value) {
+            arrival.setValue([`${hiddenArrivalLat.value}/${hiddenArrivalLng.value}`, hiddenArrivalFullname.value])
+        }
+    });
+
+    
+
+
+
+
+
+</script>
+
+{% endblock extrascript %}

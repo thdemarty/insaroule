@@ -4,6 +4,12 @@ from django.utils.translation import gettext_lazy as _
 
 
 class Location(models.Model):
+    label = models.CharField(
+        verbose_name=_("label"),
+        help_text=_("Label for the location"),
+        max_length=100,
+    )
+
     lat = models.FloatField(
         verbose_name=_("latitude"),
         help_text=_("Latitude of the location"),
