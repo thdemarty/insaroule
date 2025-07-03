@@ -1,0 +1,9 @@
+Bonjour {{ user }},
+
+Un compte a été créé avec votre adresse email sur INSA'Roule. Si vous êtes à l'origine de cette demande, veuillez cliquer sur le lien suivant pour vérifier votre adresse e-mail.
+
+{{ domain }}{% url 'accounts:verify_email_confirm' uidb64=uid token=token %}
+
+Sinon, vous pouvez ignorer ce message.
+
+INSA'Roule
