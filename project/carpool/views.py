@@ -56,7 +56,7 @@ def rides_create(request):
                 price=form.cleaned_data["price_per_seat"],
             )
 
-            return redirect("carpool:detail", pk=ride.id)
+            return redirect("carpool:detail", pk=ride.pk)
 
     context = {
         "form": form,

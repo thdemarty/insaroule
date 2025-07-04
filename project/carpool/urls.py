@@ -13,7 +13,7 @@ app_name = "carpool"
 urlpatterns = [
     path("", rides_list, name="list"),
     path("create/", rides_create, name="create"),
-    path("detail/<int:pk>/", rides_detail, name="detail"),
+    path("<uuid:pk>/", rides_detail, name="detail"),
     # API endpoints
     path("api/completion/", api_auto_completion, name="completion"),
     path("api/routing/", api_routing, name="routing"),

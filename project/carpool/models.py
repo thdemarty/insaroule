@@ -1,3 +1,4 @@
+from uuid import uuid4
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.translation import gettext_lazy as _
@@ -51,6 +52,13 @@ class Ride(models.Model):
         CASH = "CASH", _("Cash")
         LYF = "LYF", _("Lyf Pay")
         WIRE = "WIRE", _("Wire Transfer")
+
+    uuid = models.UUIDField(
+        verbose_name=_("UUID"),
+        primary_key=True,
+        editable=False,
+        default=uuid4(),
+    )
 
     driver = models.ForeignKey(
         verbose_name=_("driver"),
