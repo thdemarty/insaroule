@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block extrahead %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+{% endblock extrahead %}
+
+{% block content %}
+<div class="container mt-3">
+
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-4">
+                            <img src="https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg"
+                                class="img-fluid rounded-circle" style="width: 90px; height: 90px;" alt="User Avatar">
+                        </div>
+                        <div class="col-8">
+                            <h3 class="card-title">{{ user.username }}</h3>
+                            {{ user.email }} 
+                            {% if user.email_verified %}(<i class="bi bi-shield-fill-check text-success" aria-hidden="true"></i>){% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Account Recovery</h3>
+            <ul>
+                <li><a href="{% url 'accounts:email_change' %}">Update email address</a></li>
+                <li><a href="{% url 'accounts:password_change' %}">Change your password</a></li>
+            </ul>
+
+            <h3>Data Management</h3>
+            <ul>
+                <li>Export your data</li>
+                <li>Delete your account</li>
+            </ul>
+
+            <h3>Notifications</h3>
+            <ul>
+                <li>Receive email notifications for new rides</li>
+                <li>Receive email notifications for ride updates</li>
+                <li>Receive email notifications for account activity</li>
+            </ul>
+
+        </div>
+    </div>
+</div>
+
+
+</div>
+
+
+{% endblock content %}

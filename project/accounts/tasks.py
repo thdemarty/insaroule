@@ -1,9 +1,11 @@
+from celery import shared_task
+
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
+from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import PasswordResetForm
 from django.core.mail import EmailMessage
-
-from celery import shared_task
 
 
 @shared_task
@@ -24,3 +26,25 @@ def send_verification_email(
     email.send()
 
     return f"Verification email sent to {user_email} for user {user_username} with ID {user_pk}."
+
+
+@shared_task
+def send_password_reset_email(
+    subject_template_name,
+    email_template_name,
+    context,
+    from_email,
+    to_email,
+    html_email_template_name,
+):
+    context["user"] = get_user_model().objects.get(pk=context["user"])
+
+    PasswordResetForm.send_mail(
+        None,
+        subject_template_name,
+        email_template_name,
+        context,
+        from_email,
+        to_email,
+        html_email_template_name,
+    )

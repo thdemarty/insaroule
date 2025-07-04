@@ -22,11 +22,12 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
                         {% if user.is_staff %}
-                        <li><a class="dropdown-item" href="{% url 'admin:index' %}">Admin</a></li>
+                        <li><a class="dropdown-item" href="{% url 'admin:index' %}">Admin Panel</a></li>
+                        {% endif %}
+                        <li><a class="dropdown-item" href="{% url 'accounts:me' %}">My Account</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        {% endif %}
                         <form action="{% url 'accounts:logout' %}" method="post">
                             {% csrf_token %}
                             <li><button type="submit" class="dropdown-item">Logout</button></li>

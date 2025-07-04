@@ -1,5 +1,14 @@
-from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from django.utils.translation import gettext_lazy as _
 from django.contrib import admin
 from accounts.models import User
 
-admin.site.register(User, UserAdmin)
+
+@admin.register(User)
+class UserAdmin(BaseUserAdmin):
+    # Extends the BaseUserAdmin by adding the score fields
+    list_display = BaseUserAdmin.list_display + ("email_verified",)
+    list_filter = BaseUserAdmin.list_filter + ("email_verified",)
+    fieldsets = BaseUserAdmin.fieldsets + (
+        (_("Email verification"), {"fields": ("email_verified",)}),
+    )

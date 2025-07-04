@@ -1,6 +1,7 @@
-from django.urls import path
-from django.contrib.auth.views import LoginView, logout_then_login
-from accounts.views import register
+from django.urls import path, reverse_lazy
+from django.contrib.auth import views as auth_views
+from accounts.views import register, account
+from accounts.forms import PasswordResetForm, PasswordChangeForm, SetPasswordForm
 from accounts.views.verify_email import (
     verify_email_send_token,
     verify_email_sent,
@@ -8,12 +9,15 @@ from accounts.views.verify_email import (
     verify_email_complete,
 )
 
+
 app_name = "accounts"
 
 urlpatterns = [
-    path("login/", LoginView.as_view(), name="login"),
-    path("logout/", logout_then_login, name="logout"),
+    path("login/", auth_views.LoginView.as_view(), name="login"),
+    path("logout/", auth_views.logout_then_login, name="logout"),
     path("register/", register, name="register"),
+    path("", account.me, name="me"),
+    path("email/change/", account.email_change, name="email_change"),
 ]
 
 # Email verification URLs
@@ -27,5 +31,48 @@ urlpatterns += [
     ),
     path(
         "register/email/complete/", verify_email_complete, name="verify_email_complete"
+    ),
+]
+
+# Password reset URLs
+urlpatterns += [
+    path(
+        "password_reset/",
+        auth_views.PasswordResetView.as_view(
+            success_url=reverse_lazy("accounts:password_reset_done"),
+            form_class=PasswordResetForm,
+            template_name="registration/password_reset/index.html",
+        ),
+        name="password_reset",
+    ),
+    path(
+        "password_reset/done/",
+        auth_views.PasswordResetDoneView.as_view(
+            template_name="registration/password_reset/done.html"
+        ),
+        name="password_reset_done",
+    ),
+    path(
+        "password_reset/<uidb64>/<token>/",
+        auth_views.PasswordResetConfirmView.as_view(
+            form_class=SetPasswordForm,
+            success_url=reverse_lazy("accounts:password_reset_complete"),
+            template_name="registration/password_reset/index.html",
+        ),
+        name="password_reset_confirm",
+    ),
+    path(
+        "password_reset/complete/",
+        auth_views.PasswordResetCompleteView.as_view(
+            template_name="registration/password_reset/complete.html"
+        ),
+        name="password_reset_complete",
+    ),
+    path(
+        "password_change/",
+        auth_views.PasswordChangeView.as_view(
+            form_class=PasswordChangeForm, template_name="account/password_change.html"
+        ),
+        name="password_change",
     ),
 ]
