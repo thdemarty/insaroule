@@ -1,102 +1,124 @@
 {% extends 'base.html' %}
 
+{% block extrahead %}
+<style>
+    .circle {
+        width: 10px;
+        height: 10px;
+        border: 2px solid black;
+        border-radius: 50%;
+        background-color: white;
+        align-self: center;
+        flex-shrink: 0;
+    }
+
+    .line {
+        background-color: #1b1b1b;
+        flex: 1;
+        border-radius: 2px;
+        align-self: center;
+        margin: 2px 0;
+        width: 4px;
+    }
+</style>
+{% endblock extrahead %}
+
 {% block content %}
-<div class="container mt-5">
-    <div class="container mb-5">
-        <div class="card shadow p-4">
+<div class="container mt-3">
+    <div class="card mb-4 text-bg-light">
+        <div class="card-body">
             <form method="get" action="">
-                <div class="row g-3 align-items-center">
-                    <div class="col-md-3">
-                        <label for="depart" class="form-label">Départ</label>
-                        <input type="text" id="depart" name="depart" class="form-control" placeholder="Ville de départ"
-                            required>
+                <div class="row">
+                    <div class="col mb-md-3 mb-lg-0">
+                        <label for="depature" class="form-label">Departure</label>
+                        <input type="text" id="depature" name="departure" class="form-control"
+                            placeholder="Search for a city" required>
                     </div>
 
-                    <div class="col-md-3">
-                        <label for="arrivee" class="form-label">Arrivée</label>
-                        <input type="text" id="arrivee" name="arrivee" class="form-control"
-                            placeholder="Ville d'arrivée" required>
+                    <div class="col-lg mb-md-3 mb-lg-0">
+                        <label for="arrival" class="form-label">Arrival</label>
+                        <input type="text" id="arrival" name="arrival" class="form-control"
+                            placeholder="Search for a city" required>
                     </div>
 
-                    <div class="col-md-2">
-                        <label for="date" class="form-label">Date</label>
-                        <input type="date" id="date" name="date" class="form-control" required>
+                    <div class="col-lg mb-md-3 mb-lg-0">
+                        <label for="start_dt" class="form-label">Date</label>
+                        <input type="date" id="start_dt" name="start_dt" class="form-control" required>
                     </div>
 
-                    <div class="col-md-2">
-                        <label for="passagers" class="form-label">Passagers</label>
-                        <input type="number" id="passagers" name="passagers" class="form-control" min="1" value="1"
-                            required>
-                    </div>
-
-                    <div class="col-md-2 d-grid align-self-end">
-                        <button type="submit" class="btn btn-primary">Rechercher</button>
+                    <div class="col d-grid align-self-end mb-md-3 mb-lg-0">
+                        <button type="submit" class="btn btn-primary">Search</button>
                     </div>
                 </div>
             </form>
         </div>
     </div>
-    <div class="container mt-5">
-        <div class="container mb-5">
-            <div class="text-center">
-                <h1 class="mb-4">Trajets disponibles</h1>
-            </div>
-        </div>
-    </div>
+
     <div class="row">
-        <div class="col-md-3">
-            <div class="ms-2">
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h4 class="card-title">Trier par</h4>
-                        <form method="get">
-                            <div class="mb-3">
-                                <select name="sort" class="form-select">
-                                    <!-- TODO -->
-                                </select>
-                            </div>
-                        </form>
-                    </div>
+        <div class="col-xl-3 mb-3">
+            <h5>Sort by</h5>
+            <form method="get">
+                <div class="mb-3">
+                    <select name="sort" class="form-select" disabled><!--TODO--></select>
                 </div>
-            </div>
+            </form>
         </div>
-        <div class="col-md-9">
+        <div class="col-md-9 ms-auto">
+
+
+            <!-- End demo card -->
+
             {% for ride in rides %}
-            <div class="card mb-4 shadow-sm">
+            <div class="card mb-3">
                 <div class="card-body">
                     <a href="{{ ride.get_absolute_url }}" class="stretched-link"></a>
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                        <div>
-                            <h5 class="card-title">
-                                {{ ride.steps.first.name }} → {{ ride.steps.last.name }}
+                    <div class="d-flex justify-content-between">
+                        <div class="d-grid">
+                            <div class="d-flex flex-row">
+                                <div class="d-flex flex-column me-2 gap-1">
+                                    <span class="fw-semibold">{{ ride.start_dt|date:"H:i" }}</span>
+                                    <span class="text-muted small text-end">1h20</span>
+                                    <span class="fw-semibold">{{ ride.start_dt|date:"H:i" }}</span>
+                                </div>
+                                <div class="d-flex flex-column mx-1 my-1">
+                                    <div class="circle"></div>
+                                    <div class="line"></div>
+                                    <div class="circle"></div>
 
-                            </h5>
-                            <p class="card-text mb-1">
-                                Départ : {{ ride.start_dt|date:"d/m/Y H\hi" }}
-
-                                Arrivée : {{ ride.end_dt|date:"d/m/Y H\hi" }}
-                            </p>
-
-                            <p class="mb-0">Conducteur : {{ ride.driver.username }}</p>
-                            <p class="mb-0">Véhicule : {{ ride.vehicle.name }}</p>
-                            <p class="mb-0">Nombre de places restantes : {{ ride.vehicle.seats }} </p>
+                                </div>
+                                <div class="d-flex flex-column ms-2">
+                                    <span>Montreuil-Le-Gast</span>
+                                    <span class="h-100"></span>
+                                    <span>Orvault</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="text-end">
-                            <h2 class="text-primary">{{ ride.price }} €</h2>
-                            <p class="text-muted small mb-0">
-                                Durée : {{ ride.humanized_duration }}
-                            </p>
+                        <div class="d-flex flex-column">
+                            <div class="fw-bold text-primary fs-2 text-end">
+                                {{ ride.price }} €
+                            </div>
+                            <div class="small">
+                                Cash
+                            </div>
+
                         </div>
                     </div>
                 </div>
-
+                <div class="card-footer bg-white d-flex flex-row">
+                    <img src="https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg"
+                        class="rounded-circle" width="30" />
+                    <span class="ms-2 my-auto fw-semibold text-muted">{{ ride.driver }}</span>
+                    <div class="d-flex flex-row gap-2 ms-auto">
+                        <span class="my-auto text-muted">X remaining seats</span>
+                    </div>
+                </div>
             </div>
             {% empty %}
             <div class="alert alert-info" role="alert">
                 Aucun trajet trouvé, pensez à prendre le train : )
             </div>
             {% endfor %}
-            
+
         </div>
     </div>
 </div>
