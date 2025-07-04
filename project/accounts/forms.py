@@ -1,7 +1,11 @@
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import PasswordResetForm as DjangoPasswordResetForm
+from django.contrib.auth.forms import PasswordChangeForm as DjangoPasswordChangeForm
+from django.contrib.auth.forms import SetPasswordForm as DjangoSetPasswordForm
 from django import forms
 
 from accounts.models import User
+from accounts.tasks import send_password_reset_email
 from django.utils.translation import gettext_lazy as _
 
 
@@ -24,3 +28,44 @@ class RegisterForm(UserCreationForm):
             )
 
         return email
+
+
+class PasswordResetForm(DjangoPasswordResetForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for _field_name, field in self.fields.items():
+            field.widget.attrs.update({"class": "form-control"})
+
+    def send_mail(
+        self,
+        subject_template_name,
+        email_template_name,
+        context,
+        from_email,
+        to_email,
+        html_email_template_name=None,
+    ):
+        context["user"] = context["user"].id
+
+        send_password_reset_email.delay(
+            subject_template_name=subject_template_name,
+            email_template_name="registration/password_reset/email.html",
+            context=context,
+            from_email=from_email,
+            to_email=to_email,
+            html_email_template_name=html_email_template_name,
+        )
+
+
+class PasswordChangeForm(DjangoPasswordChangeForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for _field_name, field in self.fields.items():
+            field.widget.attrs.update({"class": "form-control"})
+
+
+class SetPasswordForm(DjangoSetPasswordForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for _field_name, field in self.fields.items():
+            field.widget.attrs.update({"class": "form-control"})
