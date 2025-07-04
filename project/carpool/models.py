@@ -57,7 +57,7 @@ class Ride(models.Model):
         verbose_name=_("UUID"),
         primary_key=True,
         editable=False,
-        default=uuid4(),
+        default=uuid4,
     )
 
     driver = models.ForeignKey(
