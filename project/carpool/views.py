@@ -65,6 +65,7 @@ def rides_create(request):
     return render(request, "rides/create.html", context)
 
 
+@login_required
 async def api_auto_completion(request) -> JsonResponse:
     """
     An async API proxy endpoint to get latitude and
@@ -79,6 +80,7 @@ async def api_auto_completion(request) -> JsonResponse:
     return JsonResponse({"status": "OK", "results": result}, safe=False, status=200)
 
 
+@login_required
 async def api_routing(request) -> JsonResponse:
     """
     An async API proxy endpoint to get routing information.
