@@ -1,3 +1,4 @@
+from django.urls import reverse
 from uuid import uuid4
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
@@ -169,6 +170,9 @@ class Ride(models.Model):
             parts.append(f"{minutes}min")
 
         return " et ".join(parts)
+
+    def get_absolute_url(self):
+        return reverse("carpool:detail", kwargs={"pk": self.pk})
 
 
 class Vehicle(models.Model):
