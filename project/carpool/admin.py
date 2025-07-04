@@ -8,4 +8,4 @@ admin.site.register(Step)
 
 @admin.register(Ride)
 class RideAdmin(admin.ModelAdmin):
-    list_display = ("id", "driver", "start_dt", "end_dt")
+    list_display = ("uuid", "driver", "start_dt", "end_dt")

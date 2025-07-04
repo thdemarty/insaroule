@@ -202,7 +202,7 @@
         const start = encodeURIComponent(`${departureLng},${departureLat}`); 
         const end = encodeURIComponent(`${arrivalLng},${arrivalLat}`);
 
-        const url = `https://data.geopf.fr/navigation/itineraire?resource=bdtopo-osrm&start=${start}&end=${end}&profile=car&optimization=fastest&geometryFormat=geojson&getSteps=true&getBbox=true&distanceUnit=kilometer&timeUnit=hour&crs=EPSG%3A4326`;
+        const url = `/api/routing/?start=${start}&end=${end}`;
         fetch(url)
         .then(response => {
             if (!response.ok) {
@@ -253,63 +253,41 @@
     // Event listeners for addresses search
     // =================================================================
 
-    departure.passedElement.element.addEventListener('search', function(event) {
+    departure.passedElement.element.addEventListener('search', async (event) => {
         clearTimeout(event.target.timer);
         
-        event.target.timer = setTimeout(() => {
-            fetch(`https://data.geopf.fr/geocodage/completion/?text=${event.detail.value}&terr=METROPOLE&type=StreetAddress`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status !== 'OK') {
-                        return;
-                    }
-                    const results = data.results.map(result => ({
-                        value: `${result.y}/${result.x}`,
-                        label: result.fulltext
-                    }));
-                    departure.clearChoices();
-                    departure.setChoices(results, 'value', 'label', true);
-                })
-                .catch(error => console.error('Error fetching addresses:', error));
-        }, WAITING_BEFORE_REQUEST); 
+        event.target.timer = setTimeout(async () => {
+            try {
+                const response = await fetch(`/api/completion/?text=${event.detail.value}`);
+                const data = await response.json();
+                if (data.status !== 'OK') {
+                    return;
+                }
+                departure.clearChoices();
+                departure.setChoices(data.results, 'value', 'label', true);
+            } catch (error) {
+                console.error('Error fetching addresses:', error);
+            }
+        }, WAITING_BEFORE_REQUEST);
     })
 
-    // TODO: we should pass a function that returns Promise of choices (to have the loading state)
-    // see below:
-    //
-    // const example = new Choices(element);
-    //
-    // // Passing a function that returns Promise of choices
-    // example.setChoices(async () => {
-    // try {
-    //     const items = await fetch('/items');
-    //     return items.json();
-    // } catch (err) {
-    //     console.error(err);
-    // }
-    // });
-    //
 
-
-    arrival.passedElement.element.addEventListener('search', function(event) {
-        clearInterval(event.target.timer);
+    arrival.passedElement.element.addEventListener('search', async (event) => {
+        clearTimeout(event.target.timer);
         
-        event.target.timer = setTimeout(() => {
-            fetch(`https://data.geopf.fr/geocodage/completion/?text=${event.detail.value}&terr=METROPOLE&type=StreetAddress`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status !== 'OK') {
-                        return;
-                    }
-                    const results = data.results.map(result => ({
-                        value: `${result.y}/${result.x}`,
-                        label: result.fulltext
-                    }));
-                    arrival.clearChoices();
-                    arrival.setChoices(results, 'value', 'label', true);
-                })
-                .catch(error => console.error('Error fetching addresses:', error));
-        }, WAITING_BEFORE_REQUEST); 
+        event.target.timer = setTimeout(async () => {
+            try {
+                const response = await fetch(`/api/completion/?text=${event.detail.value}`);
+                const data = await response.json();
+                if (data.status !== 'OK') {
+                    return;
+                }
+                arrival.clearChoices();
+                arrival.setChoices(data.results, 'value', 'label', true);
+            } catch (error) {
+                console.error('Error fetching addresses:', error);
+            }
+        }, WAITING_BEFORE_REQUEST);
     })
 
     // =================================================================
