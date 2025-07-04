@@ -21,7 +21,8 @@ def get_autocompletion(query):
     """
 
     r = requests.get(
-        f"https://data.geopf.fr/geocodage/completion/?text={query}&terr=METROPOLE&type=StreetAddress"
+        f"https://data.geopf.fr/geocodage/completion/?text={query}&terr=METROPOLE&type=StreetAddress",
+        timeout=5,
     )
     result = []
     if r.status_code == 200:
