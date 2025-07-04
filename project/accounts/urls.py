@@ -17,6 +17,7 @@ urlpatterns = [
     path("logout/", auth_views.logout_then_login, name="logout"),
     path("register/", register, name="register"),
     path("", account.me, name="me"),
+    path("email/change/", account.email_change, name="email_change"),
 ]
 
 # Email verification URLs

@@ -69,3 +69,24 @@ class SetPasswordForm(DjangoSetPasswordForm):
         super().__init__(*args, **kwargs)
         for _field_name, field in self.fields.items():
             field.widget.attrs.update({"class": "form-control"})
+
+
+class EmailChangeForm(forms.Form):
+    email = forms.EmailField(
+        label=_("New Email"),
+        max_length=254,
+        widget=forms.EmailInput(attrs={"class": "form-control"}),
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    def clean_email(self):
+        email = self.cleaned_data["email"]
+        email_check = User.objects.filter(email=email)
+        if email_check.exists():
+            raise forms.ValidationError(
+                _("This email is already in use. Please use another email.")
+            )
+
+        return email
