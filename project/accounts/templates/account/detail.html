@@ -6,7 +6,6 @@
 
 {% block content %}
 <div class="container mt-3">
-
     <div class="row justify-content-center">
         <div class="col-lg-6">
 
@@ -19,8 +18,9 @@
                         </div>
                         <div class="col-8">
                             <h3 class="card-title">{{ user.username }}</h3>
-                            {{ user.email }} 
-                            {% if user.email_verified %}(<i class="bi bi-shield-fill-check text-success" aria-hidden="true"></i>){% endif %}
+                            {{ user.email }}
+                            {% if user.email_verified %}(<i class="bi bi-shield-fill-check text-success"
+                                aria-hidden="true"></i>){% endif %}
                         </div>
                     </div>
                 </div>
@@ -35,22 +35,22 @@
             <h3>Data Management</h3>
             <ul>
                 <li>Export your data</li>
-                <li>Delete your account</li>
+                <li><a href="{% url 'accounts:account_close' %}">Delete your account</a></li>
             </ul>
 
             <h3>Notifications</h3>
-            <ul>
+
+            <div class="alert alert-secondary" role="alert">
+                You will be able to manage your notification preferences in the future.
+
+            </div>
+
+            <!-- <ul>
                 <li>Receive email notifications for new rides</li>
                 <li>Receive email notifications for ride updates</li>
                 <li>Receive email notifications for account activity</li>
-            </ul>
-
+            </ul> -->
         </div>
     </div>
 </div>
-
-
-</div>
-
-
 {% endblock content %}

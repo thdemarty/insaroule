@@ -4,9 +4,19 @@ from accounts.forms import EmailChangeForm
 
 
 @login_required
-def me(request):
+def user_profile(request):
     context = {}
     return render(request, "account/detail.html", context)
+
+
+@login_required
+def delete_profile(request):
+    if request.method == "POST":
+        user = request.user
+        user.delete()
+        return redirect("accounts:login")
+    context = {}
+    return render(request, "account/close.html", context)
 
 
 @login_required
