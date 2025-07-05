@@ -1,18 +1,20 @@
 {% extends 'base.html' %}
-
+{% load i18n %}
 {% block content %}
 <div class="container mt-3">
     <div class="row justify-content-center">
         <div class="col-lg-6">
-            <h1>Delete your account</h1>
+            <h1>{% translate "Delete your account" %}</h1>
             <p>
+                {% blocktranslate %}
                 Deleting your account is a permanent action. All your data will be removed from our system, including
                 your profile, rides, and any other associated information. If you wish to proceed, please confirm by
                 clicking the button below.
+                {% endblocktranslate %}
             </p>
             <form action="" method="post">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-danger w-100">Delete my account</button>
+                <button type="submit" class="btn btn-danger w-100">{% translate "Delete my account" %}</button>
             </form>
         </div>
     </div>

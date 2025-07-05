@@ -1,20 +1,24 @@
 {% extends 'registration/base.html' %}
-
+{% load i18n %}
 {% block content %}
 <div class="container">
     <div class="row justify-content-center mt-5">
         <div class="col-lg-6">
-            <h1>Vérification de l'adresse e-mail</h1>
+            <h1>{% translate "Email verification" %}</h1>
             <p>
-                Un message a été envoyé à votre adresse e-mail. Veuillez cliquer sur le lien dans l'email pour vérifier votre adresse e-mail.
-                Pensez à vérifier votre dossier spam si vous ne voyez pas le message dans votre boîte de réception.
+                {% blocktranslate %}
+                A message has been sent to your email address. Please click the link in the email to verify your email address.
+                Remember to check your spam folder if you do not see the message in your inbox.
+                {% endblocktranslate %}
             </p>
             <p>
-                Si vous n'avez reçu aucun message, vous pouvez le renvoyer en cliquant sur le bouton ci-dessous.
+                {% blocktranslate %}
+                If you have not received the message, you can resend it by clicking the button below.
+                {% endblocktranslate %}
             </p>
             <form method="post" action="{% url 'accounts:verify_email_send_token' %}">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-outline-primary w-100">Renvoyez le message</button>
+                <button type="submit" class="btn btn-outline-primary w-100">{% translate "Resend verification email" %}</button>
             </form>
         </div>
     </div>
