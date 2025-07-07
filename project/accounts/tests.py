@@ -1,3 +1,4 @@
+from django.utils.translation import override
 from django.test import TestCase, override_settings
 from django.conf import settings
 from accounts.forms import RegisterForm
@@ -28,14 +29,18 @@ class RegisterTest(TestCase):
 
     def test_register_disable_registration(self):
         settings.ALLOW_REGISTRATION = False
-        response = self.client.get(reverse("accounts:register"))
-        self.assertIn("Les inscriptions sont désactivées.", response.content.decode())
+        with override("en"):
+            response = self.client.get(reverse("accounts:register"))
+            self.assertIn(
+                "Registrations are currently disabled.", response.content.decode()
+            )
 
         settings.ALLOW_REGISTRATION = True
-        response = self.client.get(reverse("accounts:register"))
-        self.assertNotIn(
-            "Les inscriptions sont désactivées.", response.content.decode()
-        )
+        with override("en"):
+            response = self.client.get(reverse("accounts:register"))
+            self.assertNotIn(
+                "Registrations are currently disabled.", response.content.decode()
+            )
 
 
 @override_settings(CELERY_TASK_ALWAYS_EAGER=True, CELERY_TASK_EAGER_PROPAGATES=True)
