@@ -3,13 +3,29 @@ from carpool.models import Ride
 
 
 class CreateRideForm(forms.Form):
-    departure_fullname = forms.CharField(required=True, widget=forms.HiddenInput())
-    departure_lat = forms.FloatField(required=True, widget=forms.HiddenInput())
-    departure_lng = forms.FloatField(required=True, widget=forms.HiddenInput())
-    arrival_fullname = forms.CharField(required=True, widget=forms.HiddenInput())
-    arrival_lat = forms.FloatField(required=True, widget=forms.HiddenInput())
-    arrival_lng = forms.FloatField(required=True, widget=forms.HiddenInput())
-    route = forms.CharField(required=True, widget=forms.HiddenInput())
+    # Departure information
+    d_fulltext = forms.CharField(required=True, widget=forms.HiddenInput())
+    d_street = forms.CharField(
+        required=False, widget=forms.HiddenInput()
+    )  # Not necessary a street (could be a city)
+    d_zipcode = forms.CharField(required=True, widget=forms.HiddenInput())
+    d_city = forms.CharField(required=True, widget=forms.HiddenInput())
+    d_latitude = forms.FloatField(required=True, widget=forms.HiddenInput())
+    d_longitude = forms.FloatField(required=True, widget=forms.HiddenInput())
+
+    # Arrival information
+    a_fulltext = forms.CharField(required=True, widget=forms.HiddenInput())
+    a_street = forms.CharField(
+        required=False, widget=forms.HiddenInput()
+    )  # Not necessary a street (could be a city)
+    a_zipcode = forms.CharField(required=True, widget=forms.HiddenInput())
+    a_city = forms.CharField(required=True, widget=forms.HiddenInput())
+    a_latitude = forms.FloatField(required=True, widget=forms.HiddenInput())
+    a_longitude = forms.FloatField(required=True, widget=forms.HiddenInput())
+
+    # Routing information
+    r_geometry = forms.CharField(required=True, widget=forms.HiddenInput())
+    r_duration = forms.FloatField(required=True, widget=forms.HiddenInput())
 
     departure_datetime = forms.DateTimeField(
         required=True,

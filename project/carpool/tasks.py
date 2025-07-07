@@ -18,6 +18,8 @@ def get_autocompletion(query):
     """
     A Celery task to get latitude and longitude for a given query.
     This is a placeholder function that should be implemented with actual logic.
+
+    API doc: https://geoservices.ign.fr/documentation/services/services-geoplateforme/autocompletion
     """
 
     r = requests.get(
@@ -33,8 +35,15 @@ def get_autocompletion(query):
                 for geocoding_result in geocoding_results:
                     result.append(
                         {
+                            "fulltext": geocoding_result["fulltext"],
                             "value": f"{geocoding_result['y']}/{geocoding_result['x']}",
-                            "label": geocoding_result["fulltext"],
+                            "customProperties": {
+                                "street": geocoding_result.get("street", ""),
+                                "city": geocoding_result.get("city", ""),
+                                "zipcode": geocoding_result.get("zipcode", ""),
+                                "latitude": geocoding_result["x"],
+                                "longitude": geocoding_result["y"],
+                            },
                         }
                     )
     return result
