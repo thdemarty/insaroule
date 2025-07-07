@@ -20,6 +20,7 @@ urlpatterns = [
     path("", profile.user_profile, name="me"),
     path("delete/", profile.delete_profile, name="account_close"),
     path("email/change/", profile.email_change, name="email_change"),
+    path("export/", profile.export, name="export"),
 ]
 
 # Email verification URLs

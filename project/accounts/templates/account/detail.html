@@ -36,7 +36,7 @@
 
             <h3>{% translate "Data Management" %}</h3>
             <ul>
-                <li>{% translate "Export your data" %}</li>
+                <li><a href="{% url 'accounts:export' %}">{% translate "Export your data" %}</a></li>
                 <li><a href="{% url 'accounts:account_close' %}">{% translate "Delete your account" %}</a></li>
             </ul>
 

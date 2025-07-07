@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-05 17:48+0200\n"
+"POT-Creation-Date: 2025-07-06 20:41+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,12 +21,11 @@ msgstr ""
 #: accounts/admin.py:13
 #: accounts/templates/registration/verify_email/email_sent.html:7
 msgid "Email verification"
-msgstr ""
+msgstr "Vérification de l'adresse e-mail"
 
 #: accounts/forms.py:27 accounts/forms.py:89
 msgid "This email is already in use. Please use another email."
-msgstr ""
-"Cette adresse e-mail est déjà utilisée. Veuillez en utiliser une autre."
+msgstr "Cette adresse e-mail est déjà utilisée. Veuillez en utiliser une autre."
 
 #: accounts/forms.py:76
 msgid "New Email"
@@ -36,6 +35,14 @@ msgstr "Nouvelle adresse e-mail"
 msgid "Email Address"
 msgstr "Adresse e-mail"
 
+#: accounts/tasks.py:16
+msgid "Vérification de votre adresse email"
+msgstr "Vérification de votre adresse e-mail"
+
+#: accounts/tasks.py:85
+msgid "Data export"
+msgstr "Exportation de données"
+
 #: accounts/templates/account/close.html:7
 #: accounts/templates/account/detail.html:40
 msgid "Delete your account"
@@ -43,25 +50,109 @@ msgstr "Supprimer votre compte"
 
 #: accounts/templates/account/close.html:9
 msgid ""
-"\n"
-"                Deleting your account is a permanent action. All your data "
-"will be removed from our system, including\n"
-"                your profile, rides, and any other associated information. "
-"If you wish to proceed, please confirm by\n"
-"                clicking the button below.\n"
-"                "
+"Deleting your account is a permanent action. All your data will be removed "
+"from our system, including your profile, rides, and any other associated "
+"information. If you wish to proceed, please confirm by clicking the button "
+"below."
 msgstr ""
-"\n"
-"                La suppression de votre compte est une action permanente. "
-"Toutes vos données seront supprimées de notre système, y compris\n"
-"                votre profil, vos trajets et toute autre information associée. "
-"Si vous souhaitez continuer, veuillez confirmer en\n"
-"                cliquant sur le bouton ci-dessous.\n"
-"                "
+"Supprimer votre compte est une action permanente. Toutes vos données seront "
+"supprimées de notre système, y compris votre profil, vos trajets et toute "
+"autre information associée. Si vous souhaitez continuer, veuillez confirmer "
+"en cliquant sur le bouton ci-dessous."
 
 #: accounts/templates/account/close.html:17
 msgid "Delete my account"
 msgstr "Supprimer mon compte"
+
+#: accounts/templates/account/data_export.html:7
+#: accounts/templates/account/detail.html:39
+msgid "Export your data"
+msgstr "Exporter vos données"
+
+#: accounts/templates/account/data_export.html:9
+msgid ""
+"In accordance with the GDPR, you can export your personal data from our "
+"platform in a structured, commonly used, and machine-readable format. This "
+"includes your profile information, activity logs, and any other data we hold "
+"about you. Here is a summary of the data we have collected about you:"
+msgstr ""
+"Conformément au RGPD, vous pouvez exporter vos données personnelles depuis notre "
+"plateforme dans un format structuré, couramment utilisé et lisible par machine. "
+"Cela inclut vos informations de profil, les journaux d'activité et toutes les autres "
+"données que nous détenons à votre sujet. Voici un résumé des données que nous "
+"avons collectées à votre sujet :"
+
+#: accounts/templates/account/data_export.html:16
+msgid "Profile"
+msgstr "Profil"
+
+#: accounts/templates/account/data_export.html:18
+msgid "Username:"
+msgstr "Nom d'utilisateur :"
+
+#: accounts/templates/account/data_export.html:20
+msgid "First name:"
+msgstr "Prénom :"
+
+#: accounts/templates/account/data_export.html:23
+msgid "Last name:"
+msgstr "Nom de famille :"
+
+#: accounts/templates/account/data_export.html:25
+msgid "Email:"
+msgstr "Adresse e-mail :"
+
+#: accounts/templates/account/data_export.html:26
+msgid "Last login:"
+msgstr "Dernière connexion :"
+
+#: accounts/templates/account/data_export.html:27
+msgid "Date joined:"
+msgstr "Date d'inscription :"
+
+#: accounts/templates/account/data_export.html:29
+msgid "Rides"
+msgstr "Trajets"
+
+#: accounts/templates/account/data_export.html:34
+msgid "Published a ride:"
+msgstr "Vous avez publié un trajet :"
+
+#: accounts/templates/account/data_export.html:36
+msgid "Subscribed to a ride:"
+msgstr "Vous avez souscrit à un trajet :"
+
+#: accounts/templates/account/data_export.html:46
+msgid ""
+"To export your data, click the button below. You will receive a file "
+"containing your data in a structured format. This may take a few moments "
+"depending on the amount of data you have. If you have any questions or need "
+"assistance, please contact our support team."
+msgstr ""
+"Pour exporter vos données, cliquez sur le bouton ci-dessous. Vous "
+"recevrez un fichier contenant vos données dans un format structuré. Cela "
+"peut prendre quelques instants en fonction de la quantité de données que "
+"vous avez. Si vous avez des questions ou avez besoin d'assistance, "
+"veuillez contacter notre équipe d'assistance."
+
+#: accounts/templates/account/data_export.html:52
+msgid "Download my data"
+msgstr "Télécharger mes données"
+
+#: accounts/templates/account/data_export_email.txt:3
+msgid ""
+"You have requested an export of your data from Insaroule. Please find the "
+"attached file containing your data. The file is in json format, which can be "
+"easily imported into other applications or services. If you have any "
+"questions or need further assistance, feel free to contact us. Best regards, "
+"The Insaroule Team"
+msgstr ""
+"Vous avez demandé une exportation de vos données depuis Insaroule. Veuillez "
+"trouver le fichier joint contenant vos données. Le fichier est au format "
+"json, qui peut être facilement importé dans d'autres applications ou "
+"services. Si vous avez des questions ou avez besoin d'une assistance "
+"supplémentaire, n'hésitez pas à nous contacter. Cordialement, "
+"L'équipe Insaroule"
 
 #: accounts/templates/account/detail.html:31
 msgid "Account Recovery"
@@ -79,10 +170,6 @@ msgstr "Modifier votre mot de passe"
 #: accounts/templates/account/detail.html:37
 msgid "Data Management"
 msgstr "Gestion des données"
-
-#: accounts/templates/account/detail.html:39
-msgid "Export your data"
-msgstr "Exporter vos données"
 
 #: accounts/templates/account/detail.html:43
 msgid "Notifications"
@@ -125,15 +212,8 @@ msgid "Password reset complete"
 msgstr "Réinitialisation du mot de passe terminée"
 
 #: accounts/templates/registration/password_reset/complete.html:8
-msgid ""
-"\n"
-"            Your password has been set. You may go ahead and log in now.\n"
-"            "
-msgstr ""
-"\n"
-"            Votre mot de passe a été défini. Vous pouvez maintenant vous "
-"connecter.\n"
-"            "
+msgid "Your password has been set. You may go ahead and log in now."
+msgstr "Votre mot de passe a été défini. Vous pouvez maintenant vous connecter."
 
 #: accounts/templates/registration/password_reset/complete.html:12
 msgid "Log in"
@@ -145,32 +225,21 @@ msgstr "Réinitialisation du mot de passe envoyée"
 
 #: accounts/templates/registration/password_reset/done.html:9
 msgid ""
-"\n"
-"            We've emailed you instructions for setting your password, if an "
-"account exists with the email you entered.\n"
-"            You should receive them shortly.\n"
-"            "
+"We've emailed you instructions for setting your password, if an account "
+"exists with the email you entered. You should receive them shortly."
 msgstr ""
-"\n"
-"            Nous vous avons envoyé des instructions pour définir votre mot de "
-"passe, si un compte existe avec l'adresse e-mail que vous avez saisie.\n"
-"            Vous devriez les recevoir sous peu.\n"
-"            "
+"Nous vous avons envoyé des instructions pour définir votre mot de passe, "
+"si un compte existe avec l'adresse e-mail que vous avez saisie. Vous "
+"devez les recevoir sous peu."
 
 #: accounts/templates/registration/password_reset/done.html:15
 msgid ""
-"\n"
-"            If you don't receive an email, please make sure you've entered "
-"the address you registered with, and check\n"
-"            your spam folder.\n"
-"            "
+"If you don't receive an email, please make sure you've entered the address "
+"you registered with, and check your spam folder."
 msgstr ""
-"\n"
-"            Si vous ne recevez pas d'e-mail, assurez-vous d'avoir saisi"
-" l'adresse avec laquelle vous vous êtes inscrit, et vérifiez\n"
-"            votre dossier spam.\n"
-"            "
-
+"Si vous ne recevez pas d'e-mail, veuillez vous assurer que vous avez "
+"saisi l'adresse avec laquelle vous vous êtes inscrit, et vérifiez votre "
+"dossier spam."
 
 #: accounts/templates/registration/password_reset/email.html:2
 #, python-format
@@ -224,47 +293,31 @@ msgid "Welcome !"
 msgstr "Bienvenue !"
 
 #: accounts/templates/registration/verify_email/complete.html:10
-msgid ""
-"\n"
-"                Your email address has been verified. You can now log in.\n"
-"                "
-msgstr ""
-"\n"
-"                Votre adresse e-mail a été vérifiée. Vous pouvez maintenant "
-"vous connecter.\n"
-"                "
+msgid "Your email address has been verified. You can now log in."
+msgstr "Votre adresse e-mail a été vérifiée. Vous pouvez maintenant vous connecter."
 
 #: accounts/templates/registration/verify_email/complete.html:19
 msgid "Log In"
 msgstr "Se connecter"
 
 #: accounts/templates/registration/verify_email/email_sent.html:9
-msgid ""
-"\n"
-"                A message has been sent to your email address. Please click "
-"the link in the email to verify your email address.\n"
-"                Remember to check your spam folder if you do not see the "
-"message in your inbox.\n"
-"                "
+    msgid ""
+"A message has been sent to your email address. Please click the link in the "
+"email to verify your email address. Remember to check your spam folder if "
+"you do not see the message in your inbox."
 msgstr ""
-"\n"
-"                Un message a été envoyé à votre adresse e-mail. Veuillez "
-"cliquer sur le lien dans l'e-mail pour vérifier votre adresse e-mail.\n"
-"                N'oubliez pas de vérifier votre dossier spam si vous ne "
-"voyez pas le message dans votre boîte de réception.\n"
-"                "
+"Un message a été envoyé à votre adresse e-mail. Veuillez cliquer sur le lien "
+"dans l'e-mail pour vérifier votre adresse e-mail. N'oubliez pas de vérifier "
+"votre dossier spam si vous ne voyez pas le message dans votre boîte de "
+"réception."
 
 #: accounts/templates/registration/verify_email/email_sent.html:15
 msgid ""
-"\n"
-"                If you have not received the message, you can resend it by "
-"clicking the button below.\n"
-"                "
+"If you have not received the message, you can resend it by clicking the "
+"button below."
 msgstr ""
-"\n"
-"                Si vous n'avez pas reçu le message, vous pouvez le "
-"renvoyer en cliquant sur le bouton ci-dessous.\n"
-"                "
+"Si vous n'avez pas reçu le message, vous pouvez le renvoyer en cliquant sur "
+"le bouton ci-dessous."
 
 #: accounts/templates/registration/verify_email/email_sent.html:21
 msgid "Resend verification email"
@@ -276,24 +329,17 @@ msgstr "Bonjour"
 
 #: accounts/templates/registration/verify_email/emails/verify_email.html:5
 msgid ""
-"\n"
 "An account has been created with your email address on INSA'Roule. If you "
 "initiated this request, please click the following link to verify your email "
-"address.\n"
+"address."
 msgstr ""
-"\n"
-"Un compte a été créé avec votre adresse e-mail sur INSA'Roule. Si vous "
-"avez initié cette demande, veuillez cliquer sur le lien suivant pour "
-"vérifier votre adresse e-mail.\n"
+"Un compte a été créé avec votre adresse e-mail sur INSA'Roule. Si vous avez "
+"initié cette demande, veuillez cliquer sur le lien suivant pour vérifier "
+"votre adresse e-mail."
 
 #: accounts/templates/registration/verify_email/emails/verify_email.html:11
-msgid ""
-"\n"
-"If you did not request this, please ignore this email.\n"
-msgstr ""
-"\n"
-"Si vous n'avez pas demandé cela, veuillez ignorer cet e-mail.\n"
-
+msgid "If you did not request this, please ignore this email."
+msgstr "Si vous n'avez pas demandé cela, veuillez ignorer cet e-mail."
 
 #: accounts/templates/registration/verify_email/send_token.html:7
 msgid "Verify your email"
@@ -301,35 +347,23 @@ msgstr "Vérifiez votre adresse e-mail"
 
 #: accounts/templates/registration/verify_email/send_token.html:9
 msgid ""
-"\n"
-"                To avoid spam and abuses, we need to verify that you own the "
-"email address you provided.\n"
-"                We will send you an email with a link to verify your email "
-"address.\n"
-"                "
+"To avoid spam and abuses, we need to verify that you own the email address "
+"you provided. We will send you an email with a link to verify your email "
+"address."
 msgstr ""
-"\n"
-"                Pour éviter le spam et les abus, nous devons vérifier que "
-"vous possédez l'adresse e-mail que vous avez fournie.\n"
-"                Nous vous enverrons un e-mail avec un lien pour vérifier "
-"votre adresse e-mail.\n"
-"                "
+"Pour éviter le spam et les abus, nous devons vérifier que vous possédez "
+"l'adresse e-mail que vous avez fournie. Nous vous enverrons un e-mail avec "
+"un lien pour vérifier votre adresse e-mail."
 
 #: accounts/templates/registration/verify_email/send_token.html:15
 msgid ""
-"\n"
-"                Please note that you will not be able to use your account "
-"until you verify your email address.\n"
-"                If you do not verify your email address, this account will "
-"be deleted in the following days.\n"
-"                "
+"Please note that you will not be able to use your account until you verify "
+"your email address. If you do not verify your email address, this account "
+"will be deleted in the following days."
 msgstr ""
-"\n"
-"                Veuillez noter que vous ne pourrez pas utiliser votre compte "
-"tant que vous n'aurez pas vérifié votre adresse e-mail.\n"
-"                Si vous ne vérifiez pas votre adresse e-mail, ce compte "
-"sera supprimé dans les jours suivants.\n"
-"                "
+"Veuillez noter que vous ne pourrez pas utiliser votre compte tant que "
+"vous n'aurez pas vérifié votre adresse e-mail. Si vous ne vérifiez pas "
+"votre adresse e-mail, ce compte sera supprimé dans les jours suivants."
 
 #: accounts/templates/registration/verify_email/send_token.html:23
 msgid "Send the verification link to my email"
