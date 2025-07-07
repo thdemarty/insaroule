@@ -35,15 +35,19 @@ Follow the following steps to set up a development environment:
     > This will ensure that the code is formatted correctly and that the tests pass before committing.
 
 
-6. To run the server, you can use the following command:
+6. To run the server, you can use the following command (migrate runs the database migrations and compilemessages compiles the translations to be usable directly in the web application):
     
     ```bash
     cd project
     python manage.py migrate
+    python manage.py compilemessages
     python manage.py runserver
     ```
 
-### Production environment
-
-> [!NOTE] 
-> Coming soon... 
+    > [!NOTE] 
+    > If you ever run into issues with the database, since this code is currently in development, it is highly recommended to reset the database by deleting the `db.sqlite3` file and running the migrations again:
+    > ```bash
+    > rm db.sqlite3
+    > python manage.py migrate
+    > ```
+    > 
