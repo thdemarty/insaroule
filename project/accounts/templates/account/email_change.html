@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
-
+{% load i18n %}
 {% block content %}
 <div class="container mt-3">
     <div class="row justify-content-center">
         <div class="col-lg-6">
-            <h1>Change your email</h1>
+            <h1>{% translate "Change your email" %}</h1>
             <form action="" method="post">
                 {% csrf_token %}
 
@@ -25,7 +25,7 @@
                 </div>
                 {% endfor %}
 
-                <button type="submit" class="btn btn-primary">Change email</button>
+                <button type="submit" class="btn btn-primary">{% translate "Change email" %}</button>
             </form>
         </div>
     </div>

@@ -1,6 +1,6 @@
 from django.urls import path, reverse_lazy
 from django.contrib.auth import views as auth_views
-from accounts.views import register, account
+from accounts.views import register
 from accounts.forms import PasswordResetForm, PasswordChangeForm, SetPasswordForm
 from accounts.views.verify_email import (
     verify_email_send_token,
@@ -8,6 +8,7 @@ from accounts.views.verify_email import (
     verify_email_confirm,
     verify_email_complete,
 )
+from accounts.views import profile
 
 
 app_name = "accounts"
@@ -16,8 +17,10 @@ urlpatterns = [
     path("login/", auth_views.LoginView.as_view(), name="login"),
     path("logout/", auth_views.logout_then_login, name="logout"),
     path("register/", register, name="register"),
-    path("", account.me, name="me"),
-    path("email/change/", account.email_change, name="email_change"),
+    path("", profile.user_profile, name="me"),
+    path("delete/", profile.delete_profile, name="account_close"),
+    path("email/change/", profile.email_change, name="email_change"),
+    path("export/", profile.export, name="export"),
 ]
 
 # Email verification URLs

@@ -1,22 +1,26 @@
 {% extends 'registration/base.html' %}
-
+{% load i18n %}
 {% block content %}
 <div class="container">
     <div class="row justify-content-center mt-5">
         <div class="col-lg-6">
-            <h1>Verify your email</h1>
+            <h1>{% translate "Verify your email" %}</h1>
             <p>
+                {% blocktranslate trimmed %}
                 To avoid spam and abuses, we need to verify that you own the email address you provided.
                 We will send you an email with a link to verify your email address.
+                {% endblocktranslate %}
             </p>
             <p>
+                {% blocktranslate trimmed %}
                 Please note that you will not be able to use your account until you verify your email address.
                 If you do not verify your email address, this account will be deleted in the following days.
+                {% endblocktranslate %}
             </p>
 
             <form action="" method="post">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-primary w-100">Send the verification link to my email</button>
+                <button type="submit" class="btn btn-primary w-100">{% translate "Send the verification link to my email" %}</button>
             </form>
 
         </div>

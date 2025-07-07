@@ -1,3 +1,4 @@
+{% load i18n %}
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'carpool:list' %}">INSA'Roule</a>
@@ -8,29 +9,29 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{% url 'carpool:list' %}">Rides</a>
+                    <a class="nav-link active" aria-current="page" href="{% url 'carpool:list' %}">{% translate "Rides" %}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'carpool:create' %}">Publish a ride</a>
+                    <a class="nav-link" href="{% url 'carpool:create' %}">{% translate "Publish a ride" %}</a>
                 </li>
             </ul>
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                {% if user.is_staff %}
+                <li class="nav-item me-3 my-auto"><a class="btn btn-sm btn-outline-danger" href="{% url 'admin:index' %}">{% translate "Admin Panel" %}</a></li>
+                    {% endif %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
                         {{ user.username }}
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        {% if user.is_staff %}
-                        <li><a class="dropdown-item" href="{% url 'admin:index' %}">Admin Panel</a></li>
-                        {% endif %}
-                        <li><a class="dropdown-item" href="{% url 'accounts:me' %}">My Account</a></li>
+                        <li><a class="dropdown-item" href="{% url 'accounts:me' %}">{% translate "My Account" %}</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
                         <form action="{% url 'accounts:logout' %}" method="post">
                             {% csrf_token %}
-                            <li><button type="submit" class="dropdown-item">Logout</button></li>
+                            <li><button type="submit" class="dropdown-item">{% translate "Logout" %}</button></li>
                         </form>
                     </ul>
                 </li>
