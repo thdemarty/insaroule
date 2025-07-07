@@ -99,7 +99,6 @@ def send_email_export_data(user_pk):
                         "comment",
                         "steps",
                     ],
-                    handle_forward_references=True,
                 )
             ),
             "as_rider": json.loads(
@@ -134,6 +133,4 @@ def send_email_export_data(user_pk):
         "application/json",
     )
 
-    # email.send()
-
-    print(data_json)
+    email.send()
