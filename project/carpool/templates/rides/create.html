@@ -47,15 +47,30 @@
 
             <form action="" method="post">
                 {% csrf_token %}
+                {{ form.errors }}
 
-                <!-- Hidden inputs DO NOT DELETE -->
-                {{ form.departure_fullname }}
-                {{ form.arrival_fullname }}
-                {{ form.departure_lat }}
-                {{ form.departure_lng }}
-                {{ form.arrival_lat }}
-                {{ form.arrival_lng }}
-                {{ form.route }}
+                <div id="hidden">
+                    {# Departure information #}
+                    {{ form.d_fulltext }}
+                    {{ form.d_street }}
+                    {{ form.d_city }}
+                    {{ form.d_zipcode }}
+                    {{ form.d_latitude }}
+                    {{ form.d_longitude }}
+
+                    {# Arrival information #}
+                    {{ form.a_fulltext }}
+                    {{ form.a_street }}
+                    {{ form.a_city }}
+                    {{ form.a_zipcode }}
+                    {{ form.a_latitude }}
+                    {{ form.a_longitude }}
+
+                    {# Routing information #}
+                    {{ form.r_geometry }}
+                    {{ form.r_duration }}
+                </div>
+
 
                 <div class="mb-3">
                     {{ form.departure_datetime }}
@@ -116,53 +131,62 @@
 
     const departureEl = document.getElementById('departure');
     const arrivalEl = document.getElementById('arrival');
-    const routeEl = document.getElementById('id_route');
 
+    // departure information
+    const hDepartureFullText = document.getElementById('id_d_fulltext');
+    const hDepartureStreet = document.getElementById('id_d_street');
+    const hDepartureZipcode = document.getElementById('id_d_zipcode');
+    const hDepartureCity = document.getElementById('id_d_city');
+    const hDepartureLatitude = document.getElementById('id_d_latitude');
+    const hDepartureLongitude = document.getElementById('id_d_longitude');
 
-    const hiddenDepartureFullname = document.getElementById('id_departure_fullname');
-    const hiddenDepartureLat = document.getElementById('id_departure_lat');
-    const hiddenDepartureLng = document.getElementById('id_departure_lng');
-    const hiddenArrivalFullname = document.getElementById('id_arrival_fullname');
-    const hiddenArrivalLat = document.getElementById('id_arrival_lat');
-    const hiddenArrivalLng = document.getElementById('id_arrival_lng');
-    const hiddenRoute = document.getElementById('id_route');
+    // arrival information
+    const hArrivalFullText = document.getElementById('id_a_fulltext');
+    const hArrivalStreet = document.getElementById('id_a_street');
+    const hArrivalZipcode = document.getElementById('id_a_zipcode');
+    const hArrivalCity = document.getElementById('id_a_city');
+    const hArrivalLatitude = document.getElementById('id_a_latitude');
+    const hArrivalLongitude = document.getElementById('id_a_longitude');
+
+    // routing information
+    const hRouteGeometry = document.getElementById('id_r_geometry');
+    const hRouteDuration = document.getElementById('id_r_duration');
 
     const departure = new Choices(departureEl, {
         placeholder: true,
         placeholderValue: 'Search for a precise departure address',
-        loadingText: 'Loading addresses...',
     })
     const arrival = new Choices(arrivalEl, {
         placeholder: true,
         placeholderValue: 'Search for a precise arrival address',
-        loadingText: 'Loading addresses...',
     })
 
 
     var departureM, arrivalM, route = null;
 
 
-    function updateCoordinates(inputEl, fullnameInputId, latInputId, lngInputId, marker) {
+    function updateCoordinates(self, fullTextInput, latitudeInput, longitudeInput, streetInput, zipCodeInput, cityInput, marker) {
         // Get the innerHTML of the first selected option
-        const fullname = inputEl.selectedOptions[0].innerHTML;
-        const [lat, lng] = inputEl.value.split('/');
-
-        document.getElementById(fullnameInputId).value = fullname;
-        document.getElementById(latInputId).value = lat;
-        document.getElementById(lngInputId).value = lng;
-
+        const fullname = self.selectedOptions[0].innerHTML;
+        const [lat, lng] = self.value.split('/');
+        let choiceWidget = undefined;
+    
         if (marker) {
             marker.setLatLng([lat, lng]);
         }
 
-        if (inputEl.id === 'departure') {
+        if (self.id === 'departure') {
+            choiceWidget = departure;
+
+
             if (!departureM) {
                 // Create a new marker for departure if it doesn't exist
                 departureM = L.marker([lat, lng]).addTo(map);
             } else {
                 departureM.setLatLng([lat, lng]);
             }
-        } else if (inputEl.id === 'arrival') {
+        } else if (self.id === 'arrival') {
+            choiceWidget = arrival;
             if (!arrivalM) {
                 // Create a new marker for arrival if it doesn't exist
                 arrivalM = L.marker([lat, lng]).addTo(map);
@@ -170,6 +194,21 @@
                 arrivalM.setLatLng([lat, lng]);
             }
         }
+
+        // Fill the hidden inputs with the selected address information
+        streetInput.value = choiceWidget.getValue().customProperties.street || '';
+        zipCodeInput.value = choiceWidget.getValue().customProperties.zipcode;
+        cityInput.value = choiceWidget.getValue().customProperties.city;
+        fullTextInput.value = fullname;
+        latitudeInput.value = lat;
+        longitudeInput.value = lng;
+
+
+
+
+
+
+
         updateMap();
 
         if (departureM && arrivalM) {
@@ -225,8 +264,9 @@
                 }).addTo(map);
                 // TODO: store duration
 
-                // Store the route in the hidden input field
-                routeEl.value = JSON.stringify(data.geometry);
+                // Update hidden inputs with route information
+                hRouteDuration.value = data.duration;
+                hRouteGeometry.value = JSON.stringify(data.geometry);
                 
                 // Fit the map to the route bounds
                 map.fitBounds(route.getBounds(), { padding: [50, 50] });
@@ -234,8 +274,6 @@
                 console.error('No geometry found in the response');
             }
 
-
-            console.log(data);
 
         }).catch(error => {
             console.error('Error fetching route:', error);
@@ -245,8 +283,8 @@
 
     }
 
-    departureEl.addEventListener('change', function () { updateCoordinates(this, 'id_departure_fullname', 'id_departure_lat', 'id_departure_lng'); });
-    arrivalEl.addEventListener('change', function () { updateCoordinates(this, 'id_arrival_fullname', 'id_arrival_lat', 'id_arrival_lng'); });
+    departureEl.addEventListener('change', function () { updateCoordinates(this, hDepartureFullText, hDepartureLatitude, hDepartureLongitude, hDepartureStreet, hDepartureZipcode, hDepartureCity); });
+    arrivalEl.addEventListener('change', function () { updateCoordinates(this, hArrivalFullText, hArrivalLatitude, hArrivalLongitude, hArrivalStreet, hArrivalZipcode, hArrivalCity); });
 
 
     // =================================================================
@@ -264,7 +302,7 @@
                     return;
                 }
                 departure.clearChoices();
-                departure.setChoices(data.results, 'value', 'label', true);
+                departure.setChoices(data.results, 'value', 'fulltext', true);
             } catch (error) {
                 console.error('Error fetching addresses:', error);
             }
@@ -283,7 +321,7 @@
                     return;
                 }
                 arrival.clearChoices();
-                arrival.setChoices(data.results, 'value', 'label', true);
+                arrival.setChoices(data.results, 'value', 'fulltext', true);
             } catch (error) {
                 console.error('Error fetching addresses:', error);
             }
@@ -295,25 +333,25 @@
     // =================================================================
 
     document.addEventListener('DOMContentLoaded', function() {
-        if (hiddenDepartureLat.value && hiddenDepartureLng.value && departureM === undefined) {
+        if (hDepartureLatitude.value && hDepartureLongitude.value && departureM === undefined) {
             // If departure coordinates are set, create the marker
-            const lat = parseFloat(hiddenDepartureLat.value);
-            const lng = parseFloat(hiddenDepartureLng.value);
+            const lat = parseFloat(hDepartureLatitude.value);
+            const lng = parseFloat(hDepartureLongitude.value);
             departureM = L.marker([lat, lng]).addTo(map);
             updateMap();
         }
-
-        if (hiddenArrivalLat.value && hiddenArrivalLng.value && arrivalM === undefined) {
+        // FIXME: if hArrivalLatitude and hArrivalLongitude are undefined
+        if (hArrivalLatitude.value && hArrivalLongitude.value && arrivalM === undefined) {
             // If arrival coordinates are set, create the marker
-            const lat = parseFloat(hiddenArrivalLat.value);
-            const lng = parseFloat(hiddenArrivalLng.value);
+            const lat = parseFloat(hArrivalLatitude.value);
+            const lng = parseFloat(hArrivalLongitude.value);
             arrivalM = L.marker([lat, lng]).addTo(map);
             updateMap();
         }
 
-        if (hiddenRoute.value) {
+        if (hRouteGeometry.value) {
             // If route is set, display it on the map
-            const routeData = JSON.parse(hiddenRoute.value);
+            const routeData = JSON.parse(hRouteGeometry.value);
             route = L.geoJSON(routeData, {
                 style: {
                     color: '#3388ff',
@@ -325,12 +363,12 @@
         }
 
         // Update value of Choices when already set in hidden inputs
-        if (hiddenDepartureFullname.value) {
-            departure.setValue([`${hiddenDepartureLat.value}/${hiddenDepartureLng.value}`, hiddenDepartureFullname.value])
+        if (hDepartureFullText.value) {
+            departure.setValue([`${hDepartureLatitude.value}/${hDepartureLongitude.value}`, hDepartureFullText.value])
         }
-        
-        if (hiddenArrivalFullname.value) {
-            arrival.setValue([`${hiddenArrivalLat.value}/${hiddenArrivalLng.value}`, hiddenArrivalFullname.value])
+
+        if (hArrivalFullText.value) {
+            arrival.setValue([`${hArrivalLatitude.value}/${hArrivalLongitude.value}`, hArrivalFullText.value])
         }
     });
 
