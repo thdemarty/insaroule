@@ -23,7 +23,7 @@ def rides_detail(request, pk):
 @login_required
 def rides_list(request):
     ride_list = Ride.objects.all()
-    paginator = Paginator(ride_list, 4)  # Show 4 contacts per page.
+    paginator = Paginator(ride_list, 4)  # Show 4 rides per page.
 
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)

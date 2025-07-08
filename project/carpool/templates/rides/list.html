@@ -159,7 +159,7 @@
                 
                         {% if page_obj.has_next %}
                             <a href="?page={{ page_obj.next_page_number }}&{{ querystring|safe }}">next</a>
-                            <a href="?page={{ page_obj.paginator.num_pages }}&{{ querystring|safe }}">last &raquo;</a>
+                            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
                         {% endif %}
                     </span>
                 {% endwith %}
