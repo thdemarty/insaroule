@@ -4,5 +4,7 @@ from django.utils.translation import gettext_lazy as _
 
 
 class User(AbstractUser):
+    REQUIRED_FIELDS = ["email", "email_verified"]
+
     email = models.EmailField(_("Email Address"), unique=True)
     email_verified = models.BooleanField(default=False)

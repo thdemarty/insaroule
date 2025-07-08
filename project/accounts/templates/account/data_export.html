@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block content %}
+<div class="container mt-3">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <h1>{% translate "Export your data" %}</h1>
+            <p>
+                {% blocktranslate trimmed %}
+                In accordance with the GDPR, you can export your personal data from our platform in
+                a structured, commonly used, and machine-readable format. This includes your profile information,
+                activity logs, and any other data we hold about you. Here is a summary of the data we have collected
+                about you:
+                {% endblocktranslate %}
+            </p>
+            <h5>{% translate "Profile" %}</h5>
+            <ul>
+                <li>{% translate "Username:" %} {{ user.username }}</li>
+                {% if user.first_name %}
+                <li>{% translate "First name:" %} {{ user.first_name }}</li>
+                {% endif %}
+                {% if user.last_name %}
+                <li>{% translate "Last name:" %} {{ user.last_name }}</li>
+                {% endif %}
+                <li>{% translate "Email:" %} {{ user.email }} {% if user.email_verified %}(verified){% endif %}</li>
+                <li>{% translate "Last login:" %} {{ user.last_login }}</li>
+                <li>{% translate "Date joined:" %} {{ user.date_joined }}</li>
+            </ul>
+            <h5>{% translate "Rides" %}</h5>
+            <ul>
+                {% for ride in rides %}
+                <li>
+                    {% if ride.0 %}
+                    {% translate "Published a ride:" %} <a href="{{ ride.1.get_absolute_url }}">{{ ride.1 }}</a>
+                    {% else %}
+                    {% translate "Subscribed to a ride:" %} <a href="{{ ride.1.get_absolute_url }}">{{ ride.1 }}</a>
+
+                    {% endif %}    
+                </li>
+                {% endfor %}
+            </ul>
+
+            <hr>
+
+            <p>
+                {% blocktranslate trimmed %}To export your data, click the button below. You will receive a file containing
+                your data in a structured format. This may take a few moments depending on the amount of data
+                you have. If you have any questions or need assistance, please contact our support team.
+                {% endblocktranslate %}
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary w-100">{% translate "Download my data" %}</button>
+                </form>
+            </p>
+
+        </div>
+    </div>
+</div>
+{% endblock content %}

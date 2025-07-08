@@ -1,13 +1,39 @@
+from django.urls import reverse
+from uuid import uuid4
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.translation import gettext_lazy as _
 
 
 class Location(models.Model):
-    label = models.CharField(
+    fulltext = models.CharField(
         verbose_name=_("label"),
         help_text=_("Label for the location"),
         max_length=100,
+    )
+
+    street = models.CharField(
+        verbose_name=_("street"),
+        help_text=_("Street address of the location"),
+        max_length=200,
+        blank=True,
+        null=True,
+    )
+
+    zipcode = models.CharField(
+        verbose_name=_("zipcode"),
+        help_text=_("Zipcode of the location"),
+        max_length=10,
+        blank=True,
+        null=True,
+    )
+
+    city = models.CharField(
+        verbose_name=_("city"),
+        help_text=_("City of the location"),
+        max_length=100,
+        blank=True,
+        null=True,
     )
 
     lat = models.FloatField(
@@ -72,6 +98,13 @@ class Ride(models.Model):
         CASH = "CASH", _("Cash")
         LYF = "LYF", _("Lyf Pay")
         WIRE = "WIRE", _("Wire Transfer")
+
+    uuid = models.UUIDField(
+        verbose_name=_("UUID"),
+        primary_key=True,
+        editable=False,
+        default=uuid4,
+    )
 
     driver = models.ForeignKey(
         verbose_name=_("driver"),
@@ -167,28 +200,24 @@ class Ride(models.Model):
     )
     """
 
-    def humanized_duration(self):
-        """
-        A humanized duration of the ride.
-        eg "2h" or "1h30" or "1 jour et 2h30"
-        """
+    geometry = models.JSONField(
+        verbose_name=_("geometry"),
+        help_text=_("Geographical representation of the ride"),
+        null=True,
+        blank=True,
+        default=dict,
+    )
 
-        if not self.start_dt or not self.end_dt:
-            return None
+    duration = models.DurationField(
+        verbose_name=_("duration"),
+        help_text=_("Duration of the ride"),
+        null=True,
+        blank=True,
+    )
 
-        if self.start_dt > self.end_dt:
-            raise ValueError("Start date must be before end date")
+    @property
+    def remaining_seats(self):
+        return 0
 
-        duration = self.end_dt - self.start_dt
-        days, seconds = duration.days, duration.seconds
-        hours, remainder = divmod(seconds, 3600)
-        minutes, _ = divmod(remainder, 60)
-        parts = []
-        if days:
-            parts.append(f"{days} jour{'s' if days > 1 else ''}")
-        if hours:
-            parts.append(f"{hours}h")
-        if minutes:
-            parts.append(f"{minutes}min")
-
-        return " et ".join(parts)
+    def get_absolute_url(self):
+        return reverse("carpool:detail", kwargs={"pk": self.pk})
