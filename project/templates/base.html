@@ -2,21 +2,114 @@
 <html lang="fr">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>INSA'Roule</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
-    {% block extrahead %}{% endblock %}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>INSA'Roule</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+  <style>
+    .floating-cloud {
+      position: fixed;
+      bottom: 16px;
+      width: 60px;
+      z-index: 999;
+    }
+
+    .floating-car {
+      position: fixed;
+      bottom: 16px;
+      width: 70px;
+      z-index: 999;
+    }
+
+    @media (max-width: 768px) {
+      .floating-cloud {
+        width: 40px;
+      }
+
+      .floating-car {
+        width: 45px;
+      }
+
+      .cloud-1 {
+        left: 3vw;
+      }
+
+      .cloud-2 {
+        left: 13vw;
+      }
+
+      .cloud-3 {
+        left: 25vw;
+      }
+
+      .cloud-4 {
+        left: 37vw;
+      }
+
+      .car {
+        left: 50vw;
+      }
+    }
+
+
+    @media (min-width: 769px) {
+      .cloud-1 {
+        left: 1vw;
+      }
+
+      .cloud-2 {
+        left: 5vw;
+      }
+
+      .cloud-3 {
+        left: 9vw;
+      }
+
+      .cloud-4 {
+        left: 13vw;
+      }
+
+      .car {
+        left: 18vw;
+      }
+    }
+  </style>
+  {% block extrahead %}{% endblock %}
 </head>
 
 <body>
-    {% include 'includes/navbar.html' %}
-    {% block content %}{% endblock %}
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
-        crossorigin="anonymous"></script>
-    {% block extrascript %}{% endblock %}
+  {% include 'includes/navbar.html' %}
+  {% block content %}{% endblock %}
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
+    crossorigin="anonymous"></script>
+
+
+  <div class="position-relative">
+    <img
+      src="https://static.vecteezy.com/system/resources/thumbnails/014/012/012/small_2x/cute-cloud-simple-illustration-for-kids-drawing-png.png"
+      class="floating-cloud cloud-1">
+  </div>
+  <div class="position-relative">
+    <img
+      src="https://static.vecteezy.com/system/resources/thumbnails/014/012/012/small_2x/cute-cloud-simple-illustration-for-kids-drawing-png.png"
+      class="floating-cloud cloud-2">
+  </div>
+  <div class="position-relative">
+    <img
+      src="https://static.vecteezy.com/system/resources/thumbnails/014/012/012/small_2x/cute-cloud-simple-illustration-for-kids-drawing-png.png"
+      class="floating-cloud cloud-3">
+  </div>
+  <div class="position-relative">
+    <img
+      src="https://static.vecteezy.com/system/resources/thumbnails/014/012/012/small_2x/cute-cloud-simple-illustration-for-kids-drawing-png.png"
+      class="floating-cloud cloud-4">
+  </div>
+  <div class="position-relative">
+    <img src="https://cdn-icons-png.freepik.com/256/15863/15863031.png?semt=ais_hybrid" class="floating-car car">
+  </div>
+  {% block extrascript %}{% endblock %}
 </body>
 
 </html>
