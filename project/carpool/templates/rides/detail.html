@@ -41,6 +41,7 @@
     <input type="hidden" name="" id="id_d_longitude" value="{{ ride.start_loc.lng|stringformat:"g" }}">
     <input type="hidden" name="" id="id_a_latitude" value="{{ ride.end_loc.lat|stringformat:"g" }}">
     <input type="hidden" name="" id="id_a_longitude" value="{{ ride.end_loc.lng|stringformat:"g" }}">
+    <input type="hidden" name="" id="id_r_geometry" value="{{ ride.geometry|default_if_none:"" }}">
 
 
     <h1>{{ ride.start_dt|date:"l j F Y" }}</h1>
@@ -147,6 +148,7 @@
     const departureLng = parseFloat(document.getElementById('id_d_longitude').value);
     const arrivalLat = parseFloat(document.getElementById('id_a_latitude').value);
     const arrivalLng = parseFloat(document.getElementById('id_a_longitude').value);
+    const r_geometry = document.getElementById('id_r_geometry').value;
 
     const map = L.map('ride-map',
         {
@@ -159,6 +161,9 @@
 
         })
 
+    L.marker([departureLat, departureLng]).addTo(map)
+    L.marker([arrivalLat, arrivalLng]).addTo(map)
+
     map.fitBounds([
         [departureLat, departureLng],
         [arrivalLat, arrivalLng]
@@ -166,145 +171,19 @@
         padding: [50, 50]
     });
 
+    route = L.geoJSON(JSON.parse(r_geometry), {
+        style: {
+            color: '#3388ff',
+            weight: 5,
+            opacity: 0.7
+        }
+    }).addTo(map);
+
 
 
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
-
-    document.addEventListener('DOMContentLoaded', function () {
-
-
-        // Ajout des marqueurs de départ et d’arrivée
-        const markerDeparture = L.marker([departureLat, departureLng]).addTo(map)
-        const markerArrival = L.marker([arrivalLat, arrivalLng]).addTo(map)
-
-        // Tracer une ligne entre départ et arrivée
-        if (markerDeparture && markerArrival) {
-            // If both markers are set, fetch the route
-            getRouteFromCoordinates(
-                markerDeparture.getLatLng().lat,
-                markerDeparture.getLatLng().lng,
-                markerArrival.getLatLng().lat,
-                markerArrival.getLatLng().lng
-            );
-        }
-    });
-
-
-    function getRouteFromCoordinates(departureLat, departureLng, arrivalLat, arrivalLng) {
-        console.log("Fetching route from coordinates:", departureLat, departureLng, arrivalLat, arrivalLng);
-        const start = encodeURIComponent(`${departureLng},${departureLat}`);
-        const end = encodeURIComponent(`${arrivalLng},${arrivalLat}`);
-
-        const url = `https://data.geopf.fr/navigation/itineraire?resource=bdtopo-osrm&start=${start}&end=${end}&profile=car&optimization=fastest&geometryFormat=geojson&getSteps=true&getBbox=true&distanceUnit=kilometer&timeUnit=hour&crs=EPSG%3A4326`;
-        fetch(url)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            }).then(data => {
-                // Show geometry on the map
-                if (data.geometry) {
-                    // Remove previous route if it exists
-                    if (route) {
-                        map.removeLayer(route);
-                    }
-                    route = L.geoJSON(data.geometry, {
-                        style: {
-                            color: '#3388ff',
-                            weight: 5,
-                            opacity: 0.7
-                        }
-                    }).addTo(map);
-                    // TODO: store duration
-
-                    // Fit the map to the route bounds
-                    map.fitBounds(route.getBounds(), { padding: [50, 50] });
-                } else {
-                    console.error('No geometry found in the response');
-                }
-
-
-                console.log(data);
-
-            }).catch(error => {
-                console.error('Error fetching route:', error);
-            });
-    };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 </script>
-
-
-
-
-
-
-<!--
-
-
-
-<script>
-    // Récupération des coordonnées depuis Django (backend)
-    const startLat = parseFloat("{{ ride.start_loc.lat }}");
-    const startLng = parseFloat("{{ ride.start_loc.lng }}");
-    const endLat = parseFloat("{{ ride.end_loc.lat }}");
-    const endLng = parseFloat("{{ ride.end_loc.lng }}");
-
-
-    // Centrer la carte entre les deux points
-    const map = L.map('map').setView([(startLat + endLat) / 2, (startLng + endLng) / 2], 10);
-
-    // Fond de carte (OpenStreetMap)
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; OpenStreetMap contributors'
-    }).addTo(map);
-
-    // Marqueur de départ
-    L.marker([startLat, startLng])
-        .addTo(map)
-        .bindPopup("<b>Départ</b><br>{{ ride.start_loc.label }}")
-        .openPopup();
-
-    // Marqueur d’arrivée
-    L.marker([endLat, endLng])
-        .addTo(map)
-        .bindPopup("<b>Arrivée</b><br>{{ ride.end_loc.label }}");
-
-    // Ligne entre départ et arrivée
-    const routeLine = L.polyline([
-        [startLat, startLng],
-        [endLat, endLng]
-    ], { color: 'blue' }).addTo(map);
-
-    // Ajuste automatiquement le zoom pour englober les deux points
-    map.fitBounds(routeLine.getBounds());
-
-    
-    setTimeout(() => {
-        map.invalidateSize();
-    }, 200);
-</script>
--->
 {% endblock extrascript %}
