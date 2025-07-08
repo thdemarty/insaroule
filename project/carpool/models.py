@@ -46,6 +46,27 @@ class Step(models.Model):
         return self.name
 
 
+class Vehicle(models.Model):
+    name = models.CharField(
+        verbose_name=_("name"), help_text=_("Name of the vehicle"), max_length=50
+    )
+
+    seats = models.PositiveIntegerField(
+        verbose_name=_("seats"),
+        help_text=_("Number of seats in the vehicle"),
+        validators=[MinValueValidator(1)],
+        null=False,
+        blank=False,
+    )
+
+    color = models.CharField(
+        verbose_name=_("color"), help_text=_("Color of the vehicle"), max_length=50
+    )
+
+    def __str__(self):
+        return f"{self.name} ({self.color})"
+
+
 class Ride(models.Model):
     class PaymentMethod(models.TextChoices):
         CASH = "CASH", _("Cash")
@@ -135,6 +156,16 @@ class Ride(models.Model):
         blank=True,
         null=True,
     )
+    """
+    vehicule = models.ForeignKey(
+        verbose_name=_("vehicule"),
+        to=Vehicle,
+        help_text=_("The vehicule of the ride"),
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+    )
+    """
 
     def humanized_duration(self):
         """
@@ -161,24 +192,3 @@ class Ride(models.Model):
             parts.append(f"{minutes}min")
 
         return " et ".join(parts)
-
-
-class Vehicle(models.Model):
-    name = models.CharField(
-        verbose_name=_("name"), help_text=_("Name of the vehicle"), max_length=50
-    )
-
-    seats = models.PositiveIntegerField(
-        verbose_name=_("seats"),
-        help_text=_("Number of seats in the vehicle"),
-        validators=[MinValueValidator(1)],
-        null=False,
-        blank=False,
-    )
-
-    color = models.CharField(
-        verbose_name=_("color"), help_text=_("Color of the vehicle"), max_length=50
-    )
-
-    def __str__(self):
-        return f"{self.name} ({self.color})"
