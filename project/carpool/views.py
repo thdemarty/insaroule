@@ -27,9 +27,16 @@ def rides_list(request):
 
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
+
+    querydict = request.GET.copy()
+    if "page" in querydict:
+        querydict.pop("page")
+    querystring = querydict.urlencode()
+
     context = {
         "rides": page_obj.object_list,
         "page_obj": page_obj,
+        "querystring": querystring,
     }
     return render(request, "rides/list.html", context)
 

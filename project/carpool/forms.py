@@ -52,7 +52,7 @@ class CreateRideForm(forms.Form):
 
     price_per_seat = forms.DecimalField(
         required=True,
-        min_value=0.00,
+        min_value=0,
         decimal_places=2,
         widget=forms.NumberInput(
             attrs={
