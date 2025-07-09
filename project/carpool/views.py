@@ -8,6 +8,9 @@ from carpool.tasks import get_autocompletion, get_routing
 from asgiref.sync import sync_to_async
 
 
+from django.core.paginator import Paginator
+
+
 @login_required
 def rides_detail(request, pk):
     ride = get_object_or_404(Ride, pk=pk)
@@ -19,8 +22,21 @@ def rides_detail(request, pk):
 
 @login_required
 def rides_list(request):
+    ride_list = Ride.objects.all()
+    paginator = Paginator(ride_list, 4)  # Show 4 rides per page.
+
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
+    querydict = request.GET.copy()
+    if "page" in querydict:
+        querydict.pop("page")
+    querystring = querydict.urlencode()
+
     context = {
-        "rides": Ride.objects.all(),
+        "rides": page_obj.object_list,
+        "page_obj": page_obj,
+        "querystring": querystring,
     }
     return render(request, "rides/list.html", context)
 
