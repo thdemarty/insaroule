@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from carpool.forms import CreateRideForm
 from carpool.tasks import get_autocompletion, get_routing
 from asgiref.sync import sync_to_async
+from django.db.models.functions import TruncDate
 
 
 from django.core.paginator import Paginator
@@ -22,7 +23,10 @@ def rides_detail(request, pk):
 
 @login_required
 def rides_list(request):
-    ride_list = Ride.objects.all()
+    ride_list = Ride.objects.annotate(ride_date=TruncDate("start_dt")).order_by(
+        "ride_date", "start_dt"
+    )
+
     paginator = Paginator(ride_list, 4)  # Show 4 rides per page.
 
     page_number = request.GET.get("page")
