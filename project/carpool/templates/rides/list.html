@@ -73,7 +73,7 @@
             {% regroup rides by ride_date as date_list %}
 
             {% for ridebydate in date_list %}
-                <span class="fw-semibold">
+                <span class="fw-semibold fs-2">
                     {{ ridebydate.grouper|date:"l j F Y" }}
                 </span>
                 {% for ride in ridebydate.list %}
