@@ -9,10 +9,12 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link {% if request.resolver_match.url_name == 'list' %} active {% endif %}" aria-current="page" href="{% url 'carpool:list' %}">{% translate "Rides" %}</a>
+                    <a class="nav-link {% if request.resolver_match.url_name == 'list' %}active{% endif %}" 
+                    {% if request.resolver_match.url_name == 'list' %}aria-current="page"{% endif %} href="{% url 'carpool:list' %}">{% translate "Rides" %}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {% if request.resolver_match.url_name == 'create' %} active {% endif %}" href="{% url 'carpool:create' %}">{% translate "Publish a ride" %}</a>
+                    <a class="nav-link {% if request.resolver_match.url_name == 'create' %}active{% endif %}" 
+                    {% if request.resolver_match.url_name == 'create' %}aria-current="page"{% endif %} href="{% url 'carpool:create' %}">{% translate "Publish a ride" %}</a>
                 </li>
             </ul>
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
