@@ -144,12 +144,21 @@
                             </div>
                         </div>
                     </div>
-                {% empty %}
-                    <div class="alert alert-info" role="alert">
-                        No rides found, consider taking the train : )
-                        <!--Aucun trajet trouvé, pensez à prendre le train : )-->
-                    </div>
                 {% endfor %}
+            {% empty %}
+                <div class="alert alert-info" role="alert">
+                    No rides found, consider taking the train : )
+                    
+                    <!--Aucun trajet trouvé, pensez à prendre le train : )-->
+                </div>
+                <div class="d-grid gap-2 col-2 mx-auto">
+                    <a class="btn btn-primary" href="{% url 'carpool:create' %}" role="button"
+                        style="--bs-btn-padding-y: 1rem; --bs-btn-padding-x: 1rem; --bs-btn-font-size: 1.2rem;">
+                        Publish a ride
+                    </a>
+                </div>
+                
+                               
             {% endfor %}
             {% if page_obj.paginator.num_pages > 1 %}
                 <nav aria-label="Page navigation" class="my-3">
