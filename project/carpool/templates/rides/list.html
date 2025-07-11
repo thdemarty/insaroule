@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load duration %}
+{% load i18n %}
 
 {% block extrahead %}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
@@ -146,19 +147,17 @@
                     </div>
                 {% endfor %}
             {% empty %}
-                <div class="alert alert-info" role="alert">
-                    No rides found, consider taking the train : )
-                    
-                    <!--Aucun trajet trouvé, pensez à prendre le train : )-->
+            <div class="card">
+                <div class="card-body mb-3">
+                    <h5 class="card-title">{% translate "No rides found" %}</h5>
+                    <p class="card-text">{% translate "Consider taking the train or posting the first ride on the platform." %}</p>
+                    <div class="text-center">
+                        <a href="{% url 'carpool:create' %}" class="btn btn-primary">{% translate "Publish a ride" %}</a>
+                    </div>
+
+
                 </div>
-                <div class="d-grid gap-2 col-2 mx-auto">
-                    <a class="btn btn-primary" href="{% url 'carpool:create' %}" role="button"
-                        style="--bs-btn-padding-y: 1rem; --bs-btn-padding-x: 1rem; --bs-btn-font-size: 1.2rem;">
-                        Publish a ride
-                    </a>
-                </div>
-                
-                               
+            </div>
             {% endfor %}
             {% if page_obj.paginator.num_pages > 1 %}
                 <nav aria-label="Page navigation" class="my-3">
