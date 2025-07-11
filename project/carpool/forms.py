@@ -63,7 +63,18 @@ class CreateRideForm(forms.Form):
     )
 
     payment_method = forms.MultipleChoiceField(
-        required=True,
+        required=False,
         choices=Ride.PaymentMethod.choices,
         widget=forms.CheckboxSelectMultiple,
     )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        price = cleaned_data.get("price_per_seat")
+        payment = cleaned_data.get("payment_method")
+
+        if price is not None and price > 0:
+            if not payment:
+                self.add_error(
+                    "payment_method", "Ce champ est obligatoire si un prix est défini."
+                )
