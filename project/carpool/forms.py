@@ -79,10 +79,10 @@ class CreateRideForm(forms.Form):
         if price is not None and price > 0:
             if not payment:
                 self.add_error(
-                    "payment_method", "Ce champ est obligatoire si un prix est défini."
+                    "payment_method", "This field is required if a price is set."
                 )
 
         if departure < now:
             self.add_error(
-                "departure_datetime", "La date de départ doit être dans le futur."
+                "departure_datetime", "The departure date must be in the future."
             )
