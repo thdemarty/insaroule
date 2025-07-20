@@ -1,13 +1,16 @@
 import datetime
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from carpool.models import Ride, Location
+from carpool.models import Location
+from carpool.models.ride import Ride
 from django.contrib.auth.decorators import login_required
 from carpool.forms import CreateRideForm
 from carpool.tasks import get_autocompletion, get_routing
 from asgiref.sync import sync_to_async
 from django.db.models.functions import TruncDate
-
+from django.http import HttpResponse
+from django.views.decorators.http import require_http_methods
+from chat.models import ChatRequest
 
 from django.core.paginator import Paginator
 
@@ -38,6 +41,39 @@ def ride_map(request):
         "rides_geo": rides_geo,
     }
     return render(request, "rides/map.html", context)
+@require_http_methods(["POST"])
+def change_jrequest_status(request, jr_pk):
+    join_request = get_object_or_404(ChatRequest, pk=jr_pk)
+
+    if request.user != join_request.ride.driver:
+        return HttpResponse("You are not the driver of this post", status=403)
+
+    action = request.POST.get("action")
+    if action == "accept":
+        join_request.status = ChatRequest.Status.ACCEPTED
+        # Add the user to the ride
+        join_request.ride.rider.add(join_request.user)
+
+    elif action == "decline":
+        join_request.status = ChatRequest.Status.DECLINED
+        # Remove the user to the ride if they were added
+        if join_request.user in join_request.ride.rider.all():
+            join_request.ride.rider.remove(join_request.user)
+
+    else:
+        return HttpResponse("Invalid action", status=400)
+
+    join_request.save()
+    return redirect("chat:index")
+
+
+@login_required
+def rides_subscribe(request, pk):
+    ride = get_object_or_404(Ride, pk=pk)
+    if request.method == "POST":
+        ride.join_requests.create(user=request.user)
+        return redirect("chat:index")
+    return redirect("carpool:detail", pk=ride.pk)
 
 
 @login_required
