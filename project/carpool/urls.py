@@ -3,6 +3,7 @@ from carpool.views import (
     rides_list,
     rides_create,
     rides_detail,
+    ride_map,
     api_auto_completion,
     api_routing,
 )
@@ -14,6 +15,7 @@ urlpatterns = [
     path("", rides_list, name="list"),
     path("create/", rides_create, name="create"),
     path("<uuid:pk>/", rides_detail, name="detail"),
+    path("map/", ride_map, name="map"),
     # API endpoints
     path("api/completion/", api_auto_completion, name="completion"),
     path("api/routing/", api_routing, name="routing"),
