@@ -24,7 +24,7 @@ env = environ.Env(
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
-environ.Env.read_env(os.path.join(BASE_DIR.parent, ".env"))
+environ.Env.read_env(os.path.join(BASE_DIR.parent, ".env"), overwrite=True)
 
 
 # Quick-start development settings - unsuitable for production
@@ -186,6 +186,11 @@ CELERY_RESULT_SERIALIZER = "json"
 # Tasks rate limit
 GEOCODAGE_TASK_RATE_LIMIT = env("GEOCODAGE_TASK_RATE_LIMIT", default="50/s")
 ROUTING_TASK_RATE_LIMIT = env("ROUTING_TASK_RATE_LIMIT", default="5/s")
+
+# Cooldown settings
+COOLDOWN_EMAIL_VERIFY = env.int(
+    "COOLDOWN_EMAIL_VERIFY", default=5 * 60
+)  # in seconds (default 5 minutes)
 
 # Channels settings
 CHANNEL_LAYERS = {
