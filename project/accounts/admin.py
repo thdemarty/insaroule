@@ -10,5 +10,8 @@ class UserAdmin(BaseUserAdmin):
     list_display = BaseUserAdmin.list_display + ("email_verified",)
     list_filter = BaseUserAdmin.list_filter + ("email_verified",)
     fieldsets = BaseUserAdmin.fieldsets + (
-        (_("Email verification"), {"fields": ("email_verified",)}),
+        (
+            _("Email verification"),
+            {"fields": ("email_verified", "last_verification_email_sent")},
+        ),
     )

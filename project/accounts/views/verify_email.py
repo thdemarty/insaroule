@@ -3,11 +3,13 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.shortcuts import render, redirect
 from django.utils.http import urlsafe_base64_decode
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
 
 from accounts.tasks import send_verification_email
 from accounts.tokens import email_verify_token
 from datetime import timedelta
 from django.utils import timezone
+from django.conf import settings
 
 # ============================================================= #
 #                   Email verification views                    #
@@ -18,44 +20,71 @@ from django.utils import timezone
 # Verify email complete : redirect the user to the home page after email verification
 
 
+@login_required
 def verify_email_send_token(request):
+    """
+    Email verification view to send a token
+    """
+    if request.user.email_verified:
+        print("User has already verified email, redirecting to carpool list")
+        return redirect("carpool:list")
+
+    if (
+        request.user.last_verification_email_sent
+        and request.user.has_email_verify_cooldown
+    ):
+        # Early return if the user has a cooldown
+        print("Early return due to cooldown")
+        return redirect("accounts:verify_email_sent")
+
     if request.method == "POST":
-        if not request.user.email_verified:
-            user = request.user
-            now = timezone.now()
-            cooldown = timedelta(minutes=5)
+        # Send the verification email only if the user has no cooldown
 
-            if (
-                user.last_verification_email_sent
-                and now - user.last_verification_email_sent < cooldown
-            ):
-                remaining = cooldown - (now - user.last_verification_email_sent)
-                minutes = int(remaining.total_seconds() // 60) + 1
-                messages.warning(
-                    request,
-                    f"Veuillez patienter {minutes} minute(s) avant de renvoyer un e-mail.",
-                )
-                return redirect("accounts:verify_email_sent")
+        send_verification_email.delay(
+            request.user.username,
+            request.user.pk,
+            request.user.email,
+            email_verify_token.make_token(request.user),
+            site_base_url=request.scheme + "://" + get_current_site(request).domain,
+        )
 
-            site_base_url = request.scheme + "://" + get_current_site(request).domain
-            user_token = email_verify_token.make_token(user)
+        request.user.last_verification_email_sent = timezone.now()
+        request.user.save(update_fields=["last_verification_email_sent"])
 
-            send_verification_email.delay(
-                user.username, user.pk, user.email, user_token, site_base_url
-            )
-
-            user.last_verification_email_sent = now
-            user.save(update_fields=["last_verification_email_sent"])
-
-            return redirect("accounts:verify_email_sent")
-        else:
-            return redirect("accounts:register")
+        return redirect("accounts:verify_email_sent")
 
     return render(request, "registration/verify_email/send_token.html")
 
 
+@login_required()
 def verify_email_sent(request):
-    return render(request, "registration/verify_email/email_sent.html")
+    """
+    When the email has been sent, redirect to this page. The user
+    can request another email if the cooldown is over.
+    """
+    if request.user.email_verified:
+        print("User has already verified email, redirecting to carpool list")
+        return redirect("carpool:list")
+
+    if (
+        request.user.last_verification_email_sent
+        and request.user.has_email_verify_cooldown
+    ):
+        # If the user has a cooldown, calculate the time remaining
+        cooldown = timedelta(seconds=settings.COOLDOWN_EMAIL_VERIFY)
+        not_before = request.user.last_verification_email_sent + cooldown
+        minutes = (not_before - timezone.now()).total_seconds() / 60
+        context = {
+            "cooldown": True,
+            "not_before": not_before,
+            "minutes": int(minutes),
+        }
+    else:
+        context = {
+            "cooldown": False,
+        }
+
+    return render(request, "registration/verify_email/email_sent.html", context)
 
 
 def verify_email_confirm(request, uidb64, token):
