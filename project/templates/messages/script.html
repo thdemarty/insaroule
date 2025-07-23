@@ -1,0 +1,7 @@
+<script>
+    var toasts = document.getElementsByClassName('toast');
+    for (let toastEl of toasts) {
+        var toast = bootstrap.Toast.getOrCreateInstance(toastEl) // Returns a Bootstrap toast instance
+        toast.show()
+    }
+</script>

@@ -1,0 +1,39 @@
+{% comment %}
+DEBUG Messages liés au développement qui seront ignorés (ou supprimés) dans un déploiement en production.
+INFO Messages d'information pour l'utilisateur.
+SUCCESS Une action a réussi, par ex. « votre profil a été mis à jour avec succès ».
+WARNING Il n'y a pas eu d'erreur, mais il pourrait y en avoir une sous peu.
+ERROR Une action n'a pas réussi ou une autre erreur quelconque s'est produite.
+{% endcomment %}
+
+<div class="toast align-items-center
+    {% if msg_tags|upper == 'DEBUG' %}
+        bg-secondary text-white
+    {% elif msg_tags|upper == 'INFO' %}
+        bg-info text-white
+    {% elif msg_tags|upper == 'SUCCESS' %}
+        bg-success text-white
+    {% elif msg_tags|upper == 'WARNING' %}
+        bg-warning
+    {% elif msg_tags|upper == 'ERROR' %}
+        bg-danger text-white
+    {% endif %}" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="d-flex">
+        <div class="toast-body">
+            {{ msg_txt }}
+        </div>
+        <button type="button" class="btn-close me-2 m-auto
+    {% if msg_tags|upper == 'DEBUG' %}
+        btn-close-white
+    {% elif msg_tags|upper == 'INFO' %}
+        btn-close-white
+    {% elif msg_tags|upper == 'SUCCESS' %}
+        btn-close-white
+    {% elif msg_tags|upper == 'ERROR' %}
+        btn-close-white
+    {% endif %}
+    
+    
+    " data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+</div>
