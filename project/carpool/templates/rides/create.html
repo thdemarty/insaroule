@@ -47,7 +47,6 @@
 
             <form action="" method="post">
                 {% csrf_token %}
-                {{ form.errors }}
 
                 <div id="hidden">
                     {# Departure information #}
@@ -92,6 +91,13 @@
                     </div>
                 </div>
 
+                {% for field in form %}
+                    {% for error in field.errors %}
+                    <div class="mb-3" style="color:#FF0000">
+                        {{ error }}
+                    </div>                        
+                    {% endfor %}
+                {% endfor %}
                 <button class="btn btn-primary w-100" type="submit">Publish ride</button>
             </form>
         </div>
@@ -109,13 +115,7 @@
 <script>
     var map = L.map('map', 
         {
-            doubleClickZoom: false,
-            boxZoom: false,
-            dragging: false,
-            doubleClickZoom: false,
-            scrollWheelZoom: false,
-            zoomControl: false,
-
+            
         }
     ).setView([46.2321929, 2.209666999999996], 6.4);
     

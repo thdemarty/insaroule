@@ -34,6 +34,7 @@ class CreateRideForm(forms.Form):
             attrs={
                 "type": "datetime-local",
                 "class": "form-control",
+                "min": timezone.now().strftime("%Y-%m-%dT%H:%M"),
             }
         ),
     )
@@ -73,16 +74,23 @@ class CreateRideForm(forms.Form):
         cleaned_data = super().clean()
         price = cleaned_data.get("price_per_seat")
         payment = cleaned_data.get("payment_method")
-        departure = self.cleaned_data["departure_datetime"]
-        now = timezone.now()
 
         if price is not None and price > 0:
             if not payment:
                 self.add_error(
-                    "payment_method", "This field is required if a price is set."
+                    "payment_method", "A payment method is required if a price is set."
                 )
 
-        if departure < now:
-            self.add_error(
-                "departure_datetime", "The departure date must be in the future."
-            )
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            widget = field.widget
+            if field_name == "payment_method":
+                if self.errors.get(field_name):
+                    widget.attrs["class"] = "is-invalid"
+                continue
+            css_class = widget.attrs.get("class", "")
+            if self.errors.get(field_name):
+                widget.attrs["class"] = f"{css_class} is-invalid"
+            else:
+                widget.attrs.setdefault("class", "form-control")
