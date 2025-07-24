@@ -7,9 +7,33 @@ on:
     branches: [ "main", "develop" ]
 
 jobs:
-  build:
-
+  build:  
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgis/postgis:16-3.4
+        env:
+          POSTGRES_DB: insaroule
+          POSTGRES_USER: insaroule_user
+          POSTGRES_PASSWORD: insaroule_pass
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U insaroule_user"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+      redis:
+        image: redis:latest
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     strategy:
       max-parallel: 4
 
@@ -19,6 +43,10 @@ jobs:
       uses: actions/setup-python@v3
       with:
         python-version: 3.12
+    - name: Install System Dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y postgresql-client redis-tools binutils libproj-dev gdal-bin
     - name: Install Dependencies
       run: |
         python -m pip install --upgrade pip
@@ -26,6 +54,10 @@ jobs:
     - name: Setup .env file
       run: |
         cp .env.dist .env
+    - name: Wait for DB and Redis
+      run: |
+        until pg_isready -h localhost -p 5432 -U insaroule_user; do sleep 1; done
+        until redis-cli -h localhost ping | grep PONG; do sleep 1; done
     - name: Run Tests
       run: |
         cd project
