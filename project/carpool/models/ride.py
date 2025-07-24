@@ -1,6 +1,6 @@
 from uuid import uuid4
 
-from django.db import models
+from django.contrib.gis.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.core.validators import MinValueValidator
@@ -136,12 +136,13 @@ class Ride(models.Model):
     )
     """
 
-    geometry = models.JSONField(
+    geometry = models.LineStringField(
         verbose_name=_("geometry"),
         help_text=_("Geographical representation of the ride"),
+        srid=4326,  # WGS84
         null=True,
         blank=True,
-        default=dict,
+        default=None,
     )
 
     duration = models.DurationField(

@@ -1,6 +1,7 @@
 import datetime
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.gis.geos import GEOSGeometry
 from carpool.models import Location
 from carpool.models.ride import Ride
 from django.contrib.auth.decorators import login_required
@@ -56,6 +57,7 @@ def rides_detail(request, pk):
     ride = get_object_or_404(Ride, pk=pk)
     context = {
         "ride": ride,
+        "geometry": ride.geometry.geojson,
     }
     return render(request, "rides/detail.html", context)
 
@@ -125,7 +127,7 @@ def rides_create(request):
                 end_loc=arrival,
                 payment_method=form.cleaned_data["payment_method"],
                 price=form.cleaned_data["price_per_seat"],
-                geometry=form.cleaned_data["r_geometry"],
+                geometry=GEOSGeometry(form.cleaned_data["r_geometry"], srid=4326),
                 duration=datetime.timedelta(hours=form.cleaned_data["r_duration"]),
             )
 
