@@ -1,0 +1,219 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block content %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<div id="map" style="height: 1000px;"></div>
+<div class="card mb-4 text-bg-light" style="position: absolute; top: 100px; left: 80px; z-index: 1000;">
+    <div class="card-body">
+        <form method="get" action="">
+            <div class="row">
+                <div class="col-lg mb-md-3 mb-lg-0">
+                    <label for="start_dt" class="form-label">Date</label>
+                    <input type="date" id="start_dt" name="start_dt" class="form-control" required>
+                </div>
+                <div class="col-lg mb-md-3 mb-lg-0 position-relative" style="top: 33px">
+                    <button type="button" id="reset-date" class="btn btn-outline-secondary" title="Reset">                        
+                        <i class="bi bi-arrow-clockwise"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="ride-info-card" style="
+    position: absolute;
+    bottom: 100px;
+    left: 20px;
+    z-index: 1000;
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    display: none;
+    width: 300px;
+">
+    <h4>Informations du trajet</h4>
+    <div id="ride-details">
+        <p>Sélectionnez un trajet</p>
+    </div>
+</div>
+
+{% block extrahead %}
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+    <script
+        src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        crossorigin=""
+    ></script>
+{% endblock %}
+
+{{ rides_geo|json_script:"rides-geo-data" }}
+
+<script>
+    let route = null;
+    const map = L.map('map').setView([46.6, 1.88], 6);
+    const layers = [];
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+    }).addTo(map);
+
+    const rides = JSON.parse(document.getElementById('rides-geo-data').textContent);
+    const allBounds = [];
+    const colors = [
+        '#e6194b', '#3cb44b', '#ffe119', '#4363d8', '#f58231',
+        '#911eb4', '#46f0f0', '#f032e6', '#bcf60c', '#fabebe',
+        '#008080', '#e6beff', '#9a6324', '#fffac8', '#800000',
+        '#aaffc3', '#808000', '#ffd8b1', '#000075', '#808080'
+    ];
+    
+    document.getElementById('start_dt').addEventListener('change', function () {
+        const selectedDate = this.value;
+        clearMap();
+        const filtered = rides.filter(ride => {
+            const rideDate = new Date(ride.start_dt).toISOString().split('T')[0];
+            return rideDate === selectedDate;
+        });        
+        displayRides(filtered);
+    });
+
+
+    async function displayRides(rides) {
+        const localBounds = [];
+        for (let index = 0; index < rides.length; index++) {
+            const ride = rides[index];
+            const color = colors[index % colors.length]; 
+
+            const markerstart = L.marker([ride.start_lat, ride.start_lon]).addTo(map);
+            const markerend = L.marker([ride.end_lat, ride.end_lon]).addTo(map);
+
+            layers.push(markerstart, markerend);
+
+            if (markerstart && markerend) {
+                await new Promise(resolve => setTimeout(resolve, 200));
+                // If both markers are set, fetch the route
+                getRouteFromCoordinates(
+                    markerstart.getLatLng().lat,
+                    markerstart.getLatLng().lng,
+                    markerend.getLatLng().lat,
+                    markerend.getLatLng().lng,
+                    color,
+                    ride,
+                    localBounds
+                );
+            }
+        };
+    }
+
+
+    function getRouteFromCoordinates(departureLat, departureLng, arrivalLat, arrivalLng, color, ride, bound) {
+        const start = encodeURIComponent(`${departureLng},${departureLat}`); 
+        const end = encodeURIComponent(`${arrivalLng},${arrivalLat}`);
+        const url = `/api/routing/?start=${start}&end=${end}`;
+
+        console.log("Fetching route from coordinates:", departureLat, departureLng, arrivalLat, arrivalLng);
+
+        fetch(url)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.geometry && data.geometry.coordinates.length > 0) {
+                    route = L.geoJSON(data.geometry, {
+                        style: {
+                            color: color,
+                            weight: 5,
+                            opacity: 0.7
+                        }
+                    }).addTo(map);
+
+                    route.on('click', () => {
+                        showRideInfo(ride, color);
+                    });
+
+                    layers.push(route);
+
+                    const bounds = route.getBounds();
+                    if (bounds.isValid()) {
+                        allBounds.push(bounds);
+                        updateMapBounds(bound);
+                    }
+                } else {
+                    console.error('No geometry found in the response for ride:', ride.uuid);
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching route:', error);
+            });
+    }
+
+    function updateMapBounds(bounds) {
+        if (!bounds || bounds.length === 0) return;
+
+        let fullBounds = bounds[0];
+        for (let i = 1; i < bounds.length; i++) {
+            if (bounds[i].isValid()) {
+                fullBounds = fullBounds.extend(bounds[i]);
+            }
+        }
+
+        if (fullBounds.isValid()) {
+            map.fitBounds(fullBounds, { padding: [50, 50] });
+        }
+    }
+
+    function showRideInfo(ride, color) {
+        
+        const card = document.getElementById('ride-info-card');
+        const details = document.getElementById('ride-details');
+        
+        details.innerHTML = `
+            <button id="close-info" style="position:absolute; top:5px; right:5px; background:none; border:none; font-size:20px; cursor:pointer;">&times;</button>
+            <p><strong>${ride.start_d}</strong></p>
+            <p><strong>Départ :</strong> ${ride.start_name}</p>
+            <p><strong>Arrivée :</strong> ${ride.end_name}</p>
+            <p><strong>Heure :</strong> ${ride.start_t}</p>
+            <p><strong>Durée :</strong> ${ride.duration}</p>
+            <p><strong>Prix :</strong> ${ride.price} €</p>
+            <div class="text-center" style="position:absolute; bottom:10px; right:10px; background:none; border:none; font-size:20px; cursor:pointer;">
+                <a href="/${ride.uuid}/" class="btn btn-primary">See more</a>
+            </div>
+        `;
+        
+
+        document.getElementById('close-info').addEventListener('click', () => {
+            card.style.display = 'none';
+        });
+
+        
+
+        card.style.borderLeft = `5px solid ${color}`;
+        card.style.display = 'block';
+    }
+
+
+    function clearMap() {
+        layers.forEach(layer => {
+            map.removeLayer(layer);
+        });
+        layers.length = 0;
+    }
+
+    document.getElementById('reset-date').addEventListener('click', () => {
+        document.getElementById('start_dt').value = '';
+        clearMap();
+        displayRides(rides);
+    });
+
+    displayRides(rides)
+
+</script>
+
+{% endblock %}
