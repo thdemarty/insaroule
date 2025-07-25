@@ -1,6 +1,9 @@
 import datetime
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.gis.geos import GEOSGeometry, Point
+from django.contrib.gis.db.models.functions import Distance
+from django.contrib.gis.measure import D
 from carpool.models import Location
 from carpool.models.ride import Ride
 from django.contrib.auth.decorators import login_required
@@ -11,6 +14,7 @@ from django.db.models.functions import TruncDate
 from django.http import HttpResponse
 from django.views.decorators.http import require_http_methods
 from chat.models import ChatRequest
+
 
 from django.core.paginator import Paginator
 
@@ -81,17 +85,54 @@ def rides_detail(request, pk):
     ride = get_object_or_404(Ride, pk=pk)
     context = {
         "ride": ride,
+        "geometry": ride.geometry.geojson,
     }
     return render(request, "rides/detail.html", context)
 
 
 @login_required
 def rides_list(request):
-    ride_list = Ride.objects.annotate(ride_date=TruncDate("start_dt")).order_by(
+    rides = Ride.objects.all()
+
+    # ====================================================== #
+    # Filters
+    # ====================================================== #
+    filter_date = request.GET.get("start_dt", "")
+    filter_start = request.GET.get("d_latlng", "")
+    filter_end = request.GET.get("a_latlng", "")
+
+    if filter_date:
+        # Get rides for a specific date
+        filter_date = datetime.datetime.strptime(filter_date, "%Y-%m-%d").date()
+        rides = rides.filter(start_dt__date=filter_date)
+        print("Rides:", rides)
+
+    if filter_start:
+        # Do the postgis check if the location is within 10km of the geometry
+        # Check if filter_start is in the format "longitude,latitude"
+        try:
+            lat, lng = map(float, filter_start.split(","))
+            point = Point(lng, lat, srid=4326)  # (lng, lat) — correct order for GEOS
+            print("Point:", point)
+            # Annotate rides with distance from the point
+            rides = rides.annotate(distance=Distance("geometry", point))
+            rides = rides.filter(distance__lte=D(km=10))
+        except ValueError:
+            print("Invalid coordinates :", filter_start)
+            return HttpResponse(
+                "Invalid coordinates format for start location", status=400
+            )
+
+    if filter_end:
+        # Do the postgis check if the location is within 10km of the geometry
+        # Do nothing for now (or it will be to exclusive to the rides)
+        pass
+
+    rides = rides.annotate(ride_date=TruncDate("start_dt")).order_by(
         "ride_date", "start_dt"
     )
 
-    paginator = Paginator(ride_list, 4)  # Show 4 rides per page.
+    paginator = Paginator(rides, 4)  # Show 4 rides per page.
 
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
@@ -102,6 +143,11 @@ def rides_list(request):
     querystring = querydict.urlencode()
 
     context = {
+        "filter_date": filter_date,
+        "d_fulltext": request.GET.get("d_fulltext", ""),
+        "filter_departure": request.GET.get("d_latlng", ""),
+        "filter_arrival": request.GET.get("a_latlng", ""),
+        "a_fulltext": request.GET.get("a_fulltext", ""),
         "rides": page_obj.object_list,
         "page_obj": page_obj,
         "querystring": querystring,
@@ -150,7 +196,7 @@ def rides_create(request):
                 end_loc=arrival,
                 payment_method=form.cleaned_data["payment_method"],
                 price=form.cleaned_data["price_per_seat"],
-                geometry=form.cleaned_data["r_geometry"],
+                geometry=GEOSGeometry(form.cleaned_data["r_geometry"], srid=4326),
                 duration=datetime.timedelta(hours=form.cleaned_data["r_duration"]),
             )
 

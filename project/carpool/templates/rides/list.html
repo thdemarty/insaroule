@@ -4,9 +4,16 @@
 
 {% block extrahead %}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
 
 
 <style>
+    /* Choices-js z-index */
+    .choices__list--dropdown,
+    .choices__list[aria-expanded] {
+        z-index: 2; /* greater than z-index of stretched-link */
+    }
+
     .circle {
         width: 10px;
         height: 10px;
@@ -32,26 +39,28 @@
 <div class="container mt-3">
     <div class="card mb-4 text-bg-light">
         <div class="card-body">
-            <form method="get" action="">
+            <form method="GET">
+                <input type="hidden" name="d_fulltext" id="id_d_fulltext" value="{{ d_fulltext }}">
+                <input type="hidden" name="d_latlng" id="id_d_latlng" value="{{ filter_departure }}">
+                <input type="hidden" name="a_fulltext" id="id_a_fulltext" value="{{ a_fulltext }}">
+                <input type="hidden" name="a_latlng" id="id_a_latlng" value="{{ filter_arrival }}">
+
                 <div class="row">
-                    <div class="col mb-md-3 mb-lg-0">
-                        <label for="depature" class="form-label">Departure</label>
-                        <input type="text" id="depature" name="departure" class="form-control"
-                            placeholder="Search for a city" required>
+                    <div class="col mb-3 mb-lg-0">
+                        <!-- Autcomplete for departure -->
+                        <select class="form-select" id="departure" value="{{ filter_departure }}"></select>
                     </div>
 
-                    <div class="col-lg mb-md-3 mb-lg-0">
-                        <label for="arrival" class="form-label">Arrival</label>
-                        <input type="text" id="arrival" name="arrival" class="form-control"
-                            placeholder="Search for a city" required>
+                    <div class="col-lg mb-3 mb-lg-0">
+                        <!-- Autcomplete for arrival -->
+                        <select class="form-select" id="arrival" value="{{ filter_arrival }}"></select>
                     </div>
 
-                    <div class="col-lg mb-md-3 mb-lg-0">
-                        <label for="start_dt" class="form-label">Date</label>
-                        <input type="date" id="start_dt" name="start_dt" class="form-control" required>
+                    <div class="col-lg d-grid align-self-center mb-3 mb-lg-0">
+                        <input type="date" id="start_dt" name="start_dt" class="form-control" value="{{ filter_date|date:"Y-m-d" }}" required>
                     </div>
 
-                    <div class="col d-grid align-self-end mb-md-3 mb-lg-0">
+                    <div class="col d-grid align-self-center mb-md-3 mb-lg-0">
                         <button type="submit" class="btn btn-primary">Search</button>
                     </div>
                 </div>
@@ -64,7 +73,7 @@
             <h5>Sort by</h5>
             <form method="get">
                 <div class="mb-3">
-                    <select name="sort" class="form-select" disabled><!--TODO--></select>
+                    <select name="sort" class="form-select" disabled></select>
                 </div>
             </form>
         </div>
@@ -197,3 +206,131 @@
 </div>
 
 {% endblock %}
+
+{% block extrascript %}
+<script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+
+<script>
+    // Constants
+    const WAITING_BEFORE_REQUEST = 500;
+
+
+    // Autocomplete elements
+    const departureEl = document.getElementById('departure');
+    const arrivalEl = document.getElementById('arrival');
+
+    // departure information
+    const hDepartureFullText = document.getElementById('id_d_fulltext');
+    const hDepartureLatLng = document.getElementById('id_d_latlng');
+
+    // arrival information
+    const hArrivalFullText = document.getElementById('id_a_fulltext');
+    const hArrivalLatLng = document.getElementById('id_a_latlng');
+
+    // Initialize Choices.js for autocomplete
+    const departure = new Choices(departureEl, {
+        removeItemButton: true,
+        placeholder: true,
+        placeholderValue: 'Search for an address of departure',
+    })
+    const arrival = new Choices(arrivalEl, {
+        removeItemButton: true,
+        placeholder: true,
+        placeholderValue: 'Search for an address of arrival',
+    })
+
+    // =================================================================
+    // Event listeners for addresses search
+    // =================================================================
+    departureEl.addEventListener('change', (event) => {
+        const selected = departure.getValue();
+
+        hDepartureFullText.value = selected.label;
+        hDepartureLatLng.value = `${selected.customProperties.longitude},${selected.customProperties.latitude}`;
+    });
+
+    arrivalEl.addEventListener('change', (event) => {
+        const selected = arrival.getValue();
+
+        hArrivalFullText.value = selected.label;
+        hArrivalLatLng.value = `${selected.customProperties.longitude},${selected.customProperties.latitude}`;
+    });
+
+    departure.passedElement.element.addEventListener('search', async (event) => {
+        clearTimeout(event.target.timer);
+        
+        event.target.timer = setTimeout(async () => {
+            try {
+                const response = await fetch(`/api/completion/?text=${event.detail.value}`);
+                const data = await response.json();
+                if (data.status !== 'OK') {
+                    return;
+                }
+                departure.clearChoices();
+                departure.setChoices(data.results, 'value', 'fulltext', true);
+            } catch (error) {
+                console.error('Error fetching addresses:', error);
+            }
+        }, WAITING_BEFORE_REQUEST);
+    })
+
+    departure.passedElement.element.addEventListener('removeItem', (event) => {
+        hDepartureFullText.value = '';
+        hDepartureLatLng.value = '';
+    });
+
+
+    arrival.passedElement.element.addEventListener('search', async (event) => {
+        clearTimeout(event.target.timer);
+        
+        event.target.timer = setTimeout(async () => {
+            try {
+                const response = await fetch(`/api/completion/?text=${event.detail.value}`);
+                const data = await response.json();
+                if (data.status !== 'OK') {
+                    return;
+                }
+                arrival.clearChoices();
+                arrival.setChoices(data.results, 'value', 'fulltext', true);
+            } catch (error) {
+                console.error('Error fetching addresses:', error);
+            }
+        }, WAITING_BEFORE_REQUEST);
+    })
+
+    arrival.passedElement.element.addEventListener('removeItem', (event) => {
+        hArrivalFullText.value = '';
+        hArrivalLatLng.value = '';
+    });
+
+
+    // When loading the page, set the values if they are existing in the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const dFulltext = urlParams.get('d_fulltext');
+    const dLatLng = urlParams.get('d_latlng');
+    const aFulltext = urlParams.get('a_fulltext');
+    const aLatLng = urlParams.get('a_latlng');
+    var d_latitude = undefined;
+    var d_longitude = undefined;
+    var a_latitude = undefined;
+    var a_longitude = undefined;
+
+    // a_latlng and d_latlng are in the format "latitude,longitude"
+    if (dLatLng) {
+        [d_latitude, d_longitude] = dLatLng.split(',');
+    }
+
+    if (aLatLng) {
+        [a_latitude, a_longitude] = aLatLng.split(',');
+    }
+
+    if (dFulltext && dLatLng) {
+        departure.setValue([`${d_latitude}/${d_longitude}`, dFulltext])
+    }
+
+    if (aFulltext && aLatLng) {
+        arrival.setValue([`${a_latitude}/${a_longitude}`, aFulltext])
+    }
+
+</script>
+{% endblock extrascript %}

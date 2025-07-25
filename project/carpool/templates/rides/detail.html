@@ -41,7 +41,7 @@
         <input type="hidden" name="" id="id_d_longitude" value="{{ ride.start_loc.lng|stringformat:"g" }}">
         <input type="hidden" name="" id="id_a_latitude" value="{{ ride.end_loc.lat|stringformat:"g" }}">
         <input type="hidden" name="" id="id_a_longitude" value="{{ ride.end_loc.lng|stringformat:"g" }}">
-        <input type="hidden" name="" id="id_r_geometry" value="{{ ride.geometry|default_if_none:"" }}">
+        <input type="hidden" name="" id="id_r_geometry" value="{{ geometry|default_if_none:"" }}">
 
 
         <h1>{{ ride.start_dt|date:"l j F Y" }}</h1>
