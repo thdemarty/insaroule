@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-06 20:41+0200\n"
+"POT-Creation-Date: 2025-07-25 10:44+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,28 +18,33 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: accounts/admin.py:13
-#: accounts/templates/registration/verify_email/email_sent.html:7
+#: accounts/admin.py:14
+#: accounts/templates/registration/verify_email/email_sent.html:8
 msgid "Email verification"
 msgstr "Vérification de l'adresse e-mail"
 
 #: accounts/forms.py:27 accounts/forms.py:89
 msgid "This email is already in use. Please use another email."
-msgstr "Cette adresse e-mail est déjà utilisée. Veuillez en utiliser une autre."
+msgstr ""
+"Cette adresse e-mail est déjà utilisée. Veuillez en utiliser une autre."
 
 #: accounts/forms.py:76
 msgid "New Email"
 msgstr "Nouvelle adresse e-mail"
 
-#: accounts/models.py:9
+#: accounts/models.py:12
+msgid "UUID"
+msgstr ""
+
+#: accounts/models.py:19
 msgid "Email Address"
 msgstr "Adresse e-mail"
 
-#: accounts/tasks.py:16
+#: accounts/tasks.py:17
 msgid "Vérification de votre adresse email"
 msgstr "Vérification de votre adresse e-mail"
 
-#: accounts/tasks.py:85
+#: accounts/tasks.py:116
 msgid "Data export"
 msgstr "Exportation de données"
 
@@ -76,11 +81,11 @@ msgid ""
 "includes your profile information, activity logs, and any other data we hold "
 "about you. Here is a summary of the data we have collected about you:"
 msgstr ""
-"Conformément au RGPD, vous pouvez exporter vos données personnelles depuis notre "
-"plateforme dans un format structuré, couramment utilisé et lisible par machine. "
-"Cela inclut vos informations de profil, les journaux d'activité et toutes les autres "
-"données que nous détenons à votre sujet. Voici un résumé des données que nous "
-"avons collectées à votre sujet :"
+"Conformément au RGPD, vous pouvez exporter vos données personnelles depuis "
+"notre plateforme dans un format structuré, couramment utilisé et lisible par "
+"machine. Cela inclut vos informations de profil, les journaux d'activité et "
+"toutes les autres données que nous détenons à votre sujet. Voici un résumé "
+"des données que nous avons collectées à votre sujet :"
 
 #: accounts/templates/account/data_export.html:16
 msgid "Profile"
@@ -129,17 +134,17 @@ msgid ""
 "depending on the amount of data you have. If you have any questions or need "
 "assistance, please contact our support team."
 msgstr ""
-"Pour exporter vos données, cliquez sur le bouton ci-dessous. Vous "
-"recevrez un fichier contenant vos données dans un format structuré. Cela "
-"peut prendre quelques instants en fonction de la quantité de données que "
-"vous avez. Si vous avez des questions ou avez besoin d'assistance, "
-"veuillez contacter notre équipe d'assistance."
+"Pour exporter vos données, cliquez sur le bouton ci-dessous. Vous recevrez "
+"un fichier contenant vos données dans un format structuré. Cela peut prendre "
+"quelques instants en fonction de la quantité de données que vous avez. Si "
+"vous avez des questions ou avez besoin d'assistance, veuillez contacter "
+"notre équipe d'assistance."
 
 #: accounts/templates/account/data_export.html:52
 msgid "Download my data"
 msgstr "Télécharger mes données"
 
-#: accounts/templates/account/data_export_email.txt:3
+#: accounts/templates/account/data_export_email.txt:4
 msgid ""
 "You have requested an export of your data from Insaroule. Please find the "
 "attached file containing your data. The file is in json format, which can be "
@@ -151,8 +156,8 @@ msgstr ""
 "trouver le fichier joint contenant vos données. Le fichier est au format "
 "json, qui peut être facilement importé dans d'autres applications ou "
 "services. Si vous avez des questions ou avez besoin d'une assistance "
-"supplémentaire, n'hésitez pas à nous contacter. Cordialement, "
-"L'équipe Insaroule"
+"supplémentaire, n'hésitez pas à nous contacter. Cordialement, L'équipe "
+"Insaroule"
 
 #: accounts/templates/account/detail.html:31
 msgid "Account Recovery"
@@ -213,7 +218,8 @@ msgstr "Réinitialisation du mot de passe terminée"
 
 #: accounts/templates/registration/password_reset/complete.html:8
 msgid "Your password has been set. You may go ahead and log in now."
-msgstr "Votre mot de passe a été défini. Vous pouvez maintenant vous connecter."
+msgstr ""
+"Votre mot de passe a été défini. Vous pouvez maintenant vous connecter."
 
 #: accounts/templates/registration/password_reset/complete.html:12
 msgid "Log in"
@@ -228,18 +234,18 @@ msgid ""
 "We've emailed you instructions for setting your password, if an account "
 "exists with the email you entered. You should receive them shortly."
 msgstr ""
-"Nous vous avons envoyé des instructions pour définir votre mot de passe, "
-"si un compte existe avec l'adresse e-mail que vous avez saisie. Vous "
-"devez les recevoir sous peu."
+"Nous vous avons envoyé des instructions pour définir votre mot de passe, si "
+"un compte existe avec l'adresse e-mail que vous avez saisie. Vous devez les "
+"recevoir sous peu."
 
 #: accounts/templates/registration/password_reset/done.html:15
 msgid ""
 "If you don't receive an email, please make sure you've entered the address "
 "you registered with, and check your spam folder."
 msgstr ""
-"Si vous ne recevez pas d'e-mail, veuillez vous assurer que vous avez "
-"saisi l'adresse avec laquelle vous vous êtes inscrit, et vérifiez votre "
-"dossier spam."
+"Si vous ne recevez pas d'e-mail, veuillez vous assurer que vous avez saisi "
+"l'adresse avec laquelle vous vous êtes inscrit, et vérifiez votre dossier "
+"spam."
 
 #: accounts/templates/registration/password_reset/email.html:2
 #, python-format
@@ -294,14 +300,22 @@ msgstr "Bienvenue !"
 
 #: accounts/templates/registration/verify_email/complete.html:10
 msgid "Your email address has been verified. You can now log in."
-msgstr "Votre adresse e-mail a été vérifiée. Vous pouvez maintenant vous connecter."
+msgstr ""
+"Votre adresse e-mail a été vérifiée. Vous pouvez maintenant vous connecter."
 
 #: accounts/templates/registration/verify_email/complete.html:19
 msgid "Log In"
 msgstr "Se connecter"
 
-#: accounts/templates/registration/verify_email/email_sent.html:9
-    msgid ""
+#: accounts/templates/registration/verify_email/email_sent.html:14
+#, python-format
+msgid ""
+"You just requested a verification email. Please wait. <span id=\"cooldown-"
+"timer\">%(minutes)s</span> minutes."
+msgstr ""
+
+#: accounts/templates/registration/verify_email/email_sent.html:22
+msgid ""
 "A message has been sent to your email address. Please click the link in the "
 "email to verify your email address. Remember to check your spam folder if "
 "you do not see the message in your inbox."
@@ -311,7 +325,7 @@ msgstr ""
 "votre dossier spam si vous ne voyez pas le message dans votre boîte de "
 "réception."
 
-#: accounts/templates/registration/verify_email/email_sent.html:15
+#: accounts/templates/registration/verify_email/email_sent.html:29
 msgid ""
 "If you have not received the message, you can resend it by clicking the "
 "button below."
@@ -319,7 +333,7 @@ msgstr ""
 "Si vous n'avez pas reçu le message, vous pouvez le renvoyer en cliquant sur "
 "le bouton ci-dessous."
 
-#: accounts/templates/registration/verify_email/email_sent.html:21
+#: accounts/templates/registration/verify_email/email_sent.html:35
 msgid "Resend verification email"
 msgstr "Renvoyer l'e-mail de vérification"
 
@@ -361,9 +375,9 @@ msgid ""
 "your email address. If you do not verify your email address, this account "
 "will be deleted in the following days."
 msgstr ""
-"Veuillez noter que vous ne pourrez pas utiliser votre compte tant que "
-"vous n'aurez pas vérifié votre adresse e-mail. Si vous ne vérifiez pas "
-"votre adresse e-mail, ce compte sera supprimé dans les jours suivants."
+"Veuillez noter que vous ne pourrez pas utiliser votre compte tant que vous "
+"n'aurez pas vérifié votre adresse e-mail. Si vous ne vérifiez pas votre "
+"adresse e-mail, ce compte sera supprimé dans les jours suivants."
 
 #: accounts/templates/registration/verify_email/send_token.html:23
 msgid "Send the verification link to my email"

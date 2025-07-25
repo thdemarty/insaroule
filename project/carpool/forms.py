@@ -94,3 +94,6 @@ class CreateRideForm(forms.Form):
                 widget.attrs["class"] = f"{css_class} is-invalid"
             else:
                 widget.attrs.setdefault("class", "form-control")
+
+        now = timezone.now().strftime("%Y-%m-%dT%H:%M")
+        self.fields["departure_datetime"].widget.attrs["min"] = now
