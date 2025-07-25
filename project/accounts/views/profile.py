@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from accounts.forms import EmailChangeForm
+from django.contrib import messages
 from accounts.tasks import send_email_export_data
+from django.utils.translation import gettext as _
 
 
 @login_required
@@ -28,8 +30,12 @@ def email_change(request):
         if form.is_valid():
             email = form.cleaned_data["email"]
             request.user.email = email
+            # set user's email verified to False
             request.user.save()
-
+            messages.success(
+                request,
+                _("Your email has been changed. Please verify your new email address."),
+            )
             return redirect("accounts:me")
     context = {"form": form}
     return render(request, "account/email_change.html", context)
