@@ -54,10 +54,16 @@ CREATE USER insaroule_user WITH PASSWORD 'insaroule_password';
 GRANT ALL PRIVILEGES ON DATABASE insaroule TO insaroule_user;
 ```
 
-The `insaroule_user` will be used by the Django application to connect to the database. You can also create a PostGIS extension for the `insaroule` database by running the following command in the PostgreSQL shell:
+Connect to the `insaroule` database as the `postgres` user and grant the necessary privileges to the `insaroule_user` user:
 
 ```sql
 \c insaroule
+GRANT CREATE ON SCHEMA public TO insaroule_user;
+```
+
+While you are at it, you can also create a PostGIS extension for the `insaroule` database by running the following command in the PostgreSQL shell:
+
+```sql
 CREATE EXTENSION postgis;
 ```
 
