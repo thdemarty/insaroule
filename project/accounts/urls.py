@@ -32,7 +32,9 @@ urlpatterns += [
         name="verify_email_confirm",
     ),
     path(
-        "register/email/complete/", verify_email_complete, name="verify_email_complete"
+        "register/email/complete/",
+        verify_email_complete,
+        name="verify_email_complete",
     ),
 ]
 
@@ -50,7 +52,7 @@ urlpatterns += [
     path(
         "password_reset/done/",
         auth_views.PasswordResetDoneView.as_view(
-            template_name="registration/password_reset/done.html"
+            template_name="registration/password_reset/done.html",
         ),
         name="password_reset_done",
     ),
@@ -66,14 +68,15 @@ urlpatterns += [
     path(
         "password_reset/complete/",
         auth_views.PasswordResetCompleteView.as_view(
-            template_name="registration/password_reset/complete.html"
+            template_name="registration/password_reset/complete.html",
         ),
         name="password_reset_complete",
     ),
     path(
         "password_change/",
         auth_views.PasswordChangeView.as_view(
-            form_class=PasswordChangeForm, template_name="account/password_change.html"
+            form_class=PasswordChangeForm,
+            template_name="account/password_change.html",
         ),
         name="password_change",
     ),

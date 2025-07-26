@@ -28,7 +28,8 @@ def report(request, jr_pk):
 def user_report(request, user_pk):
     user = get_object_or_404(User, pk=user_pk)
     join_request = get_object_or_404(
-        ChatRequest, pk=request.POST.get("join_request_id")
+        ChatRequest,
+        pk=request.POST.get("join_request_id"),
     )
 
     # Handle the user report submission
@@ -81,7 +82,7 @@ def mod_center(request):
 def index(request):
     outgoing_requests = ChatRequest.objects.filter(user=request.user)
     incoming_requests = ChatRequest.objects.filter(
-        ride__in=request.user.rides_as_driver.all()
+        ride__in=request.user.rides_as_driver.all(),
     )
 
     context = {
@@ -109,7 +110,7 @@ def room(request, jr_pk):
 
     outgoing_requests = ChatRequest.objects.filter(user=request.user)
     incoming_requests = ChatRequest.objects.filter(
-        ride__in=request.user.rides_as_driver.all()
+        ride__in=request.user.rides_as_driver.all(),
     )
 
     # Keep rides that are from today or in the future

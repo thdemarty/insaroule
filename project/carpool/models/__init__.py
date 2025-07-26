@@ -72,7 +72,9 @@ class Step(models.Model):
 
 class Vehicle(models.Model):
     name = models.CharField(
-        verbose_name=_("name"), help_text=_("Name of the vehicle"), max_length=50
+        verbose_name=_("name"),
+        help_text=_("Name of the vehicle"),
+        max_length=50,
     )
 
     seats = models.PositiveIntegerField(
@@ -84,7 +86,9 @@ class Vehicle(models.Model):
     )
 
     color = models.CharField(
-        verbose_name=_("color"), help_text=_("Color of the vehicle"), max_length=50
+        verbose_name=_("color"),
+        help_text=_("Color of the vehicle"),
+        max_length=50,
     )
 
     def __str__(self):

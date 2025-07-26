@@ -34,14 +34,16 @@ class RegisterTest(TestCase):
         with override("en"):
             response = self.client.get(reverse("accounts:register"))
             self.assertIn(
-                "Registrations are currently disabled.", response.content.decode()
+                "Registrations are currently disabled.",
+                response.content.decode(),
             )
 
         settings.ALLOW_REGISTRATION = True
         with override("en"):
             response = self.client.get(reverse("accounts:register"))
             self.assertNotIn(
-                "Registrations are currently disabled.", response.content.decode()
+                "Registrations are currently disabled.",
+                response.content.decode(),
             )
 
 
@@ -59,7 +61,11 @@ class VerifyEmailTest(TestCase):
         site_base_url = "http://testserver"
 
         send_verification_email.delay(
-            user.username, user.pk, user.email, token, site_base_url
+            user.username,
+            user.pk,
+            user.email,
+            token,
+            site_base_url,
         )
 
         self.assertTrue(mock_send.called)

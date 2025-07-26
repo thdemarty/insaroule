@@ -12,7 +12,11 @@ from django.utils.translation import gettext as _
 
 @shared_task
 def send_verification_email(
-    user_username, user_pk, user_email, user_token, site_base_url: str
+    user_username,
+    user_pk,
+    user_email,
+    user_token,
+    site_base_url: str,
 ):
     subject = "[INSAROULE] - " + _("Vérification de votre adresse email")
     message = render_to_string(
@@ -99,12 +103,14 @@ def send_email_export_data(user_pk):
                         "comment",
                         "steps",
                     ],
-                )
+                ),
             ),
             "as_rider": json.loads(
                 serializers.serialize(
-                    "json", user.rides_as_rider.all(), use_natural_primary_keys=True
-                )
+                    "json",
+                    user.rides_as_rider.all(),
+                    use_natural_primary_keys=True,
+                ),
             ),
         },
     }

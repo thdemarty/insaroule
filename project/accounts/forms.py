@@ -24,7 +24,7 @@ class RegisterForm(UserCreationForm):
         email_check = User.objects.filter(email=email)
         if email_check.exists():
             raise forms.ValidationError(
-                _("This email is already in use. Please use another email.")
+                _("This email is already in use. Please use another email."),
             )
 
         return email
@@ -86,7 +86,7 @@ class EmailChangeForm(forms.Form):
         email_check = User.objects.filter(email=email)
         if email_check.exists():
             raise forms.ValidationError(
-                _("This email is already in use. Please use another email.")
+                _("This email is already in use. Please use another email."),
             )
 
         return email

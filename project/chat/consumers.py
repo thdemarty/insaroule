@@ -16,18 +16,19 @@ class ChatConsumer(AsyncWebsocketConsumer):
         self.room_group_name = f"chat_{self.room_name}"
 
         self.chat_request = await sync_to_async(ChatRequest.objects.get)(
-            pk=self.room_name
+            pk=self.room_name,
         )
 
         is_participant = await sync_to_async(
-            lambda: self.user in [self.chat_request.user, self.chat_request.ride.driver]
+            lambda: self.user
+            in [self.chat_request.user, self.chat_request.ride.driver],
         )()
 
         is_moderator = await sync_to_async(self.user.has_perm)(
-            "chat.can_moderate_messages"
+            "chat.can_moderate_messages",
         )
 
-        if self.user.is_anonymous or not is_participant and not is_moderator:
+        if self.user.is_anonymous or (not is_participant and not is_moderator):
             await self.close()
             return
 
@@ -39,7 +40,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             ChatMessage.objects.filter(chat_request=self.chat_request)
             .select_related("sender")
             .order_by("timestamp")[:50]
-            .values("pk", "sender__uuid", "content", "timestamp", "hidden")
+            .values("pk", "sender__uuid", "content", "timestamp", "hidden"),
         )
 
         for message in previous_messages:
@@ -54,8 +55,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
                             "timestamp": message["timestamp"].isoformat(),
                             "user_uuid": str(message["sender__uuid"]),
                             "hidden": message["hidden"],
-                        }
-                    )
+                        },
+                    ),
                 )
             else:
                 await self.send(
@@ -69,20 +70,18 @@ class ChatConsumer(AsyncWebsocketConsumer):
                             "timestamp": message["timestamp"].isoformat(),
                             "user_uuid": str(message["sender__uuid"]),
                             "hidden": message["hidden"],
-                        }
-                    )
+                        },
+                    ),
                 )
 
     async def disconnect(self, close_code):
         await self.channel_layer.group_discard(self.room_group_name, self.channel_name)
 
     async def receive(self, text_data):
-        """
-        Handle incoming messages from the WebSocket.
+        """Handle incoming messages from the WebSocket.
         This method processes the received message, saves it to the database,
         and broadcasts it to the chat room.
         """
-
         from chat.models import ChatMessage
 
         text_data = json.loads(text_data)
@@ -110,7 +109,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         elif "action" in text_data:
             if not self.user.has_perm("chat.can_moderate_messages"):
                 logging.warning(
-                    f"User {self.user.username} attempted to perform moderation action without permission."
+                    f"User {self.user.username} attempted to perform moderation action without permission.",
                 )
                 return
             action = text_data["action"]
@@ -119,7 +118,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             if action == "hide" and message_id:
                 # Hide the message
                 _ = await sync_to_async(
-                    ChatMessage.objects.filter(pk=message_id).update
+                    ChatMessage.objects.filter(pk=message_id).update,
                 )(hidden=True)
 
                 await self.channel_layer.group_send(
@@ -133,7 +132,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
             elif action == "unhide" and message_id:
                 _ = await sync_to_async(
-                    ChatMessage.objects.filter(pk=message_id).update
+                    ChatMessage.objects.filter(pk=message_id).update,
                 )(hidden=False)
 
                 await self.channel_layer.group_send(
@@ -146,9 +145,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 )
 
     async def chat_message(self, event):
-        """
-        Handler for type 'chat.message'.
-        """
+        """Handler for type 'chat.message'."""
         message = event["message"]
         timestamp = event["timestamp"]
         user_uuid = event["user_uuid"]
@@ -161,14 +158,12 @@ class ChatConsumer(AsyncWebsocketConsumer):
                     "message": message,
                     "timestamp": timestamp,
                     "user_uuid": user_uuid,
-                }
-            )
+                },
+            ),
         )
 
     async def chat_action(self, event):
-        """
-        Handle chat actions such as hiding or unhiding messages.
-        """
+        """Handle chat actions such as hiding or unhiding messages."""
         action = event["action"]
         message_id = event["message_id"]
 
@@ -178,6 +173,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
                     "type": "chat.action",
                     "action": action,
                     "message_id": message_id,
-                }
-            )
+                },
+            ),
         )

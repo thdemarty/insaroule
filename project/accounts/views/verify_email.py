@@ -23,9 +23,7 @@ from accounts.tokens import email_verify_token
 
 @login_required
 def verify_email_send_token(request):
-    """
-    Email verification view to send a token
-    """
+    """Email verification view to send a token"""
     if request.user.email_verified:
         print("User has already verified email, redirecting to carpool list")
         return redirect("carpool:list")
@@ -59,8 +57,7 @@ def verify_email_send_token(request):
 
 @login_required()
 def verify_email_sent(request):
-    """
-    When the email has been sent, redirect to this page. The user
+    """When the email has been sent, redirect to this page. The user
     can request another email if the cooldown is over.
     """
     if request.user.email_verified:
@@ -100,8 +97,7 @@ def verify_email_confirm(request, uidb64, token):
         user.active = True
         user.save()
         return redirect("accounts:verify_email_complete")
-    else:
-        messages.error(request, "Verification link is invalid")
+    messages.error(request, "Verification link is invalid")
     return render(request, "registration/verify_email/confirm.html")
 
 

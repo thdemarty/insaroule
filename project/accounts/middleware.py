@@ -2,8 +2,7 @@ from django.shortcuts import redirect
 
 
 class VerifyEmailMiddleware:
-    """
-    Middleware to check if the user has verified their email address.
+    """Middleware to check if the user has verified their email address.
     if the user is authenticated and has not verified their email address,
     redirect them to the verify_email_send_token view.
     """

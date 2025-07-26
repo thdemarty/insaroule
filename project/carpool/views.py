@@ -121,7 +121,8 @@ def rides_list(request):
         except ValueError:
             print("Invalid coordinates :", filter_start)
             return HttpResponse(
-                "Invalid coordinates format for start location", status=400
+                "Invalid coordinates format for start location",
+                status=400,
             )
 
     if filter_end:
@@ -130,7 +131,8 @@ def rides_list(request):
         pass
 
     rides = rides.annotate(ride_date=TruncDate("start_dt")).order_by(
-        "ride_date", "start_dt"
+        "ride_date",
+        "start_dt",
     )
 
     paginator = Paginator(rides, 4)  # Show 4 rides per page.
@@ -212,8 +214,7 @@ def rides_create(request):
 
 @login_required
 async def api_auto_completion(request) -> JsonResponse:
-    """
-    An async API proxy endpoint to get latitude and
+    """An async API proxy endpoint to get latitude and
     longitude for a given query.
     """
     text = request.GET.get("text", "")
@@ -227,9 +228,7 @@ async def api_auto_completion(request) -> JsonResponse:
 
 @login_required
 async def api_routing(request) -> JsonResponse:
-    """
-    An async API proxy endpoint to get routing information.
-    """
+    """An async API proxy endpoint to get routing information."""
     start = request.GET.get("start", "")
     end = request.GET.get("end", "")
     if not start or not end:
