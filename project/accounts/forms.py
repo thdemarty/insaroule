@@ -1,12 +1,12 @@
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.forms import PasswordResetForm as DjangoPasswordResetForm
-from django.contrib.auth.forms import PasswordChangeForm as DjangoPasswordChangeForm
-from django.contrib.auth.forms import SetPasswordForm as DjangoSetPasswordForm
 from django import forms
+from django.contrib.auth.forms import PasswordChangeForm as DjangoPasswordChangeForm
+from django.contrib.auth.forms import PasswordResetForm as DjangoPasswordResetForm
+from django.contrib.auth.forms import SetPasswordForm as DjangoSetPasswordForm
+from django.contrib.auth.forms import UserCreationForm
+from django.utils.translation import gettext_lazy as _
 
 from accounts.models import User
 from accounts.tasks import send_password_reset_email
-from django.utils.translation import gettext_lazy as _
 
 
 class RegisterForm(UserCreationForm):

@@ -1,11 +1,12 @@
 from django.urls import path
+
 from chat.views import (
+    hide_message,
     index,
-    room,
-    report,
     mod_center,
     mod_room,
-    hide_message,
+    report,
+    room,
     unhide_message,
     user_report,
 )

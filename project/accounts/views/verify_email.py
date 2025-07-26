@@ -1,15 +1,16 @@
+from datetime import timedelta
+
+from django.conf import settings
 from django.contrib import messages
-from django.contrib.sites.shortcuts import get_current_site
-from django.shortcuts import render, redirect
-from django.utils.http import urlsafe_base64_decode
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
+from django.contrib.sites.shortcuts import get_current_site
+from django.shortcuts import redirect, render
+from django.utils import timezone
+from django.utils.http import urlsafe_base64_decode
 
 from accounts.tasks import send_verification_email
 from accounts.tokens import email_verify_token
-from datetime import timedelta
-from django.utils import timezone
-from django.conf import settings
 
 # ============================================================= #
 #                   Email verification views                    #

@@ -1,5 +1,6 @@
 from django.contrib import admin
-from chat.models import ChatMessage, ChatRequest, ChatReport, ModAction
+
+from chat.models import ChatMessage, ChatReport, ChatRequest, ModAction
 
 admin.site.register(ChatRequest)
 admin.site.register(ChatReport)

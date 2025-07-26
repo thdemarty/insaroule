@@ -1,22 +1,21 @@
 import datetime
-from django.http import JsonResponse
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.gis.geos import GEOSGeometry, Point
+
+from asgiref.sync import sync_to_async
+from django.contrib.auth.decorators import login_required
 from django.contrib.gis.db.models.functions import Distance
+from django.contrib.gis.geos import GEOSGeometry, Point
 from django.contrib.gis.measure import D
+from django.core.paginator import Paginator
+from django.db.models.functions import TruncDate
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import get_object_or_404, redirect, render
+from django.views.decorators.http import require_http_methods
+
+from carpool.forms import CreateRideForm
 from carpool.models import Location
 from carpool.models.ride import Ride
-from django.contrib.auth.decorators import login_required
-from carpool.forms import CreateRideForm
 from carpool.tasks import get_autocompletion, get_routing
-from asgiref.sync import sync_to_async
-from django.db.models.functions import TruncDate
-from django.http import HttpResponse
-from django.views.decorators.http import require_http_methods
 from chat.models import ChatRequest
-
-
-from django.core.paginator import Paginator
 
 
 @login_required
@@ -45,6 +44,8 @@ def ride_map(request):
         "rides_geo": rides_geo,
     }
     return render(request, "rides/map.html", context)
+
+
 @require_http_methods(["POST"])
 def change_jrequest_status(request, jr_pk):
     join_request = get_object_or_404(ChatRequest, pk=jr_pk)

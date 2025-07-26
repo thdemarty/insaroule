@@ -1,11 +1,13 @@
-from django.utils.translation import override
-from django.test import TestCase, override_settings
+from unittest.mock import patch
+
 from django.conf import settings
+from django.test import TestCase, override_settings
+from django.urls import reverse
+from django.utils.translation import override
+
 from accounts.forms import RegisterForm
 from accounts.models import User
-from unittest.mock import patch
 from accounts.tasks import send_verification_email
-from django.urls import reverse
 
 
 class RegisterTest(TestCase):

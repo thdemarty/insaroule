@@ -1,13 +1,12 @@
-from django.shortcuts import redirect, render
-
-from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required, permission_required
-from carpool.models.ride import Ride
-from accounts.models import User
-from chat.models import ChatRequest, ChatReport, ModAction, ChatMessage
-from django.http import HttpResponse, JsonResponse
-from django.views.decorators.http import require_http_methods
 from django.core.paginator import Paginator
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import get_object_or_404, redirect, render
+from django.views.decorators.http import require_http_methods
+
+from accounts.models import User
+from carpool.models.ride import Ride
+from chat.models import ChatMessage, ChatReport, ChatRequest, ModAction
 
 
 @login_required

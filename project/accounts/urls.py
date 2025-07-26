@@ -1,15 +1,14 @@
-from django.urls import path, reverse_lazy
 from django.contrib.auth import views as auth_views
-from accounts.views import register
-from accounts.forms import PasswordResetForm, PasswordChangeForm, SetPasswordForm
+from django.urls import path, reverse_lazy
+
+from accounts.forms import PasswordChangeForm, PasswordResetForm, SetPasswordForm
+from accounts.views import profile, register
 from accounts.views.verify_email import (
+    verify_email_complete,
+    verify_email_confirm,
     verify_email_send_token,
     verify_email_sent,
-    verify_email_confirm,
-    verify_email_complete,
 )
-from accounts.views import profile
-
 
 app_name = "accounts"
 
