@@ -1,9 +1,0 @@
-django
-django-environ
-celery[redis]
-requests
-gunicorn
-uvicorn[standard]
-channels
-channels-redis
-psycopg
