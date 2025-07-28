@@ -44,7 +44,7 @@ def ride_map(request):
                     "start_t": ride.start_dt.strftime("%H:%M"),
                     "start_dt": ride.start_dt.isoformat(),
                     "price": ride.price,
-                    "duration": f"{int(ride.duration.total_seconds() // 3600)}h {int((ride.duration.total_seconds() % 3600) // 60)}",
+                    "duration": f"{int(ride.duration.total_seconds() // 3600)}h{int((ride.duration.total_seconds() % 3600) // 60)}",
                 }
             )
 
