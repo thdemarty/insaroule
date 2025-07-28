@@ -34,7 +34,7 @@ omit = [
 ]
 exclude_also = [    
     "if settings\\.DEBUG:",
-    "def __str__:",
+    "def __str__",
 ]
 
 show_missing = true
