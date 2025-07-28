@@ -14,6 +14,12 @@ def report(request, jr_pk):
     join_request = get_object_or_404(ChatRequest, pk=jr_pk)
 
     if request.method == "POST":
+        # check if the user is a participant in the chat
+        if request.user not in [join_request.user, join_request.ride.driver]:
+            return HttpResponse(
+                "You are not allowed to report this chat request", status=403
+            )
+
         # Handle the report submission
         ChatReport.objects.create(
             chat_request=join_request,
@@ -51,6 +57,7 @@ def hide_message(request, id):
     return JsonResponse({"status": "success"})
 
 
+@permission_required("chat.can_moderate_messages", raise_exception=True)
 def unhide_message(request, id):
     message = get_object_or_404(ChatMessage, pk=id)
     message.hidden = False
@@ -67,7 +74,7 @@ def mod_room(request, jr_pk):
 
 @permission_required("chat.can_moderate_messages", raise_exception=True)
 def mod_center(request):
-    reports = ChatRequest.objects.all()
+    reports = ChatRequest.objects.all().order_by("-created_at")
     paginator = Paginator(reports, 10)  # Show 10 reports per page
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
@@ -97,14 +104,13 @@ def index(request):
 def room(request, jr_pk):
     join_request = get_object_or_404(ChatRequest, pk=jr_pk)
 
-    # FIXME this seems wrong
-    if request.user != join_request.ride.driver:
-        with_user = join_request.ride.driver
-    elif request.user == join_request.ride.driver:
-        with_user = join_request.user
-    else:
-        # TODO: log if user is not allowed to access this room
+    if request.user not in [join_request.user, join_request.ride.driver]:
         return HttpResponse("You are not allowed to access this room", status=403)
+
+    if request.user == join_request.user:
+        with_user = join_request.ride.driver
+    else:
+        with_user = join_request.user
 
     shared_ride_count = Ride.objects.count_shared_ride(request.user, with_user)
 
