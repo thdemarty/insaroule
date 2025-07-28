@@ -1,34 +1,28 @@
 # How to contribute to the project
-Fork the repository under your namespace (by clicking the fork button on the top right).
+Fork the repository under your namespace (by clicking the fork button on the top right). Clone your forked repository to your local machine using the following command:
 
-## Create and setup your virtual environment
-Clone the forked repository to your local machine and create a virtual environment by running the following command:
 ```bash
-python3 -m venv env
+git clone <your_forked_repository_url>
 ```
 
-Activate the virtual environment by running the following command:
+Then `cd` into the project directory:
+
 ```bash
-source env/bin/activate
+cd insaroule
 ```
 
-Install `uv` if you don't have it installed:
-```bash
-pip install uv
-```
+## Setup your environment
+This project is using `uv` to manage dependencies and run the application. To get started, you [need to install `uv`](https://docs.astral.sh/uv/#installation). Once you have `uv` installed, run the following command that will create a virtual environment and install the dependencies (including development dependencies) in it:
 
-`uv` is a command-line tool for managing and running Python applications in isolated environments. It is known to be faster installing dependencies than `pip`. It comes with a lot of features that make it easier to work with Python projects, such as dependency management, virtual environments, and more.
-
-Install the global and dev dependencies by running the following command:
 ```bash
-uv pip install -r requirements.txt -r requirements-dev.txt
+uv sync --dev
 ```
 
 ## Setup pre-commit hooks
 This project uses pre-commit hooks to ensure code quality and consistency. Pre-commit hooks are scripts that run automatically before you commit your changes to the repository. They can help catch common mistakes and enforce coding standards. To setup pre-commit hooks, you need to run the following command:
 
 ```bash
-pre-commit install
+uv run pre-commit install
 ```
 
 ## Setup the PostgreSQL database
@@ -105,7 +99,7 @@ Sources: [Redis on Linux documentation](https://redis.io/docs/latest/operate/oss
 As it was mentioned above, this project uses Redis to handle background tasks. To run the background tasks worker, you need to run the following command inside the `project` directory:
 
 ```bash
-celery -A project worker --loglevel=info
+uv run celery -A project worker --loglevel=info
 ```
 
 NB: This command need to run when the `uvicorn` server is running, so you can open a new terminal window and run this command in parallel with the `uvicorn` server.
@@ -115,14 +109,14 @@ NB: This command need to run when the `uvicorn` server is running, so you can op
 As the project is an asynchronous Django application, you can run it using the `uvicorn` development server. To do this, run the following command inside the `project` directory:
 
 ```bash
-uvicorn project.asgi:application --reload --reload-include "*.html"
+uv run uvicorn project.asgi:application --reload --reload-include "*.html"
 ```
 
 ## Run the tests
 This project uses Django's built-in testing framework to run tests. Try to write and run tests for your changes to ensure that everything works as expected. You can run the tests by running the following command inside the `project` directory:
 
 ```bash
-python manage.py test
+uv run manage.py test
 ```
 
 ## Run the GitHub Actions locally
@@ -145,13 +139,13 @@ sudo apt-get install gettext
 You can update the translation files by running the following command:
 
 ```bash
-python manage.py makemessages -l <language_code>
+uv run manage.py makemessages -l <language_code>
 ```
 
 Replace `<language_code>` with the language code you are working on (e.g., `fr` for French, `en` for English, etc.). After making your changes to the translation files, if you want to see the changes reflected in the application, you can compile the translations by running:
 
 ```bash
-python manage.py compilemessages
+uv run manage.py compilemessages
 ```
 
 The compiled translations won't be committed to the repository, as they are generated files. If you want to have translations available in your local environment, you need to run the `compilemessages` command.
