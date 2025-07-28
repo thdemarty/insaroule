@@ -33,7 +33,6 @@ def verify_email_send_token(request):
         and request.user.has_email_verify_cooldown
     ):
         # Early return if the user has a cooldown
-        print("Early return due to cooldown")
         return redirect("accounts:verify_email_sent")
 
     if request.method == "POST":

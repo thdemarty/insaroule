@@ -10,7 +10,7 @@ urlpatterns = [
     path("chat/", include("chat.urls", namespace="chat")),
 ]
 
-if settings.DEBUG:
+if settings.DEBUG:  # pragma: no cover
     from django.views.static import serve
 
     urlpatterns += [
