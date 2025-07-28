@@ -57,6 +57,7 @@ def hide_message(request, id):
     return JsonResponse({"status": "success"})
 
 
+@permission_required("chat.can_moderate_messages", raise_exception=True)
 def unhide_message(request, id):
     message = get_object_or_404(ChatMessage, pk=id)
     message.hidden = False
