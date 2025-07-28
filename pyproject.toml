@@ -16,8 +16,27 @@ dependencies = [
     "uvicorn[standard]>=0.35.0",
 ]
 
+
 [dependency-groups]
 dev = [
+    "coverage[toml]>=7.10.1",
+    "factory-boy>=3.3.3",
     "pre-commit>=4.2.0",
+    "pytest>=8.4.1",
     "ruff>=0.12.5",
 ]
+
+[tool.coverage.report]
+fail_under = 100
+omit = [
+    "*/migrations/*",
+    "manage.py",
+]
+exclude_also = [    
+    "if settings\\.DEBUG:",
+    "def __str__:",
+]
+
+show_missing = true
+skip_covered = true
+
