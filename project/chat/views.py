@@ -74,7 +74,7 @@ def mod_room(request, jr_pk):
 
 @permission_required("chat.can_moderate_messages", raise_exception=True)
 def mod_center(request):
-    reports = ChatRequest.objects.all()
+    reports = ChatRequest.objects.all().order_by("-created_at")
     paginator = Paginator(reports, 10)  # Show 10 reports per page
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
