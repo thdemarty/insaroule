@@ -1,6 +1,7 @@
-from django.shortcuts import render, redirect
 from django.conf import settings
 from django.contrib.auth import login
+from django.shortcuts import redirect, render
+
 from accounts.forms import RegisterForm
 
 

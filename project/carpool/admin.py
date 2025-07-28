@@ -1,7 +1,7 @@
 from django.contrib import admin
-from carpool.models import Vehicle, Location, Step
-from carpool.models.ride import Ride
 
+from carpool.models import Location, Step, Vehicle
+from carpool.models.ride import Ride
 
 admin.site.register(Vehicle)
 admin.site.register(Location)

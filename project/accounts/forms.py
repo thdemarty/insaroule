@@ -1,12 +1,12 @@
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.forms import PasswordResetForm as DjangoPasswordResetForm
-from django.contrib.auth.forms import PasswordChangeForm as DjangoPasswordChangeForm
-from django.contrib.auth.forms import SetPasswordForm as DjangoSetPasswordForm
 from django import forms
+from django.contrib.auth.forms import PasswordChangeForm as DjangoPasswordChangeForm
+from django.contrib.auth.forms import PasswordResetForm as DjangoPasswordResetForm
+from django.contrib.auth.forms import SetPasswordForm as DjangoSetPasswordForm
+from django.contrib.auth.forms import UserCreationForm
+from django.utils.translation import gettext_lazy as _
 
 from accounts.models import User
 from accounts.tasks import send_password_reset_email
-from django.utils.translation import gettext_lazy as _
 
 
 class RegisterForm(UserCreationForm):
@@ -24,7 +24,7 @@ class RegisterForm(UserCreationForm):
         email_check = User.objects.filter(email=email)
         if email_check.exists():
             raise forms.ValidationError(
-                _("This email is already in use. Please use another email.")
+                _("This email is already in use. Please use another email."),
             )
 
         return email
@@ -45,7 +45,7 @@ class PasswordResetForm(DjangoPasswordResetForm):
         to_email,
         html_email_template_name=None,
     ):
-        context["user"] = context["user"].id
+        context["user"] = context["user"].pk
 
         send_password_reset_email.delay(
             subject_template_name=subject_template_name,
@@ -86,7 +86,7 @@ class EmailChangeForm(forms.Form):
         email_check = User.objects.filter(email=email)
         if email_check.exists():
             raise forms.ValidationError(
-                _("This email is already in use. Please use another email.")
+                _("This email is already in use. Please use another email."),
             )
 
         return email

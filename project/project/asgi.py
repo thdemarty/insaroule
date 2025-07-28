@@ -1,5 +1,4 @@
-"""
-ASGI config for project project.
+"""ASGI config for project project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
@@ -12,8 +11,8 @@ import os
 from channels.auth import AuthMiddlewareStack
 from channels.routing import ProtocolTypeRouter, URLRouter
 from channels.security.websocket import AllowedHostsOriginValidator
-from django.core.asgi import get_asgi_application
 from chat import routing
+from django.core.asgi import get_asgi_application
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "project.settings.development")
 
@@ -25,5 +24,5 @@ application = ProtocolTypeRouter(
         "websocket": AllowedHostsOriginValidator(
             AuthMiddlewareStack(URLRouter(routing.websocket_urlpatterns)),
         ),
-    }
+    },
 )

@@ -1,7 +1,8 @@
 from uuid import uuid4
-from django.utils.translation import gettext_lazy as _
+
 from carpool.models.ride import Ride
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 
 # Create your models here.

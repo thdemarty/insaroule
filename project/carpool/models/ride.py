@@ -1,17 +1,16 @@
 from uuid import uuid4
 
 from django.contrib.gis.db import models
-from django.urls import reverse
-from django.utils.translation import gettext_lazy as _
 from django.core.validators import MinValueValidator
-from django.utils import timezone
 from django.db.models import Q
+from django.urls import reverse
+from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 
 
 class RideManager(models.Manager):
     def count_shared_ride(self, user1, user2):
-        """
-        Return the number of rides shared between two users.
+        """Return the number of rides shared between two users.
         A ride is "shared" if:
         - One user is the driver and the other is a rider.
         Or
@@ -19,7 +18,6 @@ class RideManager(models.Manager):
         And
         - The ride has ended (end_dt < now).
         """
-
         return (
             self.filter(
                 Q(driver=user1, rider=user2)

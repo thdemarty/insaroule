@@ -1,15 +1,16 @@
+from datetime import timedelta
+
+from django.conf import settings
 from django.contrib import messages
-from django.contrib.sites.shortcuts import get_current_site
-from django.shortcuts import render, redirect
-from django.utils.http import urlsafe_base64_decode
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
+from django.contrib.sites.shortcuts import get_current_site
+from django.shortcuts import redirect, render
+from django.utils import timezone
+from django.utils.http import urlsafe_base64_decode
 
 from accounts.tasks import send_verification_email
 from accounts.tokens import email_verify_token
-from datetime import timedelta
-from django.utils import timezone
-from django.conf import settings
 
 # ============================================================= #
 #                   Email verification views                    #
@@ -22,9 +23,7 @@ from django.conf import settings
 
 @login_required
 def verify_email_send_token(request):
-    """
-    Email verification view to send a token
-    """
+    """Email verification view to send a token"""
     if request.user.email_verified:
         print("User has already verified email, redirecting to carpool list")
         return redirect("carpool:list")
@@ -34,7 +33,6 @@ def verify_email_send_token(request):
         and request.user.has_email_verify_cooldown
     ):
         # Early return if the user has a cooldown
-        print("Early return due to cooldown")
         return redirect("accounts:verify_email_sent")
 
     if request.method == "POST":
@@ -58,8 +56,7 @@ def verify_email_send_token(request):
 
 @login_required()
 def verify_email_sent(request):
-    """
-    When the email has been sent, redirect to this page. The user
+    """When the email has been sent, redirect to this page. The user
     can request another email if the cooldown is over.
     """
     if request.user.email_verified:
@@ -99,8 +96,7 @@ def verify_email_confirm(request, uidb64, token):
         user.active = True
         user.save()
         return redirect("accounts:verify_email_complete")
-    else:
-        messages.error(request, "Verification link is invalid")
+    messages.error(request, "Verification link is invalid")
     return render(request, "registration/verify_email/confirm.html")
 
 

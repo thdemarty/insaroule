@@ -1,9 +1,10 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
-from accounts.forms import EmailChangeForm
 from django.contrib import messages
-from accounts.tasks import send_email_export_data
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect, render
 from django.utils.translation import gettext as _
+
+from accounts.forms import EmailChangeForm
+from accounts.tasks import send_email_export_data
 
 
 @login_required

@@ -1,15 +1,14 @@
-from django.urls import path, reverse_lazy
 from django.contrib.auth import views as auth_views
-from accounts.views import register
-from accounts.forms import PasswordResetForm, PasswordChangeForm, SetPasswordForm
+from django.urls import path, reverse_lazy
+
+from accounts.forms import PasswordChangeForm, PasswordResetForm, SetPasswordForm
+from accounts.views import profile, register
 from accounts.views.verify_email import (
+    verify_email_complete,
+    verify_email_confirm,
     verify_email_send_token,
     verify_email_sent,
-    verify_email_confirm,
-    verify_email_complete,
 )
-from accounts.views import profile
-
 
 app_name = "accounts"
 
@@ -33,7 +32,9 @@ urlpatterns += [
         name="verify_email_confirm",
     ),
     path(
-        "register/email/complete/", verify_email_complete, name="verify_email_complete"
+        "register/email/complete/",
+        verify_email_complete,
+        name="verify_email_complete",
     ),
 ]
 
@@ -51,7 +52,7 @@ urlpatterns += [
     path(
         "password_reset/done/",
         auth_views.PasswordResetDoneView.as_view(
-            template_name="registration/password_reset/done.html"
+            template_name="registration/password_reset/done.html",
         ),
         name="password_reset_done",
     ),
@@ -67,14 +68,15 @@ urlpatterns += [
     path(
         "password_reset/complete/",
         auth_views.PasswordResetCompleteView.as_view(
-            template_name="registration/password_reset/complete.html"
+            template_name="registration/password_reset/complete.html",
         ),
         name="password_reset_complete",
     ),
     path(
         "password_change/",
         auth_views.PasswordChangeView.as_view(
-            form_class=PasswordChangeForm, template_name="account/password_change.html"
+            form_class=PasswordChangeForm,
+            template_name="account/password_change.html",
         ),
         name="password_change",
     ),

@@ -1,5 +1,6 @@
 from django import forms
 from django.utils import timezone
+
 from carpool.models.ride import Ride
 
 
@@ -7,7 +8,8 @@ class CreateRideForm(forms.Form):
     # Departure information
     d_fulltext = forms.CharField(required=True, widget=forms.HiddenInput())
     d_street = forms.CharField(
-        required=False, widget=forms.HiddenInput()
+        required=False,
+        widget=forms.HiddenInput(),
     )  # Not necessary a street (could be a city)
     d_zipcode = forms.CharField(required=True, widget=forms.HiddenInput())
     d_city = forms.CharField(required=True, widget=forms.HiddenInput())
@@ -17,7 +19,8 @@ class CreateRideForm(forms.Form):
     # Arrival information
     a_fulltext = forms.CharField(required=True, widget=forms.HiddenInput())
     a_street = forms.CharField(
-        required=False, widget=forms.HiddenInput()
+        required=False,
+        widget=forms.HiddenInput(),
     )  # Not necessary a street (could be a city)
     a_zipcode = forms.CharField(required=True, widget=forms.HiddenInput())
     a_city = forms.CharField(required=True, widget=forms.HiddenInput())
@@ -35,7 +38,7 @@ class CreateRideForm(forms.Form):
                 "type": "datetime-local",
                 "class": "form-control",
                 "min": timezone.now().strftime("%Y-%m-%dT%H:%M"),
-            }
+            },
         ),
     )
 
@@ -47,7 +50,7 @@ class CreateRideForm(forms.Form):
             attrs={
                 "placeholder": "Number of seats available",
                 "class": "form-control",
-            }
+            },
         ),
         help_text="Number of seats available in the carpool.",
     )
@@ -60,7 +63,7 @@ class CreateRideForm(forms.Form):
             attrs={
                 "placeholder": "TODO Automatic price calculation",
                 "class": "form-control",
-            }
+            },
         ),
     )
 
@@ -78,7 +81,8 @@ class CreateRideForm(forms.Form):
         if price is not None and price > 0:
             if not payment:
                 self.add_error(
-                    "payment_method", "A payment method is required if a price is set."
+                    "payment_method",
+                    "A payment method is required if a price is set.",
                 )
 
     def __init__(self, *args, **kwargs):

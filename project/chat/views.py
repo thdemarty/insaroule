@@ -1,13 +1,12 @@
-from django.shortcuts import redirect, render
-
-from django.shortcuts import get_object_or_404
-from django.contrib.auth.decorators import login_required, permission_required
-from carpool.models.ride import Ride
 from accounts.models import User
-from chat.models import ChatRequest, ChatReport, ModAction, ChatMessage
-from django.http import HttpResponse, JsonResponse
-from django.views.decorators.http import require_http_methods
+from carpool.models.ride import Ride
+from django.contrib.auth.decorators import login_required, permission_required
 from django.core.paginator import Paginator
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import get_object_or_404, redirect, render
+from django.views.decorators.http import require_http_methods
+
+from chat.models import ChatMessage, ChatReport, ChatRequest, ModAction
 
 
 @login_required
@@ -29,7 +28,8 @@ def report(request, jr_pk):
 def user_report(request, user_pk):
     user = get_object_or_404(User, pk=user_pk)
     join_request = get_object_or_404(
-        ChatRequest, pk=request.POST.get("join_request_id")
+        ChatRequest,
+        pk=request.POST.get("join_request_id"),
     )
 
     # Handle the user report submission
@@ -82,7 +82,7 @@ def mod_center(request):
 def index(request):
     outgoing_requests = ChatRequest.objects.filter(user=request.user)
     incoming_requests = ChatRequest.objects.filter(
-        ride__in=request.user.rides_as_driver.all()
+        ride__in=request.user.rides_as_driver.all(),
     )
 
     context = {
@@ -110,7 +110,7 @@ def room(request, jr_pk):
 
     outgoing_requests = ChatRequest.objects.filter(user=request.user)
     incoming_requests = ChatRequest.objects.filter(
-        ride__in=request.user.rides_as_driver.all()
+        ride__in=request.user.rides_as_driver.all(),
     )
 
     # Keep rides that are from today or in the future

@@ -1,22 +1,22 @@
 import datetime
-from django.http import JsonResponse
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.gis.geos import GEOSGeometry, Point
-from django.contrib.gis.db.models.functions import Distance
-from django.contrib.gis.measure import D
-from carpool.models import Location
-from carpool.models.ride import Ride
-from django.contrib.auth.decorators import login_required
-from carpool.forms import CreateRideForm
-from carpool.tasks import get_autocompletion, get_routing
-from asgiref.sync import sync_to_async
-from django.db.models.functions import TruncDate
-from django.http import HttpResponse
-from django.views.decorators.http import require_http_methods
-from chat.models import ChatRequest
 import json
 
+from asgiref.sync import sync_to_async
+from chat.models import ChatRequest
+from django.contrib.auth.decorators import login_required
+from django.contrib.gis.db.models.functions import Distance
+from django.contrib.gis.geos import GEOSGeometry, Point
+from django.contrib.gis.measure import D
 from django.core.paginator import Paginator
+from django.db.models.functions import TruncDate
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import get_object_or_404, redirect, render
+from django.views.decorators.http import require_http_methods
+
+from carpool.forms import CreateRideForm
+from carpool.models import Location
+from carpool.models.ride import Ride
+from carpool.tasks import get_autocompletion, get_routing
 
 
 @login_required
@@ -127,7 +127,8 @@ def rides_list(request):
         except ValueError:
             print("Invalid coordinates :", filter_start)
             return HttpResponse(
-                "Invalid coordinates format for start location", status=400
+                "Invalid coordinates format for start location",
+                status=400,
             )
 
     if filter_end:
@@ -136,7 +137,8 @@ def rides_list(request):
         pass
 
     rides = rides.annotate(ride_date=TruncDate("start_dt")).order_by(
-        "ride_date", "start_dt"
+        "ride_date",
+        "start_dt",
     )
 
     paginator = Paginator(rides, 4)  # Show 4 rides per page.
@@ -218,8 +220,7 @@ def rides_create(request):
 
 @login_required
 async def api_auto_completion(request) -> JsonResponse:
-    """
-    An async API proxy endpoint to get latitude and
+    """An async API proxy endpoint to get latitude and
     longitude for a given query.
     """
     text = request.GET.get("text", "")
@@ -233,9 +234,7 @@ async def api_auto_completion(request) -> JsonResponse:
 
 @login_required
 async def api_routing(request) -> JsonResponse:
-    """
-    An async API proxy endpoint to get routing information.
-    """
+    """An async API proxy endpoint to get routing information."""
     start = request.GET.get("start", "")
     end = request.GET.get("end", "")
     if not start or not end:
