@@ -14,6 +14,12 @@ def report(request, jr_pk):
     join_request = get_object_or_404(ChatRequest, pk=jr_pk)
 
     if request.method == "POST":
+        # check if the user is a participant in the chat
+        if request.user not in [join_request.user, join_request.ride.driver]:
+            return HttpResponse(
+                "You are not allowed to report this chat request", status=403
+            )
+
         # Handle the report submission
         ChatReport.objects.create(
             chat_request=join_request,
