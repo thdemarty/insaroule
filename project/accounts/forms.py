@@ -45,7 +45,7 @@ class PasswordResetForm(DjangoPasswordResetForm):
         to_email,
         html_email_template_name=None,
     ):
-        context["user"] = context["user"].id
+        context["user"] = context["user"].pk
 
         send_password_reset_email.delay(
             subject_template_name=subject_template_name,
