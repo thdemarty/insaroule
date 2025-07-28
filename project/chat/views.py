@@ -103,14 +103,13 @@ def index(request):
 def room(request, jr_pk):
     join_request = get_object_or_404(ChatRequest, pk=jr_pk)
 
-    # FIXME this seems wrong
-    if request.user != join_request.ride.driver:
-        with_user = join_request.ride.driver
-    elif request.user == join_request.ride.driver:
-        with_user = join_request.user
-    else:
-        # TODO: log if user is not allowed to access this room
+    if request.user not in [join_request.user, join_request.ride.driver]:
         return HttpResponse("You are not allowed to access this room", status=403)
+
+    if request.user == join_request.user:
+        with_user = join_request.ride.driver
+    else:
+        with_user = join_request.user
 
     shared_ride_count = Ride.objects.count_shared_ride(request.user, with_user)
 
