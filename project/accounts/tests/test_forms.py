@@ -6,11 +6,11 @@ from django.urls import reverse
 from django.utils.translation import override
 
 from accounts.forms import (
-    RegisterForm,
-    PasswordResetForm,
-    PasswordChangeForm,
-    SetPasswordForm,
     EmailChangeForm,
+    PasswordChangeForm,
+    PasswordResetForm,
+    RegisterForm,
+    SetPasswordForm,
 )
 from accounts.tests.factories import UserFactory
 

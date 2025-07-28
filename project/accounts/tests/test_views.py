@@ -1,9 +1,10 @@
-from django.test import TestCase
+from unittest.mock import patch
 
-from accounts.tests.factories import UserFactory
+from django.test import TestCase
 from django.urls import reverse
 from django.utils import timezone
-from unittest.mock import patch
+
+from accounts.tests.factories import UserFactory
 
 
 class TestEmailVerify(TestCase):

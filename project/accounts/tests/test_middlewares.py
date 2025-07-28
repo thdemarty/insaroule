@@ -1,6 +1,7 @@
 from django.test import TestCase
-from accounts.tests.factories import UserFactory
 from django.urls import reverse
+
+from accounts.tests.factories import UserFactory
 
 
 class MiddlewareTestCase(TestCase):

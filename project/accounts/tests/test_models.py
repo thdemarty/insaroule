@@ -1,7 +1,7 @@
-from accounts.tests.factories import UserFactory
-
 from django.test import TestCase
 from django.utils import timezone
+
+from accounts.tests.factories import UserFactory
 
 
 class TestUser(TestCase):

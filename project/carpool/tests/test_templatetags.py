@@ -1,4 +1,5 @@
 from django.test import TestCase
+
 from carpool.templatetags.duration import duration
 
 
