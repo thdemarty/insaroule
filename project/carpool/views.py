@@ -1,6 +1,8 @@
 import datetime
+import json
 
 from asgiref.sync import sync_to_async
+from chat.models import ChatRequest
 from django.contrib.auth.decorators import login_required
 from django.contrib.gis.db.models.functions import Distance
 from django.contrib.gis.geos import GEOSGeometry, Point
@@ -15,8 +17,7 @@ from carpool.forms import CreateRideForm
 from carpool.models import Location
 from carpool.models.ride import Ride
 from carpool.tasks import get_autocompletion, get_routing
-from chat.models import ChatRequest
-import json
+
 
 @login_required
 def ride_map(request):
