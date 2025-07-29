@@ -33,9 +33,9 @@
     display: none;
     width: 300px;
 ">
-    <h4>Informations du trajet</h4>
+    <h4>Ride's information</h4>
     <div id="ride-details">
-        <p>Sélectionnez un trajet</p>
+        <p>Select a ride</p>
     </div>
 </div>
 
@@ -89,8 +89,8 @@
         const color = colors[(index) % colors.length]; 
 
         // Ajouter les marqueurs
-        const startMarker = L.marker(ride.start).addTo(map).bindPopup("Départ: " + ride.start_name);
-        const endMarker = L.marker(ride.end).addTo(map).bindPopup("Arrivée: " + ride.end_name);
+        const startMarker = L.marker(ride.start).addTo(map).bindPopup("Start: " + ride.start_name);
+        const endMarker = L.marker(ride.end).addTo(map).bindPopup("Destination: " + ride.end_name);
         layers.push(startMarker, endMarker);
 
         // Tracer la route
