@@ -15,9 +15,16 @@ class ChatConsumer(AsyncWebsocketConsumer):
         self.room_name = self.scope["url_route"]["kwargs"]["jr_pk"]
         self.room_group_name = f"chat_{self.room_name}"
 
-        self.chat_request = await sync_to_async(ChatRequest.objects.get)(
+        self.chat_request = await sync_to_async(ChatRequest.objects.filter)(
             pk=self.room_name,
         )
+
+        if not await self.chat_request.aexists():
+            logging.error(f"ChatRequest with pk {self.room_name} does not exist.")
+            await self.close()
+            return
+
+        self.chat_request = await self.chat_request.afirst()
 
         is_participant = await sync_to_async(
             lambda: self.user
@@ -29,6 +36,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
         )
 
         if self.user.is_anonymous or (not is_participant and not is_moderator):
+            logging.error(
+                f"User {self.user.username} attempted to join chat room {self.room_name} without permission. (Anonymous: {self.user.is_anonymous}, "
+                f"Participant: {is_participant}, Moderator: {is_moderator})",
+            )
             await self.close()
             return
 
@@ -84,12 +95,14 @@ class ChatConsumer(AsyncWebsocketConsumer):
         """
         from chat.models import ChatMessage
 
+        logging.warning(f"Received message: {text_data}")
+
         text_data = json.loads(text_data)
         if "message" in text_data:
             message = text_data["message"]
             timestamp = timezone.now()
 
-            await ChatMessage.objects.acreate(
+            message = await ChatMessage.objects.acreate(
                 chat_request=self.chat_request,
                 sender=self.user,
                 content=message,
@@ -99,10 +112,13 @@ class ChatConsumer(AsyncWebsocketConsumer):
             # Broadcast the message with user UUID
             data = {
                 "type": "chat.message",
-                "message": message,
+                "message": message.content,
                 "timestamp": timestamp.isoformat(),
-                "user_uuid": str(self.user.uuid),
+                "user_uuid": str(message.sender.uuid),
+                "message_id": message.id,
             }
+
+            logging.warning(f"Broadcasting message: {data}")
 
             await self.channel_layer.group_send(self.room_group_name, data)
 
