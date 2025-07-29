@@ -1,4 +1,3 @@
-import sys
 from channels.testing import WebsocketCommunicator as WSCommunicator
 from django.contrib.auth.models import AnonymousUser
 from django.test import TransactionTestCase
@@ -187,7 +186,6 @@ class ChatConsumerTests(TransactionTestCase):
 
         # Wait for the message to be received by the moderator
         msg = await mdc.receive_json_from()
-        print(f"received by mod: {msg}", file=sys.stderr)
 
         # Moderator send an action to hide the message
         await mdc.send_json_to(
@@ -199,8 +197,6 @@ class ChatConsumerTests(TransactionTestCase):
         )
 
         msg = await u1c.receive_json_from()
-
-        print(f"received by user1: {msg}", file=sys.stderr)
 
     async def test_unhiding_message_in_real_time(self):
         """Test that a moderator can unhide a message in real-time."""
