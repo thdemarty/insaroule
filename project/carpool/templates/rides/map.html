@@ -53,8 +53,8 @@
 
 {{ rides_geo|json_script:"rides-geo-data" }}
 <script>
-  let route = null;
   const layers = [];
+  let activeRoute = null;
 
   const rides = JSON.parse(document.getElementById("rides-geo-data").textContent);
 
@@ -94,7 +94,7 @@
         layers.push(startMarker, endMarker);
 
         // Tracer la route
-        route = L.geoJSON(ride.geometry, {
+        const route = L.geoJSON(ride.geometry, {
             style: {
                 color: color,
                 weight: 4,
@@ -105,16 +105,25 @@
         layers.push(route);
 
         route.on('click', () => {
-            showRideInfo(ride, color);
+            if (activeRoute && map.hasLayer(activeRoute)) {
+                activeRoute.setStyle({ weight: 4, opacity: 0.6 });
+            }
+
+            activeRoute = route;
+
+            showRideInfo(route, ride, color);
+            route.setStyle({ weight: 6, opacity: 0.9 });
+            map.fitBounds(route.getBounds(), { padding: [50, 50] });
         });
 
         const bounds = route.getBounds();
         if (bounds.isValid()) {
             allBounds.push(bounds);
-            updateMapBounds(localBounds);
         }
         index++;
     });
+    updateMapBounds(allBounds);
+
   }
 
   function updateMapBounds(bounds) {
@@ -133,7 +142,7 @@
     }
 
 
-  function showRideInfo(ride, color) {
+  function showRideInfo(route, ride, color) {
         
     const card = document.getElementById('ride-info-card');
     const details = document.getElementById('ride-details');
@@ -154,7 +163,10 @@
 
     document.getElementById('close-info').addEventListener('click', () => {
         card.style.display = 'none';
-    });
+        route.setStyle({ weight: 4, opacity: 0.6 });
+        activeRoute = null;
+        displayRides(rides);
+        });
 
     card.style.borderLeft = `5px solid ${color}`;
     card.style.display = 'block';
