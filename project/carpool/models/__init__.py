@@ -15,7 +15,6 @@ class Location(models.Model):
         help_text=_("Street address of the location"),
         max_length=200,
         blank=True,
-        null=True,
     )
 
     zipcode = models.CharField(
@@ -23,7 +22,6 @@ class Location(models.Model):
         help_text=_("Zipcode of the location"),
         max_length=10,
         blank=True,
-        null=True,
     )
 
     city = models.CharField(
@@ -31,7 +29,6 @@ class Location(models.Model):
         help_text=_("City of the location"),
         max_length=100,
         blank=True,
-        null=True,
     )
 
     lat = models.FloatField(

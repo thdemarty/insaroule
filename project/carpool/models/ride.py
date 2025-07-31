@@ -121,7 +121,6 @@ class Ride(models.Model):
         verbose_name=_("comment"),
         help_text=_("Comment about the ride"),
         blank=True,
-        null=True,
     )
     """
     vehicule = models.ForeignKey(
