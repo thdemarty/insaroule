@@ -10,6 +10,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+from django.utils.translation import gettext_lazy as _
 
 import environ
 
@@ -55,6 +56,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.locale.LocaleMiddleware",  # Enable locale middleware for translations
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -128,17 +130,24 @@ LOGIN_REDIRECT_URL = "carpool:list"
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
-LANGUAGE_CODE = "fr"
-
-TIME_ZONE = "Europe/Paris"
-
 USE_I18N = True
 
-USE_TZ = True
+LANGUAGE_CODE = "fr"
+
+LANGUAGES = [
+    ("fr", _("French")),
+    ("en", _("English")),
+]
 
 LOCALE_PATHS = [
     BASE_DIR / "locale",
 ]
+
+TIME_ZONE = "Europe/Paris"
+
+
+USE_TZ = True
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
