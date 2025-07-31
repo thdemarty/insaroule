@@ -17,6 +17,7 @@ from carpool.forms import CreateRideForm
 from carpool.models import Location
 from carpool.models.ride import Ride
 from carpool.tasks import get_autocompletion, get_routing
+from django.utils.timezone import localtime
 
 
 @login_required
@@ -26,6 +27,7 @@ def ride_map(request):
 
     for ride in rides:
         if ride.geometry:
+            start_dt_local = localtime(ride.start_dt)
             rides_geo.append(
                 {
                     "start": [ride.start_loc.lat, ride.start_loc.lng],
@@ -40,9 +42,9 @@ def ride_map(request):
                     "end_name": ride.end_loc.fulltext,
                     "end_lat": ride.end_loc.lat,
                     "end_lon": ride.end_loc.lng,
-                    "start_d": ride.start_dt.strftime("%A %d %B %Y"),
-                    "start_t": ride.start_dt.strftime("%H:%M"),
-                    "start_dt": ride.start_dt.isoformat(),
+                    "start_d": start_dt_local.strftime("%A %d %B %Y"),
+                    "start_t": start_dt_local.strftime("%H:%M"),
+                    "start_dt": start_dt_local.isoformat(),
                     "price": ride.price,
                     "duration": f"{int(ride.duration.total_seconds() // 3600)}h{int((ride.duration.total_seconds() % 3600) // 60)}",
                 }
