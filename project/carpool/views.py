@@ -190,14 +190,6 @@ def rides_create(request):
                 lng=form.cleaned_data["a_longitude"],
             )[0]
 
-            print("Start_dt", form.cleaned_data["departure_datetime"])
-            print(
-                "End_dt",
-                form.cleaned_data["departure_datetime"]
-                + datetime.timedelta(hours=form.cleaned_data["r_duration"]),
-            )
-            print("Duration", datetime.timedelta(hours=form.cleaned_data["r_duration"]))
-
             ride = Ride.objects.create(
                 driver=request.user,
                 start_dt=form.cleaned_data["departure_datetime"],
