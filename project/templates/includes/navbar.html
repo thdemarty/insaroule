@@ -1,4 +1,5 @@
 {% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'carpool:list' %}">INSA'Roule</a>
@@ -29,11 +30,8 @@
                 {% endif %}
             </ul>
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                {% if user.is_staff %}
-                <li class="nav-item me-3 my-auto"><a class="btn btn-sm btn-outline-danger" href="{% url 'admin:index' %}">{% translate "Admin Panel" %}</a></li>
-                {% endif %}
 
-                <li class="nav-item my-auto me-3">
+                <li class="nav-item my-auto me-3 mb-2 my-xl-auto">
                     <a class="btn btn-sm btn-outline-primary position-relative" href="{% url 'chat:index' %}">
                         {% translate "Messages" %}
                        <!-- <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle">
@@ -42,8 +40,16 @@
                     </a>
                 </li>
 
-
-
+                <div class="my-auto">
+                    <form action="{% url 'set_language' %}" method="post">
+                    {% csrf_token %}
+                    <input name="next" type="hidden" value="{{ request.path }}">
+                    <select name="language"  class="form-select form-select-sm" onchange="this.form.submit()">
+                        <option value="en" {% if LANGUAGE_CODE == 'en' %}selected{% endif %}>English</option>
+                        <option value="fr" {% if LANGUAGE_CODE == 'fr' %}selected{% endif %}>Français</option>
+                    </select>
+                    </form>
+                </div>
 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
@@ -52,6 +58,9 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li><a class="dropdown-item" href="{% url 'accounts:me' %}">{% translate "My Account" %}</a></li>
+                        {% if user.is_staff %}
+                        <li><a class="dropdown-item text-danger fw-bold" href="{% url 'admin:index' %}">{% translate "Admin Panel" %}</a></li>
+                        {% endif %}
                         <li>
                             <hr class="dropdown-divider">
                         </li>
