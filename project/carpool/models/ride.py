@@ -7,6 +7,8 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
+from multiselectfield import MultiSelectField
+
 
 class RideManager(models.Manager):
     def count_shared_ride(self, user1, user2):
@@ -100,13 +102,12 @@ class Ride(models.Model):
         blank=True,
     )
 
-    payment_method = models.CharField(
+    payment_method = MultiSelectField(
         verbose_name=_("payment method"),
         choices=PaymentMethod.choices,
-        max_length=10,
         help_text=_("The payment method for the ride"),
-        null=True,
         blank=True,
+        default=[PaymentMethod.CASH],
     )
 
     price = models.FloatField(
