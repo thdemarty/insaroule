@@ -1,14 +1,14 @@
-
+{% load i18n %}
 <form action="" method="get">
     <div class="row mb-3">
         <div class="col">
-            <input type="text" class="form-control" placeholder="user uuid">
+            <input type="text" class="form-control" placeholder="{% translate 'user uuid' %}">
         </div>
         <div class="col">
-            <input type="text" class="form-control" placeholder="search by chat content">
+            <input type="text" class="form-control" placeholder="{% translate 'search by chat content' %}">
         </div>
             <div class="col-lg-2">
-                <button type="submit" class="btn btn-primary w-100">Search</button>
+                <button type="submit" class="btn btn-primary w-100">{% translate 'Search' %}</button>
             </div>
     </div>
 </form>

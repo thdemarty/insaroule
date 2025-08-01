@@ -3,7 +3,7 @@
 {% load duration %}
 
 {% block content %}
-<link rel="stylesheet" href="{% static 'vendors/bootstrap-icons/font/bootstrap-icons.min.css' %}">
+<link rel="stylesheet" href="{% static 'vendors/bootstrap-icons/bootstrap-icons.min.css' %}">
 <div class="container-fluid mt-3">
     {{ join_request.pk|json_script:'room-name' }}
     {{ request.user.uuid|json_script:'current-user-uuid' }}

@@ -1,3 +1,4 @@
+{% load i18n %}
 {% load duration %}
 <style>
     .circle {
@@ -22,7 +23,7 @@
 
 
 <div class="list-group mb-3">
-    <span class="list-group-item text-bg-light">Ride Requests</span>
+    <span class="list-group-item text-bg-light">{% translate "Ride Requests" %}</span>
     {% for jr in outgoing_requests %}
     <a href="{% url 'chat:room' jr.pk %}" class="list-group-item list-group-item-action">
         <div class="d-flex justify-content-between">
@@ -49,8 +50,8 @@
     {% empty %}
     <a href="{% url 'carpool:list' %}" class="list-group-item list-group-item-action">
         <div class="d-flex flex-column align-items-center">
-            <span class="text-muted mb-2 small">No ride requests found</span>
-            <span type="button" class="btn btn-sm btn-outline-primary">Search a ride</span>
+            <span class="text-muted mb-2 small">{% translate "No ride requests found" %}</span>
+            <span type="button" class="btn btn-sm btn-outline-primary">{% translate "Search a ride" %}</span>
         </div>
     </a>
     {% endfor %}
@@ -58,7 +59,7 @@
 
 
 <div class="list-group">
-    <span class="list-group-item text-bg-light">Incoming requests</span>
+    <span class="list-group-item text-bg-light">{% translate "Incoming requests" %}</span>
     {% for jr in incoming_requests %}
     <a href="{% url 'chat:room' jr.pk %}" class="list-group-item list-group-item-action">
         <div class="d-flex justify-content-between">
@@ -85,8 +86,7 @@
     {% empty %}
 
     <span class="list-group-item text-muted text-center small">
-        Nobody has requested to join your rides yet.
-
+        {% translate "Nobody has requested to join your rides yet." %}
     </span>
 
     {% endfor %}
