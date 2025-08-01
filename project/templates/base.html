@@ -1,4 +1,5 @@
 {% load i18n %}
+{% load static %}
 <!doctype html>
 {% get_current_language as LANGUAGE_CODE %}
 <html lang="{{ LANGUAGE_CODE }}">
@@ -7,8 +8,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>INSA'Roule</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <link href="{% static 'vendors/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet"
+        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
 
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -92,29 +93,28 @@
 
     {% include 'messages/container.html' %}
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
+    <script src="{% static 'vendors/bootstrap/js/bootstrap.bundle.min.js' %}"
+        integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
         crossorigin="anonymous"></script>
 
-
     <div class="position-relative">
-        <img src="https://static.vecteezy.com/system/resources/thumbnails/014/012/012/small_2x/cute-cloud-simple-illustration-for-kids-drawing-png.png"
+        <img src="{% static 'img/cloud.png' %}"
             class="floating-cloud cloud-1">
     </div>
     <div class="position-relative">
-        <img src="https://static.vecteezy.com/system/resources/thumbnails/014/012/012/small_2x/cute-cloud-simple-illustration-for-kids-drawing-png.png"
+        <img src="{% static 'img/cloud.png' %}"
             class="floating-cloud cloud-2">
     </div>
     <div class="position-relative">
-        <img src="https://static.vecteezy.com/system/resources/thumbnails/014/012/012/small_2x/cute-cloud-simple-illustration-for-kids-drawing-png.png"
+        <img src="{% static 'img/cloud.png' %}"
             class="floating-cloud cloud-3">
     </div>
     <div class="position-relative">
-        <img src="https://static.vecteezy.com/system/resources/thumbnails/014/012/012/small_2x/cute-cloud-simple-illustration-for-kids-drawing-png.png"
+        <img src="{% static 'img/cloud.png' %}"
             class="floating-cloud cloud-4">
     </div>
     <div class="position-relative">
-        <img src="https://cdn-icons-png.freepik.com/256/15863/15863031.png?semt=ais_hybrid" class="floating-car car">
+        <img src="{% static 'img/car.png' %}" class="floating-car car">
     </div>
     {% block extrascript %}{% endblock %}
     {% include 'messages/script.html' %}

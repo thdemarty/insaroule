@@ -216,3 +216,7 @@ CHANNEL_LAYERS = {
         },
     },
 }
+
+ADMINS = [
+    ("Admin", env("DJANGO_ADMIN_EMAIL")),
+]
