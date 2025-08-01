@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-01 15:46+0200\n"
+"POT-Creation-Date: 2025-08-01 16:00+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -194,9 +194,6 @@ msgstr "Signalé"
 msgid "No chats to moderate"
 msgstr "Aucune discussion à modérer"
 
-#: chat/templates/chat/moderation/search.html:5
-msgid "user uuid"
-msgstr "UUID de l'utilisateur"
 
 #: chat/templates/chat/moderation/search.html:8
 msgid "search by chat content"

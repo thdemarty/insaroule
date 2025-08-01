@@ -1,4 +1,5 @@
 from accounts.models import User
+from django.db.models import Q
 from carpool.models.ride import Ride
 from django.contrib.auth.decorators import login_required, permission_required
 from django.core.paginator import Paginator
@@ -74,13 +75,28 @@ def mod_room(request, jr_pk):
 
 @permission_required("chat.can_moderate_messages", raise_exception=True)
 def mod_center(request):
+    query_username = request.GET.get("search_by_username", "")
+    query_content = request.GET.get("search_by_content", "")
+
     reports = ChatRequest.objects.all().order_by("-created_at")
+    if query_username:
+        print(f"Searching by username: {query_username}")
+        reports = reports.filter(
+            Q(user__username__icontains=query_username)
+            | Q(ride__driver__username__icontains=query_username)
+        )
+    if query_content:
+        print(f"Searching by content: {query_content}")
+        reports = reports.filter(Q(messages__content__icontains=query_content))
+
     paginator = Paginator(reports, 10)  # Show 10 reports per page
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
     context = {
         "page_obj": page_obj,
+        "search_by_username": query_username,
+        "search_by_content": query_content,
     }
     return render(request, "chat/moderation/index.html", context)
 
