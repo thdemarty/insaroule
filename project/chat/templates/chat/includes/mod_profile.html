@@ -1,18 +1,20 @@
+{% load static %}
+{% load i18n %}
 <div class="card h-100 mb-3">
     <div class="card-header">
         Moderation profile
     </div>
     <div class="card-body">
         <div class="d-flex flex-row gap-3">
-            <img src="https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg"
+            <img src="{% static 'img/avatar.jpg' %}"
                 class="rounded-circle" width="70" />
             <div class="d-flex flex-column">
                 <span class="fs-4">{{ profile.username }}</span>
                 <span>
                     {% if jr.ride.driver == profile %}
-                        <span class="badge" style="background-color: #92b389;">Driver</span>
+                        <span class="badge" style="background-color: #92b389;">{% translate "Driver" %}</span>
                     {% elif jr.user == profile %}
-                        <span class="badge text-dark" style="background-color: beige;">Requester</span>
+                        <span class="badge text-dark" style="background-color: beige;">{% translate "Requester" %}</span>
                     {% else %}
                         <span class="badge bg-danger">ERROR</span>
                     {% endif %}
@@ -27,25 +29,25 @@
             </form>
         </div>
         <div class="mt-3">
-            <h5>Report user</h5>
+            <h5>{% translate "Report user" %}</h5>
             <form action="{% url 'chat:user_report' user_pk=profile.pk %}" method="post">
                 {% csrf_token %}
                 <div class="mb-3">
                     <input type="hidden" name="join_request_id" value="{{ jr.pk }}">
-                    <label for="reason" class="form-label">Reason for reporting</label>
+                    <label for="reason" class="form-label">{% translate "Reason for reporting" %}</label>
                     <textarea class="form-control" id="reason" name="reason" rows="1" required></textarea>
                 </div>
-                <button type="submit" class="btn btn-primary">Report</button>
+                <button type="submit" class="btn btn-primary">{% translate "Report" %}</button>
             </form>
 
 
 
-            <h5 class="mt-3">Mod history</h5>
+            <h5 class="mt-3">{% translate "Mod history" %}</h5>
             <ul>
                 {% for report in profile.mod_actions_on_user.all %}
                 <li>{{ report.timestamp|date:"SHORT_DATETIME_FORMAT" }} - {{ report.reason }}</li>
                 {% empty %}
-                <li class="text-muted">No moderation actions found.</li>
+                <li class="text-muted">{% translate "No moderation actions found." %}</li>
                 {% endfor %}
             </ul>
         </div>
