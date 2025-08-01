@@ -2,10 +2,10 @@
 <form action="" method="get">
     <div class="row mb-3">
         <div class="col">
-            <input type="text" class="form-control" placeholder="{% translate 'user uuid' %}">
+            <input type="text" class="form-control" placeholder="{% translate 'username' %}" name="search_by_username" value="{{ search_by_username }}">
         </div>
         <div class="col">
-            <input type="text" class="form-control" placeholder="{% translate 'search by chat content' %}">
+            <input type="text" class="form-control" placeholder="{% translate 'search by chat content' %}" name="search_by_content" value="{{ search_by_content }}">
         </div>
             <div class="col-lg-2">
                 <button type="submit" class="btn btn-primary w-100">{% translate 'Search' %}</button>
