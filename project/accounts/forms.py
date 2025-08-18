@@ -4,7 +4,7 @@ from django.contrib.auth.forms import PasswordResetForm as DjangoPasswordResetFo
 from django.contrib.auth.forms import SetPasswordForm as DjangoSetPasswordForm
 from django.contrib.auth.forms import UserCreationForm
 from django.utils.translation import gettext_lazy as _
-
+from django.conf import settings
 from accounts.models import User
 from accounts.tasks import send_password_reset_email
 
@@ -21,6 +21,18 @@ class RegisterForm(UserCreationForm):
 
     def clean_email(self):
         email = self.cleaned_data["email"]
+
+        # Check if domain is whitelisted
+        domain = email.split("@")[1]
+        if domain not in settings.WHITELIST_DOMAINS:
+            allowed_domains = [f"@{domain}" for domain in settings.WHITELIST_DOMAINS]
+            message = _(
+                "Only emails with whitelisted domains are allowed to register. Allowed domains are:"
+            )
+            message += f"{', '.join(allowed_domains)}"
+            raise forms.ValidationError(message)
+
+        # Check if email is already in use
         email_check = User.objects.filter(email=email)
         if email_check.exists():
             raise forms.ValidationError(
