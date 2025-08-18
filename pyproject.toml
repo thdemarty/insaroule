@@ -37,9 +37,6 @@ exclude_also = ["^\\s*def __str__\\(", "if settings\\.DEBUG:"]
 show_missing = true
 skip_covered = true
 
-[tool.poe.tasks.setup]
-cmd = 'sh -c "export DJANGO_SETTINGS_MODULE=project.settings.development"'
-
 [tool.poe.tasks.test]
 help = "Running the test suite"
 env = { "DJANGO_SETTINGS_MODULE" = "project.settings.testing" }

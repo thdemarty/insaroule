@@ -3,7 +3,7 @@ from unittest.mock import patch
 from django.conf import settings
 from django.test import TestCase, override_settings
 from django.urls import reverse
-from django.utils.translation import override
+from django.utils.translation import override as override_language
 
 from accounts.forms import (
     EmailChangeForm,
@@ -45,11 +45,11 @@ class RegisterTest(TestCase):
         self.assertFalse(form.is_valid())
         self.assertIn("email", form.errors)
 
-    @override_settings(WHITELIST_DOMAINS=["example.com"])
+    @override_settings(WHITELIST_DOMAINS=["example.com"], LANGUAGE_CODE="en")
     def test_register_disable_registration(self):
         """Test that registration is disabled when ALLOW_REGISTRATION is False."""
         settings.ALLOW_REGISTRATION = False
-        with override("en"):
+        with override_language("en"):
             response = self.client.get(reverse("accounts:register"))
             self.assertIn(
                 "Registrations are currently disabled.",
@@ -57,7 +57,7 @@ class RegisterTest(TestCase):
             )
 
         settings.ALLOW_REGISTRATION = True
-        with override("en"):
+        with override_language("en"):
             response = self.client.get(reverse("accounts:register"))
             self.assertNotIn(
                 "Registrations are currently disabled.",
@@ -74,7 +74,7 @@ class RegisterTest(TestCase):
             "password1": "testpassword",
             "password2": "testpassword",
         }
-        with override("en"):
+        with override_language("en"):
             form = RegisterForm(data=valid_form_data)
             self.assertTrue(form.is_valid())
 
@@ -84,7 +84,7 @@ class RegisterTest(TestCase):
             "password1": "testpassword",
             "password2": "testpassword",
         }
-        with override("en"):
+        with override_language("en"):
             form = RegisterForm(data=invalid_form_data)
             self.assertFalse(form.is_valid())
             self.assertIn("email", form.errors)
