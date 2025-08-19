@@ -34,7 +34,7 @@ SECRET_KEY = env("DJANGO_SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env("DJANGO_DEBUG")
 
-ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=[])
+ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=[])
 
 
 # Application definition
@@ -123,6 +123,7 @@ AUTH_PASSWORD_VALIDATORS = [
 AUTH_USER_MODEL = "accounts.User"
 
 ALLOW_REGISTRATION = env("ALLOW_REGISTRATION")
+WHITELIST_DOMAINS = env.list("WHITELIST_DOMAINS", default=[])
 
 LOGIN_URL = "accounts:login"
 
@@ -220,3 +221,5 @@ CHANNEL_LAYERS = {
 ADMINS = [
     ("Admin", env("DJANGO_ADMIN_EMAIL")),
 ]
+
+DPO_EMAIL = env("DPO_EMAIL")

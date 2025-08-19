@@ -23,6 +23,7 @@ dev = [
     "coverage[toml]>=7.10.1",
     "daphne>=4.2.1",
     "factory-boy>=3.3.3",
+    "poethepoet>=0.37.0",
     "pre-commit>=4.2.0",
     "pytest>=8.4.1",
     "ruff>=0.12.5",
@@ -30,15 +31,49 @@ dev = [
 
 [tool.coverage.report]
 fail_under = 100
-omit = [
-    "*/migrations/*",
-    "manage.py",
-]
-exclude_also = [    
-    "^\\s*def __str__\\(",
-    "if settings\\.DEBUG:",
-]
+omit = ["*/migrations/*", "manage.py"]
+exclude_also = ["^\\s*def __str__\\(", "if settings\\.DEBUG:"]
 
 show_missing = true
 skip_covered = true
 
+[tool.poe.tasks.test]
+help = "Running the test suite"
+env = { "DJANGO_SETTINGS_MODULE" = "project.settings.testing" }
+cwd = "project"
+cmd = "uv run manage.py test"
+
+[tool.poe.tasks.collectstatic]
+cwd = "project"
+env = { "DJANGO_SETTINGS_MODULE" = "project.settings.development" }
+cmd = "uv run manage.py collectstatic"
+
+[tool.poe.tasks.uvicorn]
+cwd = "project"
+env = { "DJANGO_SETTINGS_MODULE" = "project.settings.development" }
+cmd = "uv run uvicorn project.asgi:application --reload --reload-include '*.html'"
+
+[tool.poe.tasks.makemigrations]
+cwd = "project"
+env = { "DJANGO_SETTINGS_MODULE" = "project.settings.development" }
+cmd = "uv run manage.py makemigrations"
+
+[tool.poe.tasks.migrate]
+cwd = "project"
+env = { "DJANGO_SETTINGS_MODULE" = "project.settings.development" }
+cmd = "uv run manage.py migrate"
+
+[tool.poe.tasks.makemessages]
+cwd = "project"
+env = { "DJANGO_SETTINGS_MODULE" = "project.settings.development" }
+cmd = "uv run manage.py makemessages"
+
+[tool.poe.tasks.compilemessages]
+cwd = "project"
+env = { "DJANGO_SETTINGS_MODULE" = "project.settings.development" }
+cmd = "uv run manage.py compilemessages"
+
+[tool.poe.tasks.celery]
+cwd = "project"
+env = { "DJANGO_SETTINGS_MODULE" = "project.settings.development" }
+cmd = "uv run celery -A project worker -l info"
