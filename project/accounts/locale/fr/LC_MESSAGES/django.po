@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-18 21:50+0200\n"
+"POT-Creation-Date: 2025-08-19 15:03+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,7 +23,7 @@ msgstr ""
 msgid "Email verification"
 msgstr "Vérification de l'adresse e-mail"
 
-#: accounts/forms.py:29
+#: accounts/forms.py:30
 msgid ""
 "Only emails with whitelisted domains are allowed to register. Allowed "
 "domains are:"
@@ -31,11 +31,12 @@ msgstr ""
 "Seuls les emails avec des domaines autorisés sont autorisés à s'inscrire. "
 "Les domaines autorisés sont :"
 
-#: accounts/forms.py:37 accounts/forms.py:99
+#: accounts/forms.py:39 accounts/forms.py:101
 msgid "This email is already in use. Please use another email."
-msgstr "Cette adresse e-mail est déjà utilisée. Veuillez en utiliser une autre."
+msgstr ""
+"Cette adresse e-mail est déjà utilisée. Veuillez en utiliser une autre."
 
-#: accounts/forms.py:86
+#: accounts/forms.py:88
 msgid "New Email"
 msgstr "Nouvelle adresse e-mail"
 
@@ -122,34 +123,18 @@ msgstr "Dernière connexion :"
 msgid "Date joined:"
 msgstr "Date d'inscription :"
 
-#: accounts/templates/account/data_export.html:29
-msgid "Rides"
-msgstr "Trajets"
-
-#: accounts/templates/account/data_export.html:34
-msgid "Published a ride:"
-msgstr "Vous avez publié un trajet :"
-
-#: accounts/templates/account/data_export.html:36
-msgid "Subscribed to a ride:"
-msgstr "Vous avez souscrit à un trajet :"
-
-#: accounts/templates/account/data_export.html:46
+#: accounts/templates/account/data_export.html:47
+#, python-format
 msgid ""
-"To export your data, click the button below. You will receive a file "
-"containing your data in a structured format. This may take a few moments "
-"depending on the amount of data you have. If you have any questions or need "
-"assistance, please contact our support team."
+"The form to automatically export your data is not fully tested yet. To "
+"receive the file containing your data, you can send us an email to <a "
+"href=\"mailto:%(dpo_email)s\">%(dpo_email)s</a>. We will respond to your "
+"requests as quickly as possible (whithin a maximum of one month)."
 msgstr ""
-"Pour exporter vos données, cliquez sur le bouton ci-dessous. Vous recevrez "
-"un fichier contenant vos données dans un format structuré. Cela peut prendre "
-"quelques instants en fonction de la quantité de données que vous avez. Si "
-"vous avez des questions ou avez besoin d'assistance, veuillez contacter "
-"notre équipe d'assistance."
-
-#: accounts/templates/account/data_export.html:52
-msgid "Download my data"
-msgstr "Télécharger mes données"
+"Le formulaire pour exporter vos données n'est pas encore implémenté. Pour "
+"recevoir le fichier contenant vos données, vous pouvez nous envoyer un mail "
+"à <a href\"mailto:%(dpo_email)s\">%(dpo_email)s</a>. Nous répondrons à votre "
+"demande aussi rapidement que possible (dans un délai maximal d'un mois)"
 
 #: accounts/templates/account/data_export_email.txt:4
 msgid ""
@@ -393,3 +378,27 @@ msgstr "Envoyer le lien de vérification sur mon adresse mail"
 #: accounts/views/profile.py:38
 msgid "Your email has been changed. Please verify your new email address."
 msgstr ""
+
+#~ msgid "Rides"
+#~ msgstr "Trajets"
+
+#~ msgid "Published a ride:"
+#~ msgstr "Vous avez publié un trajet :"
+
+#~ msgid "Subscribed to a ride:"
+#~ msgstr "Vous avez souscrit à un trajet :"
+
+#~ msgid ""
+#~ "To export your data, click the button below. You will receive a file "
+#~ "containing your data in a structured format. This may take a few moments "
+#~ "depending on the amount of data you have. If you have any questions or "
+#~ "need assistance, please contact our support team."
+#~ msgstr ""
+#~ "Pour exporter vos données, cliquez sur le bouton ci-dessous. Vous "
+#~ "recevrez un fichier contenant vos données dans un format structuré. Cela "
+#~ "peut prendre quelques instants en fonction de la quantité de données que "
+#~ "vous avez. Si vous avez des questions ou avez besoin d'assistance, "
+#~ "veuillez contacter notre équipe d'assistance."
+
+#~ msgid "Download my data"
+#~ msgstr "Télécharger mes données"

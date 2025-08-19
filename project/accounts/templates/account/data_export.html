@@ -26,7 +26,8 @@
                 <li>{% translate "Last login:" %} {{ user.last_login }}</li>
                 <li>{% translate "Date joined:" %} {{ user.date_joined }}</li>
             </ul>
-            <h5>{% translate "Rides" %}</h5>
+	    {% comment %}
+	    <h5>{% translate "Rides" %}</h5>
             <ul>
                 {% for ride in rides %}
                 <li>
@@ -39,18 +40,22 @@
                 </li>
                 {% endfor %}
             </ul>
-
             <hr>
-
+	    {% endcomment %}
             <p>
-                {% blocktranslate trimmed %}To export your data, click the button below. You will receive a file containing
+	    	{% blocktranslate trimmed %}
+	    	The form to automatically export your data is not fully tested yet. To receive the file containing your data, you can send us an email to <a href="mailto:{{ dpo_email }}">{{ dpo_email }}</a>. We will respond to your requests as quickly as possible (whithin a maximum of one month).
+		{% endblocktranslate %}
+		{% comment %}
+		{% blocktranslate trimmed %}To export your data, click the button below. You will receive a file containing
                 your data in a structured format. This may take a few moments depending on the amount of data
                 you have. If you have any questions or need assistance, please contact our support team.
-                {% endblocktranslate %}
-                <form action="" method="post">
+		{% endblocktranslate %} 
+		<form action="" method="post">
                     {% csrf_token %}
                     <button type="submit" class="btn btn-primary w-100">{% translate "Download my data" %}</button>
-                </form>
+		</form> 
+		{% endcomment %}
             </p>
 
         </div>

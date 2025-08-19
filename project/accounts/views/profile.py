@@ -2,9 +2,9 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.utils.translation import gettext as _
-
+from django.conf import settings
 from accounts.forms import EmailChangeForm
-from accounts.tasks import send_email_export_data
+# from accounts.tasks import send_email_export_data
 
 
 @login_required
@@ -55,11 +55,12 @@ def export(request):
 
     if request.method == "POST":
         # Trigger the task to send the email with the data export
-        send_email_export_data.delay(request.user.pk)
-        return redirect("accounts:me")
-
+        # send_email_export_data.delay(request.user.pk)
+        # return redirect("accounts:me")
+        pass
     # Get all the rides for which the user is the driver
     context = {
         "rides": rides,
+        "dpo_email": settings.DPO_EMAIL,
     }
     return render(request, "account/data_export.html", context)
