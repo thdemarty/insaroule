@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-25 10:44+0200\n"
+"POT-Creation-Date: 2025-08-20 21:44+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,71 +34,71 @@ msgstr ""
 msgid "Street address of the location"
 msgstr ""
 
-#: carpool/models/__init__.py:22
+#: carpool/models/__init__.py:21
 msgid "zipcode"
 msgstr ""
 
-#: carpool/models/__init__.py:23
+#: carpool/models/__init__.py:22
 msgid "Zipcode of the location"
 msgstr ""
 
-#: carpool/models/__init__.py:30
+#: carpool/models/__init__.py:28
 msgid "city"
 msgstr ""
 
-#: carpool/models/__init__.py:31
+#: carpool/models/__init__.py:29
 msgid "City of the location"
 msgstr ""
 
-#: carpool/models/__init__.py:38
+#: carpool/models/__init__.py:35
 msgid "latitude"
 msgstr ""
 
-#: carpool/models/__init__.py:39
+#: carpool/models/__init__.py:36
 msgid "Latitude of the location"
 msgstr ""
 
-#: carpool/models/__init__.py:44
+#: carpool/models/__init__.py:41
 msgid "longitude"
 msgstr ""
 
-#: carpool/models/__init__.py:45
+#: carpool/models/__init__.py:42
 msgid "Longitude of the location"
 msgstr ""
 
-#: carpool/models/__init__.py:54 carpool/models/__init__.py:75
+#: carpool/models/__init__.py:51 carpool/models/__init__.py:72
 msgid "name"
 msgstr ""
 
-#: carpool/models/__init__.py:57
+#: carpool/models/__init__.py:54
 msgid "localisation"
 msgstr ""
 
-#: carpool/models/__init__.py:58
+#: carpool/models/__init__.py:55
 msgid "Location of the step"
 msgstr ""
 
-#: carpool/models/__init__.py:64
+#: carpool/models/__init__.py:61
 msgid "order"
 msgstr ""
 
-#: carpool/models/__init__.py:65
+#: carpool/models/__init__.py:62
 msgid "Order of the step in the ride"
 msgstr ""
 
-#: carpool/models/__init__.py:75
+#: carpool/models/__init__.py:73
 msgid "Name of the vehicle"
 msgstr ""
 
-#: carpool/models/__init__.py:79
+#: carpool/models/__init__.py:78
 msgid "seats"
 msgstr ""
 
-#: carpool/models/__init__.py:80
+#: carpool/models/__init__.py:79
 msgid "Number of seats in the vehicle"
 msgstr ""
 
-#: carpool/models/__init__.py:87
+#: carpool/models/__init__.py:86
 msgid "color"
 msgstr ""
 
@@ -118,7 +118,7 @@ msgstr ""
 msgid "Wire Transfer"
 msgstr ""
 
-#: carpool/models/ride.py:42 chat/models.py:15
+#: carpool/models/ride.py:42
 msgid "UUID"
 msgstr ""
 
@@ -182,182 +182,126 @@ msgstr ""
 msgid "payment method"
 msgstr ""
 
-#: carpool/models/ride.py:109
+#: carpool/models/ride.py:108
 msgid "The payment method for the ride"
 msgstr ""
 
-#: carpool/models/ride.py:115
+#: carpool/models/ride.py:114
 msgid "price"
 msgstr ""
 
-#: carpool/models/ride.py:116
+#: carpool/models/ride.py:115
 msgid "The price of the ride"
 msgstr ""
 
-#: carpool/models/ride.py:123
+#: carpool/models/ride.py:122
 msgid "comment"
 msgstr ""
 
-#: carpool/models/ride.py:124
+#: carpool/models/ride.py:123
 msgid "Comment about the ride"
 msgstr ""
 
-#: carpool/models/ride.py:140
+#: carpool/models/ride.py:138
 msgid "geometry"
 msgstr ""
 
-#: carpool/models/ride.py:141
+#: carpool/models/ride.py:139
 msgid "Geographical representation of the ride"
 msgstr ""
 
-#: carpool/models/ride.py:148
+#: carpool/models/ride.py:147
 msgid "duration"
 msgstr ""
 
-#: carpool/models/ride.py:149
+#: carpool/models/ride.py:148
 msgid "Duration of the ride"
 msgstr ""
 
-#: carpool/templates/rides/list.html:151
+#: carpool/templates/emails/confirmed_ride.txt:1
+msgid "Hello"
+msgstr ""
+
+#: carpool/templates/emails/confirmed_ride.txt:3
+#, python-format
+msgid ""
+"Your reservation for the trip from %(departure_city)s to %(arrival_city)s on "
+"%(ride_date)s at %(ride_time)s has been confirmed."
+msgstr ""
+
+#: carpool/templates/emails/confirmed_ride.txt:8
+msgid ""
+"The driver has been informed of your reservation. You can communicate with "
+"them directly from your account if necessary."
+msgstr ""
+
+#: carpool/templates/emails/confirmed_ride.txt:13
+msgid "We wish you a pleasant ride!"
+msgstr "Nous vous souhaitant un agréable voyage !"
+
+#: carpool/templates/rides/list.html:161
 msgid "No rides found"
-msgstr ""
+msgstr "Aucun trajet trouvé"
 
-#: carpool/templates/rides/list.html:152
+#: carpool/templates/rides/list.html:162
 msgid "Consider taking the train or posting the first ride on the platform."
-msgstr ""
+msgstr "Considérer le train pour votre trajet ou publier une nouvelle offre sur la plateforme"
 
-#: carpool/templates/rides/list.html:154 templates/includes/navbar.html:17
+#: carpool/templates/rides/list.html:164 templates/includes/navbar.html:18
 msgid "Publish a ride"
 msgstr "Publier un trajet"
 
-#: chat/models.py:10
-msgid "Pending"
+#: project/settings/production.py:141
+msgid "French"
+msgstr "Français"
+
+#: project/settings/production.py:142
+msgid "English"
+msgstr "Anglais"
+
+#: templates/emails/consent_footer.txt:1
+#, python-format
+msgid ""
+"You are receiving this email because you consented to receive our "
+"communications concerning %(reason)s. You may withdraw your consent at any "
+"time by going on your account's settings %(consent_link_communication)s"
 msgstr ""
 
-#: chat/models.py:11
-msgid "Accepted"
+#: templates/emails/mandatory_footer.txt:1
+msgid ""
+"You are receiving this email because it contains essential information "
+"regarding your account or our legal obligations.To stop receiving this type "
+"of mandatory communication, you must close your account."
 msgstr ""
 
-#: chat/models.py:12
-msgid "Declined"
-msgstr ""
+#: templates/emails/signature.txt:2
+msgid "Your favorite carpooling app"
+msgstr "Votre application préférée de covoiturage"
 
-#: chat/models.py:22
-msgid "status"
-msgstr ""
-
-#: chat/models.py:25
-msgid "Status of the join request"
-msgstr ""
-
-#: chat/models.py:31
-msgid "ride"
-msgstr ""
-
-#: chat/models.py:32
-msgid "The ride for which the chat request is made"
-msgstr ""
-
-#: chat/models.py:39
-msgid "user"
-msgstr ""
-
-#: chat/models.py:40
-msgid "The user who made the chat request"
-msgstr ""
-
-#: chat/models.py:46
-msgid "created at"
-msgstr ""
-
-#: chat/models.py:47
-msgid "The date and time when the chat request was created"
-msgstr ""
-
-#: chat/models.py:61
-msgid "sender"
-msgstr ""
-
-#: chat/models.py:68
-msgid "join request"
-msgstr ""
-
-#: chat/models.py:75
-msgid "hidden"
-msgstr ""
-
-#: chat/models.py:76
-msgid "Indicates whether this message is hidden from regular users"
-msgstr ""
-
-#: chat/models.py:81
-msgid "Can moderate chat messages"
-msgstr ""
-
-#: chat/models.py:89
-msgid "chat request"
-msgstr ""
-
-#: chat/models.py:96
-msgid "reported by"
-msgstr ""
-
-#: chat/models.py:99 chat/models.py:129
-msgid "reason"
-msgstr ""
-
-#: chat/models.py:109
-msgid "Flag User"
-msgstr ""
-
-#: chat/models.py:110
-msgid "Block User"
-msgstr ""
-
-#: chat/models.py:116
-msgid "performed by"
-msgstr ""
-
-#: chat/models.py:123
-msgid "on user"
-msgstr ""
-
-#: chat/models.py:130
-msgid "Reason for the moderation action"
-msgstr ""
-
-#: chat/models.py:138
-msgid "action"
-msgstr ""
-
-#: chat/models.py:139
-msgid "The type of moderation action performed"
-msgstr ""
-
-#: templates/includes/navbar.html:13
+#: templates/includes/navbar.html:14
 msgid "Rides"
-msgstr ""
+msgstr "Trajets"
 
-#: templates/includes/navbar.html:21
+#: templates/includes/navbar.html:22
 msgid "Map View"
-msgstr ""
+msgstr "Carte"
 
-#: templates/includes/navbar.html:27
+#: templates/includes/navbar.html:28
 msgid "Moderation"
 msgstr ""
 
-#: templates/includes/navbar.html:33
-msgid "Admin Panel"
-msgstr "Panneau d'administration"
-
-#: templates/includes/navbar.html:38
+#: templates/includes/navbar.html:36
 msgid "Messages"
-msgstr ""
+msgstr "Messages"
 
-#: templates/includes/navbar.html:54
+#: templates/includes/navbar.html:60
 msgid "My Account"
 msgstr "Mon compte"
 
-#: templates/includes/navbar.html:60
+#: templates/includes/navbar.html:62
+msgid "Admin Panel"
+msgstr "Panneau d'administration"
+
+#: templates/includes/navbar.html:69
 msgid "Logout"
 msgstr "Se déconnecter"
