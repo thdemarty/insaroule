@@ -267,6 +267,3 @@ msgstr "Rechercher une adresse de départ"
 #: carpool/templates/rides/list.html:240
 msgid "Search for an address of arrival"
 msgstr "Rechercher une adresse d'arrivée"
-
-#~ msgid "Best regards"
-#~ msgstr "Cordialement"

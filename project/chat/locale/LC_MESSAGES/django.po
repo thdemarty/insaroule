@@ -195,8 +195,6 @@ msgid "No chats to moderate"
 msgstr "Aucune discussion à modérer"
 
 #: chat/templates/chat/moderation/search.html:5
-#, fuzzy
-#| msgid "user"
 msgid "username"
 msgstr "utilisateur"
 
