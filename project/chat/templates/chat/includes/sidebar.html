@@ -1,5 +1,4 @@
-{% load i18n %}
-{% load duration %}
+{% load i18n %} {% load duration %}
 <style>
     .circle {
         width: 10px;
@@ -19,13 +18,23 @@
         margin: 2px 0;
         width: 4px;
     }
+
+    .list-group-item.active {
+        --bs-list-group-active-bg: #cfe2ff;
+        --bs-list-group-active-border-color: #cfe2ff;
+        --bs-list-group-active-color: #084298;
+    }
 </style>
 
-
 <div class="list-group mb-3">
-    <span class="list-group-item text-bg-light">{% translate "Ride Requests" %}</span>
-    {% for jr in outgoing_requests %}
-    <a href="{% url 'chat:room' jr.pk %}" class="list-group-item list-group-item-action">
+    <span class="list-group-item text-bg-light"
+        >{% translate "Ride Requests" %}</span
+    >
+    {% for jr in outgoing_requests %} {% url 'chat:room' jr.pk as jr_url %}
+    <a
+        href="{{ jr_url }}"
+        class="list-group-item list-group-item-action {% if request.path == jr_url %}active{% endif %}"
+    >
         <div class="d-flex justify-content-between">
             <div class="d-grid">
                 <div class="d-flex flex-row">
@@ -35,7 +44,9 @@
                         <div class="circle"></div>
                     </div>
                     <div class="d-flex flex-column ms-2">
-                        <span>{{ jr.ride.start_loc.city|truncatechars:20 }}</span>
+                        <span
+                            >{{ jr.ride.start_loc.city|truncatechars:20 }}</span
+                        >
                         <span class="h-100"></span>
                         <span>{{ jr.ride.end_loc.city|truncatechars:20 }}</span>
                     </div>
@@ -48,20 +59,31 @@
         </div>
     </a>
     {% empty %}
-    <a href="{% url 'carpool:list' %}" class="list-group-item list-group-item-action">
+    <a
+        href="{% url 'carpool:list' %}"
+        class="list-group-item list-group-item-action"
+    >
         <div class="d-flex flex-column align-items-center">
-            <span class="text-muted mb-2 small">{% translate "No ride requests found" %}</span>
-            <span type="button" class="btn btn-sm btn-outline-primary">{% translate "Search a ride" %}</span>
+            <span class="text-muted mb-2 small">
+                {% translate "No ride requests found" %}
+            </span>
+            <span type="button" class="btn btn-sm btn-outline-primary">
+                {% translate "Search a ride" %}
+            </span>
         </div>
     </a>
     {% endfor %}
 </div>
 
-
 <div class="list-group">
-    <span class="list-group-item text-bg-light">{% translate "Incoming requests" %}</span>
-    {% for jr in incoming_requests %}
-    <a href="{% url 'chat:room' jr.pk %}" class="list-group-item list-group-item-action">
+    <span class="list-group-item text-bg-light">
+        {% translate "Incoming requests" %}
+    </span>
+    {% for jr in incoming_requests %} {% url 'chat:room' jr.pk as jr_url %}
+    <a
+        href="{{ jr_url }}"
+        class="list-group-item list-group-item-action {% if request.path == jr_url %}active{% endif %}"
+    >
         <div class="d-flex justify-content-between">
             <div class="d-grid">
                 <div class="d-flex flex-row">
@@ -71,7 +93,9 @@
                         <div class="circle"></div>
                     </div>
                     <div class="d-flex flex-column ms-2">
-                        <span>{{ jr.ride.start_loc.city|truncatechars:20 }}</span>
+                        <span>
+                            {{ jr.ride.start_loc.city|truncatechars:20 }}
+                        </span>
                         <span class="h-100"></span>
                         <span>{{ jr.ride.end_loc.city|truncatechars:20 }}</span>
                     </div>
