@@ -74,9 +74,8 @@ class RegisterTest(TestCase):
             "password1": "testpassword",
             "password2": "testpassword",
         }
-        with override_language("en"):
-            form = RegisterForm(data=valid_form_data)
-            self.assertTrue(form.is_valid())
+        form = RegisterForm(data=valid_form_data)
+        self.assertTrue(form.is_valid())
 
         invalid_form_data = {
             "username": "testuser",
@@ -88,6 +87,22 @@ class RegisterTest(TestCase):
             form = RegisterForm(data=invalid_form_data)
             self.assertFalse(form.is_valid())
             self.assertIn("email", form.errors)
+
+    def test_register_whitelisted_domain_wildcard(self):
+        settings.WHITELIST_DOMAINS = ["*"]
+        settings.ALLOW_REGISTRATION = True
+
+        data = {
+            "username": "testuser",
+            "email": "test@somethingdifferenthaha.xyz",
+            "password1": "testpassword",
+            "password2": "testpassword",
+        }
+
+        form = RegisterForm(data=data)
+        self.assertTrue(form.is_valid())
+        user = form.save()
+        self.assertEqual(user.email, data["email"])
 
 
 class PasswordResetFormTest(TestCase):

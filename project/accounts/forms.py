@@ -24,7 +24,10 @@ class RegisterForm(UserCreationForm):
 
         # Check if domain is whitelisted
         domain = email.split("@")[1]
-        if domain not in settings.WHITELIST_DOMAINS:
+        if settings.WHITELIST_DOMAINS == ["*"]:
+            # Allow all domains
+            pass
+        elif domain not in settings.WHITELIST_DOMAINS:
             allowed_domains = [f"@{domain}" for domain in settings.WHITELIST_DOMAINS]
             message = _(
                 "Only emails with whitelisted domains are allowed to register. Allowed domains are:"

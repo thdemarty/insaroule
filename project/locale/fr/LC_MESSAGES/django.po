@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-20 21:44+0200\n"
+"POT-Creation-Date: 2025-08-21 14:33+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,244 +18,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: carpool/models/__init__.py:8
-msgid "label"
-msgstr ""
-
-#: carpool/models/__init__.py:9
-msgid "Label for the location"
-msgstr ""
-
-#: carpool/models/__init__.py:14
-msgid "street"
-msgstr ""
-
-#: carpool/models/__init__.py:15
-msgid "Street address of the location"
-msgstr ""
-
-#: carpool/models/__init__.py:21
-msgid "zipcode"
-msgstr ""
-
-#: carpool/models/__init__.py:22
-msgid "Zipcode of the location"
-msgstr ""
-
-#: carpool/models/__init__.py:28
-msgid "city"
-msgstr ""
-
-#: carpool/models/__init__.py:29
-msgid "City of the location"
-msgstr ""
-
-#: carpool/models/__init__.py:35
-msgid "latitude"
-msgstr ""
-
-#: carpool/models/__init__.py:36
-msgid "Latitude of the location"
-msgstr ""
-
-#: carpool/models/__init__.py:41
-msgid "longitude"
-msgstr ""
-
-#: carpool/models/__init__.py:42
-msgid "Longitude of the location"
-msgstr ""
-
-#: carpool/models/__init__.py:51 carpool/models/__init__.py:72
-msgid "name"
-msgstr ""
-
-#: carpool/models/__init__.py:54
-msgid "localisation"
-msgstr ""
-
-#: carpool/models/__init__.py:55
-msgid "Location of the step"
-msgstr ""
-
-#: carpool/models/__init__.py:61
-msgid "order"
-msgstr ""
-
-#: carpool/models/__init__.py:62
-msgid "Order of the step in the ride"
-msgstr ""
-
-#: carpool/models/__init__.py:73
-msgid "Name of the vehicle"
-msgstr ""
-
-#: carpool/models/__init__.py:78
-msgid "seats"
-msgstr ""
-
-#: carpool/models/__init__.py:79
-msgid "Number of seats in the vehicle"
-msgstr ""
-
-#: carpool/models/__init__.py:86
-msgid "color"
-msgstr ""
-
-#: carpool/models/__init__.py:87
-msgid "Color of the vehicle"
-msgstr ""
-
-#: carpool/models/ride.py:37
-msgid "Cash"
-msgstr ""
-
-#: carpool/models/ride.py:38
-msgid "Lyf Pay"
-msgstr ""
-
-#: carpool/models/ride.py:39
-msgid "Wire Transfer"
-msgstr ""
-
-#: carpool/models/ride.py:42
-msgid "UUID"
-msgstr ""
-
-#: carpool/models/ride.py:49
-msgid "driver"
-msgstr ""
-
-#: carpool/models/ride.py:51
-msgid "The driver of the ride"
-msgstr ""
-
-#: carpool/models/ride.py:57
-msgid "rider"
-msgstr ""
-
-#: carpool/models/ride.py:59
-msgid "The rider of the ride"
-msgstr ""
-
-#: carpool/models/ride.py:64
-msgid "start date and time"
-msgstr ""
-
-#: carpool/models/ride.py:65
-msgid "The start date and time of the ride"
-msgstr ""
-
-#: carpool/models/ride.py:71
-msgid "end date and time"
-msgstr ""
-
-#: carpool/models/ride.py:72
-msgid "The end date and time of the ride"
-msgstr ""
-
-#: carpool/models/ride.py:78
-msgid "start location"
-msgstr ""
-
-#: carpool/models/ride.py:80
-msgid "The start location of the ride"
-msgstr ""
-
-#: carpool/models/ride.py:88
-msgid "end location"
-msgstr ""
-
-#: carpool/models/ride.py:90
-msgid "The end location of the ride"
-msgstr ""
-
-#: carpool/models/ride.py:98
-msgid "steps"
-msgstr ""
-
-#: carpool/models/ride.py:100
-msgid "The steps of the ride"
-msgstr ""
-
-#: carpool/models/ride.py:106
-msgid "payment method"
-msgstr ""
-
-#: carpool/models/ride.py:108
-msgid "The payment method for the ride"
-msgstr ""
-
-#: carpool/models/ride.py:114
-msgid "price"
-msgstr ""
-
-#: carpool/models/ride.py:115
-msgid "The price of the ride"
-msgstr ""
-
-#: carpool/models/ride.py:122
-msgid "comment"
-msgstr ""
-
-#: carpool/models/ride.py:123
-msgid "Comment about the ride"
-msgstr ""
-
-#: carpool/models/ride.py:138
-msgid "geometry"
-msgstr ""
-
-#: carpool/models/ride.py:139
-msgid "Geographical representation of the ride"
-msgstr ""
-
-#: carpool/models/ride.py:147
-msgid "duration"
-msgstr ""
-
-#: carpool/models/ride.py:148
-msgid "Duration of the ride"
-msgstr ""
-
-#: carpool/templates/emails/confirmed_ride.txt:1
-msgid "Hello"
-msgstr ""
-
-#: carpool/templates/emails/confirmed_ride.txt:3
-#, python-format
-msgid ""
-"Your reservation for the trip from %(departure_city)s to %(arrival_city)s on "
-"%(ride_date)s at %(ride_time)s has been confirmed."
-msgstr ""
-
-#: carpool/templates/emails/confirmed_ride.txt:8
-msgid ""
-"The driver has been informed of your reservation. You can communicate with "
-"them directly from your account if necessary."
-msgstr ""
-
-#: carpool/templates/emails/confirmed_ride.txt:13
-msgid "We wish you a pleasant ride!"
-msgstr "Nous vous souhaitant un agréable voyage !"
-
-#: carpool/templates/rides/list.html:161
-msgid "No rides found"
-msgstr "Aucun trajet trouvé"
-
-#: carpool/templates/rides/list.html:162
-msgid "Consider taking the train or posting the first ride on the platform."
-msgstr "Considérer le train pour votre trajet ou publier une nouvelle offre sur la plateforme"
-
-#: carpool/templates/rides/list.html:164 templates/includes/navbar.html:18
-msgid "Publish a ride"
-msgstr "Publier un trajet"
-
-#: project/settings/production.py:141
+#: project/settings/production.py:140
 msgid "French"
 msgstr "Français"
 
-#: project/settings/production.py:142
+#: project/settings/production.py:141
 msgid "English"
 msgstr "Anglais"
 
@@ -281,6 +48,10 @@ msgstr "Votre application préférée de covoiturage"
 #: templates/includes/navbar.html:14
 msgid "Rides"
 msgstr "Trajets"
+
+#: templates/includes/navbar.html:18
+msgid "Publish a ride"
+msgstr "Publier un trajet"
 
 #: templates/includes/navbar.html:22
 msgid "Map View"

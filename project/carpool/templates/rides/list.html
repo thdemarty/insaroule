@@ -62,7 +62,7 @@
                     </div>
 
                     <div class="col d-grid align-self-center mb-md-3 mb-lg-0">
-                        <button type="submit" class="btn btn-primary">Search</button>
+                        <button type="submit" class="btn btn-primary">{% translate "Search" %}</button>
                     </div>
                 </div>
             </form>
@@ -112,7 +112,7 @@
                                     </div>
                                 </div>
                                 <div class="d-flex flex-column">
-                                
+
                                     <div class="fw-bold text-primary fs-2 text-end">
                                         {{ ride.price }} €
                                     </div>
@@ -232,12 +232,12 @@
     const departure = new Choices(departureEl, {
         removeItemButton: true,
         placeholder: true,
-        placeholderValue: 'Search for an address of departure',
+        placeholderValue: "{% translate 'Search for an address of departure' %}",
     })
     const arrival = new Choices(arrivalEl, {
         removeItemButton: true,
         placeholder: true,
-        placeholderValue: 'Search for an address of arrival',
+        placeholderValue: "{% translate 'Search for an address of arrival' %}",
     })
 
     // =================================================================
@@ -259,7 +259,7 @@
 
     departure.passedElement.element.addEventListener('search', async (event) => {
         clearTimeout(event.target.timer);
-        
+
         event.target.timer = setTimeout(async () => {
             try {
                 const response = await fetch(`/api/completion/?text=${event.detail.value}`);
@@ -283,7 +283,7 @@
 
     arrival.passedElement.element.addEventListener('search', async (event) => {
         clearTimeout(event.target.timer);
-        
+
         event.target.timer = setTimeout(async () => {
             try {
                 const response = await fetch(`/api/completion/?text=${event.detail.value}`);
