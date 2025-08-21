@@ -377,4 +377,4 @@ msgstr "Envoyer le lien de vérification sur mon adresse mail"
 
 #: accounts/views/profile.py:38
 msgid "Your email has been changed. Please verify your new email address."
-msgstr ""
+msgstr "Votre adresse e-mail a été modifiée. Veuillez vérifier votre nouvelle adresse e-mail."
