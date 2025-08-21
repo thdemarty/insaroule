@@ -14,7 +14,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_http_methods
 
 from carpool.forms import CreateRideForm
-from carpool.models import Location
+from carpool.models import Location, Vehicle
 from carpool.models.ride import Ride
 from carpool.tasks import get_autocompletion, get_routing
 from django.utils.timezone import localtime
@@ -189,13 +189,18 @@ def rides_create(request):
                 lat=form.cleaned_data["a_latitude"],
                 lng=form.cleaned_data["a_longitude"],
             )[0]
-
+            vehicle, _ = Vehicle.objects.get_or_create(
+                name="default",
+                driver=request.user,
+                seats=form.cleaned_data["seats"],
+            )
             ride = Ride.objects.create(
                 driver=request.user,
                 start_dt=form.cleaned_data["departure_datetime"],
                 end_dt=form.cleaned_data["departure_datetime"]
                 + datetime.timedelta(hours=form.cleaned_data["r_duration"]),
                 start_loc=departure,
+                vehicle=vehicle,
                 end_loc=arrival,
                 payment_method=form.cleaned_data["payment_method"],
                 price=form.cleaned_data["price_per_seat"],

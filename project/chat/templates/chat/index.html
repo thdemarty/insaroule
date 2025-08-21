@@ -1,7 +1,10 @@
-{% extends 'base.html' %}
-{% load i18n %}
-
-{% block content %}
+{% extends 'base.html' %} {% load i18n %} {% load static %} 
+{% block extrahead %}
+<link
+    rel="stylesheet"
+    href="{% static 'vendors/bootstrap-icons/bootstrap-icons.min.css' %}"
+/>
+{% endblock extrahead %} {% block content %}
 <div class="container-fluid mt-3">
     <h1>Messages</h1>
     <div class="row h-100">
@@ -9,9 +12,11 @@
             {% include "chat/includes/sidebar.html" %}
         </div>
         <div class="col-lg-6">
-            <div class="card" style="min-height: 80vh;">
+            <div class="card" style="min-height: 80vh">
                 <!-- <div class="card-header">Trajet {{ rides.first.pk }}</div> -->
-                <div class="card-body text-center h-100 d-flex flex-column justify-content-center">
+                <div
+                    class="card-body text-center h-100 d-flex flex-column justify-content-center"
+                >
                     {% translate "Choose a conversation on the left to start discussing." %}
                 </div>
             </div>
