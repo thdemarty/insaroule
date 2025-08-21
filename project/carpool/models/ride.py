@@ -58,6 +58,7 @@ class Ride(models.Model):
         to="accounts.User",
         help_text=_("The rider of the ride"),
         related_name="rides_as_rider",
+        blank=True,
     )
 
     start_dt = models.DateTimeField(
@@ -123,16 +124,13 @@ class Ride(models.Model):
         help_text=_("Comment about the ride"),
         blank=True,
     )
-    """
-    vehicule = models.ForeignKey(
-        verbose_name=_("vehicule"),
-        to=Vehicle,
-        help_text=_("The vehicule of the ride"),
+
+    vehicle = models.ForeignKey(
+        verbose_name=_("vehicle"),
+        to="carpool.Vehicle",
+        help_text=_("The vehicle of the ride"),
         on_delete=models.CASCADE,
-        null=True,
-        blank=True,
     )
-    """
 
     geometry = models.LineStringField(
         verbose_name=_("geometry"),
@@ -154,7 +152,7 @@ class Ride(models.Model):
 
     @property
     def remaining_seats(self):
-        return 0
+        return self.vehicle.seats - self.rider.count()
 
     def get_absolute_url(self):
         return reverse("carpool:detail", kwargs={"pk": self.pk})

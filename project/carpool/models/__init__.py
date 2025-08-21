@@ -72,6 +72,16 @@ class Vehicle(models.Model):
         verbose_name=_("name"),
         help_text=_("Name of the vehicle"),
         max_length=50,
+        default="default",
+    )
+
+    driver = models.ForeignKey(
+        verbose_name=_("driver"),
+        help_text=_("Driver of the vehicle"),
+        to="accounts.User",
+        related_name="vehicles",
+        related_query_name="vehicle",
+        on_delete=models.CASCADE,
     )
 
     seats = models.PositiveIntegerField(
@@ -86,7 +96,15 @@ class Vehicle(models.Model):
         verbose_name=_("color"),
         help_text=_("Color of the vehicle"),
         max_length=50,
+        blank=True,
     )
+
+    # geqCO2_per_km = models.PositiveIntegerField(
+    #     verbose_name=_("geqCO2 per km"),
+    #     help_text=_("Number of grams of CO2 emitted per kilometer"),
+    #     null=False,
+    #     blank=False,
+    # )
 
     def __str__(self):
         return f"{self.name} ({self.color})"
