@@ -1,5 +1,6 @@
 from django import forms
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 
 from carpool.models.ride import Ride
 
@@ -48,11 +49,11 @@ class CreateRideForm(forms.Form):
         max_value=8,
         widget=forms.NumberInput(
             attrs={
-                "placeholder": "Number of seats available",
+                "placeholder": _("Number of seats available"),
                 "class": "form-control",
             },
         ),
-        help_text="Number of seats available in the carpool.",
+        help_text=_("Number of seats available in the carpool."),
     )
 
     price_per_seat = forms.DecimalField(
@@ -61,7 +62,7 @@ class CreateRideForm(forms.Form):
         decimal_places=2,
         widget=forms.NumberInput(
             attrs={
-                "placeholder": "TODO Automatic price calculation",
+                "placeholder": _("Price per seat"),
                 "class": "form-control",
             },
         ),
@@ -82,7 +83,7 @@ class CreateRideForm(forms.Form):
             if not payment:
                 self.add_error(
                     "payment_method",
-                    "A payment method is required if a price is set.",
+                    _("A payment method is required if a price is set."),
                 )
 
     def __init__(self, *args, **kwargs):
