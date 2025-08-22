@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-21 20:39+0200\n"
+"POT-Creation-Date: 2025-08-22 17:29+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,20 +18,19 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: forms.py:53
+#: forms.py:52
 msgid "Number of seats available"
 msgstr "Nombre de places disponibles"
 
-#: forms.py:57
-
+#: forms.py:56
 msgid "Number of seats available in the carpool."
 msgstr "Nombre de places disponibles dans le véhicule"
 
-#: forms.py:66
+#: forms.py:65
 msgid "Price per seat"
 msgstr "Prix par personne"
 
-#: forms.py:87
+#: forms.py:86
 msgid "A payment method is required if a price is set."
 msgstr "Un moyen de paiement est requis si un prix est défini."
 
@@ -272,35 +271,35 @@ msgstr ""
 msgid "We wish you a pleasant ride!"
 msgstr "Nous vous souhaitons une agréable conduite!"
 
-#: templates/rides/create.html:28
+#: templates/rides/create.html:36
 msgid "Publish a new ride"
 msgstr "Publier un trajet"
 
-#: templates/rides/create.html:32
+#: templates/rides/create.html:40
 msgid "Departure address"
 msgstr "Adresse de départ"
 
-#: templates/rides/create.html:36 templates/rides/create.html:46
+#: templates/rides/create.html:44 templates/rides/create.html:54
 msgid "This field is required"
 msgstr "Ce champ est obligatoire"
 
-#: templates/rides/create.html:43
+#: templates/rides/create.html:51
 msgid "Arrival address"
 msgstr "Adresse d'arrivée"
 
-#: templates/rides/create.html:82
+#: templates/rides/create.html:90
 msgid "Payment method"
 msgstr "Méthode de paiement"
 
-#: templates/rides/create.html:93
+#: templates/rides/create.html:101
 msgid "Publish ride"
 msgstr "Publier un trajet"
 
-#: templates/rides/create.html:153
+#: templates/rides/create.html:161
 msgid "Search for a precise departure address"
 msgstr "Rechercher une adresse de départ"
 
-#: templates/rides/create.html:157
+#: templates/rides/create.html:165
 msgid "Search for a precise arrival address"
 msgstr "Rechercher une adresse d'arrivée"
 
@@ -308,7 +307,7 @@ msgstr "Rechercher une adresse d'arrivée"
 msgid "Search"
 msgstr "Rechercher"
 
-#: templates/rides/list.html:170
+#: templates/rides/list.html:170 templates/rides/my_rides.html:8
 msgid "No rides found"
 msgstr "Aucun trajet trouvé"
 
@@ -328,3 +327,7 @@ msgstr "Rechercher une adresse de départ"
 #: templates/rides/list.html:249
 msgid "Search for an address of arrival"
 msgstr "Rechercher une adresse d'arrivée"
+
+#: templates/rides/my_rides.html:3
+msgid "My rides"
+msgstr "Mes trajets"
