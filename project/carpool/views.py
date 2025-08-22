@@ -72,7 +72,7 @@ def change_jrequest_status(request, jr_pk):
 
     action = request.POST.get("action")
     if action == "accept":
-        join_request.status = ChatRequest.Status.ACCEPTED
+        join_request.status = ChatRequest.Status.ACCEPTEDF
         # Add the user to the ride
         join_request.ride.rider.add(join_request.user)
 
@@ -106,6 +106,18 @@ def rides_detail(request, pk):
         "geometry": ride.geometry.geojson,
     }
     return render(request, "rides/detail.html", context)
+
+
+@login_required
+def rides_edit(request, pk):
+    ride = get_object_or_404(Ride, pk=pk)
+    # Check if user has permission
+    if ride.driver != request.user:
+        return HttpResponse("You are not the driver of this ride", status=403)
+
+    context = {"ride": ride, "geometry": ride.geometry.geojson}
+
+    return render(request, "rides/edit.html", context)
 
 
 @login_required
