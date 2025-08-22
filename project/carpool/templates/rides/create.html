@@ -39,7 +39,7 @@
                 <label for="departure">
                     {% translate "Departure address" %}
                 </label>
-                {% if form.departure_lat.errors or form.departure_lng.errors %}
+                {% if form.d_latitude.errors or form.d_longitude.errors %}
                 <span class="text-danger">
                     {% translate "This field is required" %}
                 </span>
@@ -49,7 +49,7 @@
             <!-- Arrival address autocomplete -->
             <div class="mb-3">
                 <label for="arrival">{% translate "Arrival address" %}</label>
-                {% if form.arrival_lat.errors or form.arrival_lng.errors %}
+                {% if form.a_latitude.errors or form.a_longitude.errors %}
                 <span class="text-danger">
                     {% translate "This field is required" %}
                 </span>
@@ -87,16 +87,16 @@
                 <div class="mb-3">{{ form.price_per_seat }}</div>
 
                 <div class="mb-3">
-                    <label for="">{% translate "Payment method" %}</label>
-
-                    <div class="mb-3" id="payment-options">
-                        {{form.payment_method}}
+                    <label for="payment-options">{% translate "Payment method" %}</label>
+                   
+                    <div id="payment-options">
+                        {{ form.payment_method }}
                     </div>
+                    {% if form.payment_method.errors %}
+                    <span class="text-danger">{{ form.payment_method.errors }}</span>
+                    {% endif %}
                 </div>
-
-                {% for field in form %} {% for error in field.errors %}
-                <div class="mb-3" style="color: #ff0000">{{ error }}</div>
-                {% endfor %} {% endfor %}
+                
                 <button class="btn btn-primary w-100" type="submit">
                     {% translate "Publish ride" %}
                 </button>
