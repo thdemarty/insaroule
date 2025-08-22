@@ -21,13 +21,6 @@
                     <a class="nav-link {% if request.resolver_match.url_name == 'map' %}active{% endif %}" 
                     {% if request.resolver_match.url_name == 'map' %}aria-current="page"{% endif %} href="{% url 'carpool:map' %}">{% translate "Map View" %}</a>
                 </li>
-
-                {% if perms.chat.can_moderate_messages %}
-                <li class="nav-item">
-                    <a class="nav-link {% if request.resolver_match.url_name == 'mod_index' %}active{% endif %}" 
-                    {% if request.resolver_match.url_name == 'mod_index' %}aria-current="page"{% endif %} href="{% url 'chat:mod_index' %}">{% translate "Moderation" %}</a>
-                </li>
-                {% endif %}
             </ul>
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 
@@ -60,6 +53,14 @@
                         <li><a class="dropdown-item" href="{% url 'accounts:me' %}">{% translate "My Account" %}</a></li>
                         {% if user.is_staff %}
                         <li><a class="dropdown-item text-danger fw-bold" href="{% url 'admin:index' %}">{% translate "Admin Panel" %}</a></li>
+                        {% endif %}
+                        {% if perms.chat.can_moderate_messages %}
+                        <li>
+                            <a class="dropdown-item {% if request.resolver_match.url_name == 'mod_index' %}active{% endif %}" 
+                            {% if request.resolver_match.url_name == 'mod_index' %}aria-current="page"{% endif %} href="{% url 'chat:mod_index' %}">
+                                {% translate "Moderation" %}
+                            </a>
+                        </li>
                         {% endif %}
                         <li>
                             <hr class="dropdown-divider">
