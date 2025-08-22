@@ -4,6 +4,7 @@ from carpool.views import (
     api_auto_completion,
     api_routing,
     change_jrequest_status,
+    list_my_rides,
     ride_map,
     rides_create,
     rides_detail,
@@ -15,6 +16,7 @@ app_name = "carpool"
 
 urlpatterns = [
     path("", rides_list, name="list"),
+    path("my-rides/", list_my_rides, name="my-rides"),
     path("create/", rides_create, name="create"),
     path("<uuid:pk>/", rides_detail, name="detail"),
     path("map/", ride_map, name="map"),

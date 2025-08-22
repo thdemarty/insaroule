@@ -1,0 +1,11 @@
+{% extends 'base.html' %} {% load i18n %} {% block content %}
+<div class="container mt-3">
+    <h1>{% translate "My rides" %}</h1>
+    <ul>
+        {% for ride in page_obj %}
+        <li><a href="{{ ride.get_absolute_url }}">{{ ride }}</a></li>
+        {% empty %}
+        <li>{% translate "No rides found" %}</li>
+        {% endfor %} {% endblock %}
+    </ul>
+</div>

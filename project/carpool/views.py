@@ -21,6 +21,15 @@ from django.utils.timezone import localtime
 
 
 @login_required
+def list_my_rides(request):
+    rides = Ride.objects.filter(driver=request.user)
+    paginator = Paginator(rides, 10)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+    return render(request, "rides/my_rides.html", {"page_obj": page_obj})
+
+
+@login_required
 def ride_map(request):
     rides = Ride.objects.all()
     rides_geo = []
