@@ -52,11 +52,11 @@ msgstr "Le trajet pour lequel la demande de chat est faite"
 
 #: chat/models.py:40
 msgid "user"
-msgstr "utilisateur"
+msgstr "utilisateur·trice"
 
 #: chat/models.py:41
 msgid "The user who made the chat request"
-msgstr "L'utilisateur qui a fait la demande de chat"
+msgstr "L'utilisateur·rice qui a fait la demande de chat"
 
 #: chat/models.py:47
 msgid "created at"
@@ -80,7 +80,7 @@ msgstr "caché"
 
 #: chat/models.py:77
 msgid "Indicates whether this message is hidden from regular users"
-msgstr "Indique si ce message est caché aux utilisateurs réguliers"
+msgstr "Indique si ce message est caché aux utilisateur·rice·s régulier·ère·s"
 
 #: chat/models.py:82
 msgid "Can moderate chat messages"
@@ -100,11 +100,11 @@ msgstr "raison"
 
 #: chat/models.py:110
 msgid "Flag User"
-msgstr "Signaler l'utilisateur"
+msgstr "Signaler l'utilisateur·rice"
 
 #: chat/models.py:111
 msgid "Block User"
-msgstr "Bloquer l'utilisateur"
+msgstr "Bloquer l'utilisateur·rice"
 
 #: chat/models.py:117
 msgid "performed by"
@@ -112,7 +112,7 @@ msgstr "effectué par"
 
 #: chat/models.py:124
 msgid "on user"
-msgstr "sur l'utilisateur"
+msgstr "sur l'utilisateur·rice"
 
 #: chat/models.py:131
 msgid "Reason for the moderation action"
@@ -136,7 +136,7 @@ msgstr "Demandeur"
 
 #: chat/templates/chat/includes/mod_profile.html:32
 msgid "Report user"
-msgstr "Signaler l'utilisateur"
+msgstr "Signaler l'utilisateur·rice"
 
 #: chat/templates/chat/includes/mod_profile.html:37
 msgid "Reason for reporting"
@@ -196,7 +196,7 @@ msgstr "Aucune discussion à modérer"
 
 #: chat/templates/chat/moderation/search.html:5
 msgid "username"
-msgstr "utilisateur"
+msgstr "utilisateur·rice"
 
 #: chat/templates/chat/moderation/search.html:8
 msgid "search by chat content"
@@ -216,7 +216,7 @@ msgstr "Nous pouvons modérer les messages si nécessaire."
 
 #: chat/templates/chat/room.html:68
 msgid "You have never ride with this user."
-msgstr "Vous n'avez jamais partagé de trajet avec cet utilisateur."
+msgstr "Vous n'avez jamais partagé de trajet avec cet·te utilisateur·rice."
 
 #: chat/templates/chat/room.html:70
 msgid ""
@@ -224,7 +224,7 @@ msgid ""
 "pluralize }} with this user."
 msgstr ""
 "Vous avez déjà partagé {{ shared_ride_count }} trajet{{ shared_ride_count|"
-"pluralize }} avec cet utilisateur."
+"pluralize }} avec cet·te utilisateur·rice."
 
 #: chat/templates/chat/room.html:114
 msgid ""
@@ -232,8 +232,8 @@ msgid ""
 "When declining, the user won't be able to send you a request for this ride "
 "anymore."
 msgstr ""
-"Vous avez la possibilité d'accepter ou de refuser la demande faite par cet "
-"utilisateur. En refusant, l'utilisateur ne pourra plus vous envoyer de "
+"Vous avez la possibilité d'accepter ou de refuser la demande faite par cet·te "
+"utilisateur·rice. En refusant, l'utilisateur·rice ne pourra plus vous envoyer de "
 "demande pour ce trajet."
 
 #: chat/templates/chat/room.html:122

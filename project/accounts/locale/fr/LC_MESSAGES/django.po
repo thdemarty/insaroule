@@ -101,7 +101,7 @@ msgstr "Profil"
 
 #: accounts/templates/account/data_export.html:18
 msgid "Username:"
-msgstr "Nom d'utilisateur :"
+msgstr "Nom d'utilisateur·rice :"
 
 #: accounts/templates/account/data_export.html:20
 msgid "First name:"
@@ -236,7 +236,7 @@ msgid ""
 "you registered with, and check your spam folder."
 msgstr ""
 "Si vous ne recevez pas d'e-mail, veuillez vous assurer que vous avez saisi "
-"l'adresse avec laquelle vous vous êtes inscrit, et vérifiez votre dossier "
+"l'adresse avec laquelle vous vous êtes inscrit·e, et vérifiez votre dossier "
 "spam."
 
 #: accounts/templates/registration/password_reset/email.html:2
@@ -246,7 +246,7 @@ msgid ""
 "user account at %(site_name)s."
 msgstr ""
 "Vous recevez cet e-mail parce que vous avez demandé une réinitialisation de "
-"mot de passe pour votre compte utilisateur sur %(site_name)s."
+"mot de passe pour votre compte utilisateur·rice sur %(site_name)s."
 
 #: accounts/templates/registration/password_reset/email.html:4
 msgid "Please go to the following page and choose a new password:"
