@@ -1,7 +1,7 @@
 from django.contrib.auth import views as auth_views
 from django.urls import path, reverse_lazy
 
-from accounts.forms import PasswordChangeForm, PasswordResetForm, SetPasswordForm
+from accounts.forms import PasswordResetForm, SetPasswordForm
 from accounts.views import profile, register
 from accounts.views.verify_email import (
     verify_email_complete,
@@ -74,10 +74,7 @@ urlpatterns += [
     ),
     path(
         "password_change/",
-        auth_views.PasswordChangeView.as_view(
-            form_class=PasswordChangeForm,
-            template_name="account/password_change.html",
-        ),
+        profile.PasswordChangeView.as_view(),
         name="password_change",
     ),
 ]
