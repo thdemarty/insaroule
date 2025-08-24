@@ -136,8 +136,9 @@
     const withUser = JSON.parse(document.getElementById('with-user').textContent);
     const currentUserUuid = JSON.parse(document.getElementById('current-user-uuid').textContent);
 
+    const wsScheme = window.location.protocol === "https:" ? "wss" : "ws";
     const chatSocket = new WebSocket(
-        'ws://' + window.location.host + '/ws/chat/' + roomName + '/'
+        wsScheme + '://' + window.location.host + '/ws/chat/' + roomName + '/'
     );
 
         function hideMessage(messageId) {
