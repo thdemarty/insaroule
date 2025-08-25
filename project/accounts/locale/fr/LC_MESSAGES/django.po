@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-24 21:13+0200\n"
+"POT-Creation-Date: 2025-08-25 09:04+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -188,6 +188,10 @@ msgstr "Modifier le mot de passe"
 msgid "Sign In"
 msgstr "Se connecter"
 
+#: templates/registration/login.html:20
+msgid "Username"
+msgstr "Nom d'utilisateur·rice"
+
 #: templates/registration/login.html:44
 msgid "Login"
 msgstr "Connexion"
@@ -301,8 +305,8 @@ msgid ""
 "You just requested a verification email. Please wait. <span id=\"cooldown-"
 "timer\">%(minutes)s</span> minutes."
 msgstr ""
-"Vous venez de demander un email de vérification. Veuillez patienter <span id=\"cooldown-"
-"timer\">%(minutes)s<span> minutes."
+"Vous venez de demander un email de vérification. Veuillez patienter <span "
+"id=\"cooldown-timer\">%(minutes)s<span> minutes."
 
 #: templates/registration/verify_email/email_sent.html:22
 msgid ""
@@ -373,11 +377,11 @@ msgstr ""
 msgid "Send the verification link to my email"
 msgstr "Envoyer le lien de vérification sur mon adresse mail"
 
-#: views/profile.py:19
+#: views/profile.py:20
 msgid "Your password has been changed successfully!"
 msgstr "Votre mot de passe vient d'être changé avec succès"
 
-#: views/profile.py:50
+#: views/profile.py:53
 msgid "Your email has been changed. Please verify your new email address."
 msgstr ""
 "Votre adresse e-mail a été modifiée. Veuillez vérifier votre nouvelle "
