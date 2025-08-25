@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-21 14:33+0200\n"
+"POT-Creation-Date: 2025-08-25 09:04+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,12 +18,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: accounts/admin.py:15
-#: accounts/templates/registration/verify_email/email_sent.html:8
+#: admin.py:15 templates/registration/verify_email/email_sent.html:8
 msgid "Email verification"
 msgstr "Vérification de l'adresse e-mail"
 
-#: accounts/forms.py:33
+#: forms.py:33
 msgid ""
 "Only emails with whitelisted domains are allowed to register. Allowed "
 "domains are:"
@@ -31,37 +30,36 @@ msgstr ""
 "Seuls les emails avec des domaines autorisés sont autorisés à s'inscrire. "
 "Les domaines autorisés sont :"
 
-#: accounts/forms.py:42 accounts/forms.py:104
+#: forms.py:42 forms.py:104
 msgid "This email is already in use. Please use another email."
 msgstr ""
 "Cette adresse e-mail est déjà utilisée. Veuillez en utiliser une autre."
 
-#: accounts/forms.py:91
+#: forms.py:91
 msgid "New Email"
 msgstr "Nouvelle adresse e-mail"
 
-#: accounts/models.py:13
+#: models.py:13
 msgid "UUID"
 msgstr ""
 
-#: accounts/models.py:20
+#: models.py:20
 msgid "Email Address"
 msgstr "Adresse e-mail"
 
-#: accounts/tasks.py:21
+#: tasks.py:40
 msgid "Vérification de votre adresse email"
 msgstr "Vérification de votre adresse e-mail"
 
-#: accounts/tasks.py:122
+#: tasks.py:141
 msgid "Data export"
 msgstr "Exportation de données"
 
-#: accounts/templates/account/close.html:7
-#: accounts/templates/account/detail.html:41
+#: templates/account/close.html:7 templates/account/detail.html:41
 msgid "Delete your account"
 msgstr "Supprimer votre compte"
 
-#: accounts/templates/account/close.html:9
+#: templates/account/close.html:9
 msgid ""
 "Deleting your account is a permanent action. All your data will be removed "
 "from our system, including your profile, rides, and any other associated "
@@ -73,16 +71,15 @@ msgstr ""
 "autre information associée. Si vous souhaitez continuer, veuillez confirmer "
 "en cliquant sur le bouton ci-dessous."
 
-#: accounts/templates/account/close.html:17
+#: templates/account/close.html:17
 msgid "Delete my account"
 msgstr "Supprimer mon compte"
 
-#: accounts/templates/account/data_export.html:7
-#: accounts/templates/account/detail.html:40
+#: templates/account/data_export.html:7 templates/account/detail.html:40
 msgid "Export your data"
 msgstr "Exporter vos données"
 
-#: accounts/templates/account/data_export.html:9
+#: templates/account/data_export.html:9
 msgid ""
 "In accordance with the GDPR, you can export your personal data from our "
 "platform in a structured, commonly used, and machine-readable format. This "
@@ -95,35 +92,35 @@ msgstr ""
 "toutes les autres données que nous détenons à votre sujet. Voici un résumé "
 "des données que nous avons collectées à votre sujet :"
 
-#: accounts/templates/account/data_export.html:16
+#: templates/account/data_export.html:16
 msgid "Profile"
 msgstr "Profil"
 
-#: accounts/templates/account/data_export.html:18
+#: templates/account/data_export.html:18
 msgid "Username:"
-msgstr "Nom d'utilisateur :"
+msgstr "Nom d'utilisateur·rice :"
 
-#: accounts/templates/account/data_export.html:20
+#: templates/account/data_export.html:20
 msgid "First name:"
 msgstr "Prénom :"
 
-#: accounts/templates/account/data_export.html:23
+#: templates/account/data_export.html:23
 msgid "Last name:"
 msgstr "Nom de famille :"
 
-#: accounts/templates/account/data_export.html:25
+#: templates/account/data_export.html:25
 msgid "Email:"
 msgstr "Adresse e-mail :"
 
-#: accounts/templates/account/data_export.html:26
+#: templates/account/data_export.html:26
 msgid "Last login:"
 msgstr "Dernière connexion :"
 
-#: accounts/templates/account/data_export.html:27
+#: templates/account/data_export.html:27
 msgid "Date joined:"
 msgstr "Date d'inscription :"
 
-#: accounts/templates/account/data_export.html:47
+#: templates/account/data_export.html:47
 #, python-format
 msgid ""
 "The form to automatically export your data is not fully tested yet. To "
@@ -136,7 +133,7 @@ msgstr ""
 "à <a href\"mailto:%(dpo_email)s\">%(dpo_email)s</a>. Nous répondrons à votre "
 "demande aussi rapidement que possible (dans un délai maximal d'un mois)"
 
-#: accounts/templates/account/data_export_email.txt:4
+#: templates/account/data_export_email.txt:4
 msgid ""
 "You have requested an export of your data from Insaroule. Please find the "
 "attached file containing your data. The file is in json format, which can be "
@@ -151,77 +148,80 @@ msgstr ""
 "supplémentaire, n'hésitez pas à nous contacter. Cordialement, L'équipe "
 "Insaroule"
 
-#: accounts/templates/account/detail.html:32
+#: templates/account/detail.html:32
 msgid "Account Recovery"
 msgstr "Récupération de compte"
 
-#: accounts/templates/account/detail.html:34
+#: templates/account/detail.html:34
 msgid "Update email address"
 msgstr "Modifier l'adresse e-mail"
 
-#: accounts/templates/account/detail.html:35
-#: accounts/templates/account/password_change.html:7
+#: templates/account/detail.html:35 templates/account/password_change.html:7
 msgid "Change your password"
 msgstr "Modifier votre mot de passe"
 
-#: accounts/templates/account/detail.html:38
+#: templates/account/detail.html:38
 msgid "Data Management"
 msgstr "Gestion des données"
 
-#: accounts/templates/account/detail.html:44
+#: templates/account/detail.html:44
 msgid "Notifications"
 msgstr "Notifications"
 
-#: accounts/templates/account/detail.html:47
+#: templates/account/detail.html:47
 msgid "You will be able to manage your notification preferences in the future."
 msgstr "Vous pourrez gérer vos préférences de notification à l'avenir."
 
-#: accounts/templates/account/email_change.html:7
+#: templates/account/email_change.html:7
 msgid "Change your email"
 msgstr "Modifier votre adresse e-mail"
 
-#: accounts/templates/account/email_change.html:28
+#: templates/account/email_change.html:28
 msgid "Change email"
 msgstr "Modifier l'adresse e-mail"
 
-#: accounts/templates/account/password_change.html:28
+#: templates/account/password_change.html:28
 msgid "Change password"
 msgstr "Modifier le mot de passe"
 
-#: accounts/templates/registration/login.html:10
+#: templates/registration/login.html:10
 msgid "Sign In"
 msgstr "Se connecter"
 
-#: accounts/templates/registration/login.html:44
+#: templates/registration/login.html:20
+msgid "Username"
+msgstr "Nom d'utilisateur·rice"
+
+#: templates/registration/login.html:44
 msgid "Login"
 msgstr "Connexion"
 
-#: accounts/templates/registration/login.html:46
+#: templates/registration/login.html:46
 msgid "Forgot Password?"
 msgstr "Mot de passe oublié ?"
 
-#: accounts/templates/registration/login.html:48
+#: templates/registration/login.html:48
 msgid "Create an account"
 msgstr "Créer un compte"
 
-#: accounts/templates/registration/password_reset/complete.html:6
+#: templates/registration/password_reset/complete.html:6
 msgid "Password reset complete"
 msgstr "Réinitialisation du mot de passe terminée"
 
-#: accounts/templates/registration/password_reset/complete.html:8
+#: templates/registration/password_reset/complete.html:8
 msgid "Your password has been set. You may go ahead and log in now."
 msgstr ""
 "Votre mot de passe a été défini. Vous pouvez maintenant vous connecter."
 
-#: accounts/templates/registration/password_reset/complete.html:12
+#: templates/registration/password_reset/complete.html:12
 msgid "Log in"
 msgstr "Se connecter"
 
-#: accounts/templates/registration/password_reset/done.html:7
+#: templates/registration/password_reset/done.html:7
 msgid "Password reset sent"
 msgstr "Réinitialisation du mot de passe envoyée"
 
-#: accounts/templates/registration/password_reset/done.html:9
+#: templates/registration/password_reset/done.html:9
 msgid ""
 "We've emailed you instructions for setting your password, if an account "
 "exists with the email you entered. You should receive them shortly."
@@ -230,83 +230,85 @@ msgstr ""
 "un compte existe avec l'adresse e-mail que vous avez saisie. Vous devez les "
 "recevoir sous peu."
 
-#: accounts/templates/registration/password_reset/done.html:15
+#: templates/registration/password_reset/done.html:15
 msgid ""
 "If you don't receive an email, please make sure you've entered the address "
 "you registered with, and check your spam folder."
 msgstr ""
 "Si vous ne recevez pas d'e-mail, veuillez vous assurer que vous avez saisi "
-"l'adresse avec laquelle vous vous êtes inscrit, et vérifiez votre dossier "
+"l'adresse avec laquelle vous vous êtes inscrit·e, et vérifiez votre dossier "
 "spam."
 
-#: accounts/templates/registration/password_reset/email.html:2
+#: templates/registration/password_reset/email.html:2
 #, python-format
 msgid ""
 "You're receiving this email because you requested a password reset for your "
 "user account at %(site_name)s."
 msgstr ""
 "Vous recevez cet e-mail parce que vous avez demandé une réinitialisation de "
-"mot de passe pour votre compte utilisateur sur %(site_name)s."
+"mot de passe pour votre compte utilisateur·rice sur %(site_name)s."
 
-#: accounts/templates/registration/password_reset/email.html:4
+#: templates/registration/password_reset/email.html:4
 msgid "Please go to the following page and choose a new password:"
 msgstr ""
 "Veuillez vous rendre à la page suivante et choisir un nouveau mot de passe :"
 
-#: accounts/templates/registration/password_reset/email.html:8
+#: templates/registration/password_reset/email.html:8
 msgid "In case you’ve forgotten, you are:"
 msgstr "Au cas où vous auriez oublié, vous êtes :"
 
-#: accounts/templates/registration/password_reset/email.html:10
+#: templates/registration/password_reset/email.html:10
 msgid "Thanks for using our site!"
 msgstr "Merci d'utiliser notre site !"
 
-#: accounts/templates/registration/password_reset/email.html:12
+#: templates/registration/password_reset/email.html:12
 #, python-format
 msgid "The %(site_name)s team"
 msgstr "L'équipe %(site_name)s"
 
-#: accounts/templates/registration/password_reset/index.html:7
+#: templates/registration/password_reset/index.html:7
 msgid "Password reset"
 msgstr "Réinitialisation du mot de passe"
 
-#: accounts/templates/registration/password_reset/index.html:22
+#: templates/registration/password_reset/index.html:22
 msgid "Send reset password email"
 msgstr "Envoyer l'e-mail de réinitialisation du mot de passe"
 
-#: accounts/templates/registration/register.html:8
+#: templates/registration/register.html:8
 msgid "Registrations are currently disabled."
 msgstr "Les inscriptions sont actuellement désactivées."
 
-#: accounts/templates/registration/register.html:16
+#: templates/registration/register.html:16
 msgid "Create an Account"
 msgstr "Créer un compte"
 
-#: accounts/templates/registration/register.html:33
+#: templates/registration/register.html:33
 msgid "Register"
 msgstr "S'inscrire"
 
-#: accounts/templates/registration/verify_email/complete.html:8
+#: templates/registration/verify_email/complete.html:8
 msgid "Welcome !"
 msgstr "Bienvenue !"
 
-#: accounts/templates/registration/verify_email/complete.html:10
+#: templates/registration/verify_email/complete.html:10
 msgid "Your email address has been verified. You can now log in."
 msgstr ""
 "Votre adresse e-mail a été vérifiée. Vous pouvez maintenant vous connecter."
 
-#: accounts/templates/registration/verify_email/complete.html:19
+#: templates/registration/verify_email/complete.html:19
 msgid "Log In"
 msgstr "Se connecter"
 
-#: accounts/templates/registration/verify_email/email_sent.html:14
+#: templates/registration/verify_email/email_sent.html:14
 #, python-format
 msgid ""
 "You just requested a verification email. Please wait. <span id=\"cooldown-"
 "timer\">%(minutes)s</span> minutes."
 msgstr ""
+"Vous venez de demander un email de vérification. Veuillez patienter <span "
+"id=\"cooldown-timer\">%(minutes)s<span> minutes."
 
-#: accounts/templates/registration/verify_email/email_sent.html:22
+#: templates/registration/verify_email/email_sent.html:22
 msgid ""
 "A message has been sent to your email address. Please click the link in the "
 "email to verify your email address. Remember to check your spam folder if "
@@ -317,7 +319,7 @@ msgstr ""
 "votre dossier spam si vous ne voyez pas le message dans votre boîte de "
 "réception."
 
-#: accounts/templates/registration/verify_email/email_sent.html:29
+#: templates/registration/verify_email/email_sent.html:29
 msgid ""
 "If you have not received the message, you can resend it by clicking the "
 "button below."
@@ -325,15 +327,15 @@ msgstr ""
 "Si vous n'avez pas reçu le message, vous pouvez le renvoyer en cliquant sur "
 "le bouton ci-dessous."
 
-#: accounts/templates/registration/verify_email/email_sent.html:35
+#: templates/registration/verify_email/email_sent.html:35
 msgid "Resend verification email"
 msgstr "Renvoyer l'e-mail de vérification"
 
-#: accounts/templates/registration/verify_email/emails/verify_email.html:3
+#: templates/registration/verify_email/emails/verify_email.html:3
 msgid "Hello"
 msgstr "Bonjour"
 
-#: accounts/templates/registration/verify_email/emails/verify_email.html:5
+#: templates/registration/verify_email/emails/verify_email.html:5
 msgid ""
 "An account has been created with your email address on INSA'Roule. If you "
 "initiated this request, please click the following link to verify your email "
@@ -343,15 +345,15 @@ msgstr ""
 "initié cette demande, veuillez cliquer sur le lien suivant pour vérifier "
 "votre adresse e-mail."
 
-#: accounts/templates/registration/verify_email/emails/verify_email.html:11
+#: templates/registration/verify_email/emails/verify_email.html:11
 msgid "If you did not request this, please ignore this email."
 msgstr "Si vous n'avez pas demandé cela, veuillez ignorer cet e-mail."
 
-#: accounts/templates/registration/verify_email/send_token.html:7
+#: templates/registration/verify_email/send_token.html:7
 msgid "Verify your email"
 msgstr "Vérifiez votre adresse e-mail"
 
-#: accounts/templates/registration/verify_email/send_token.html:9
+#: templates/registration/verify_email/send_token.html:9
 msgid ""
 "To avoid spam and abuses, we need to verify that you own the email address "
 "you provided. We will send you an email with a link to verify your email "
@@ -361,7 +363,7 @@ msgstr ""
 "l'adresse e-mail que vous avez fournie. Nous vous enverrons un e-mail avec "
 "un lien pour vérifier votre adresse e-mail."
 
-#: accounts/templates/registration/verify_email/send_token.html:15
+#: templates/registration/verify_email/send_token.html:15
 msgid ""
 "Please note that you will not be able to use your account until you verify "
 "your email address. If you do not verify your email address, this account "
@@ -371,10 +373,16 @@ msgstr ""
 "n'aurez pas vérifié votre adresse e-mail. Si vous ne vérifiez pas votre "
 "adresse e-mail, ce compte sera supprimé dans les jours suivants."
 
-#: accounts/templates/registration/verify_email/send_token.html:23
+#: templates/registration/verify_email/send_token.html:23
 msgid "Send the verification link to my email"
 msgstr "Envoyer le lien de vérification sur mon adresse mail"
 
-#: accounts/views/profile.py:38
+#: views/profile.py:20
+msgid "Your password has been changed successfully!"
+msgstr "Votre mot de passe vient d'être changé avec succès"
+
+#: views/profile.py:53
 msgid "Your email has been changed. Please verify your new email address."
-msgstr "Votre adresse e-mail a été modifiée. Veuillez vérifier votre nouvelle adresse e-mail."
+msgstr ""
+"Votre adresse e-mail a été modifiée. Veuillez vérifier votre nouvelle "
+"adresse e-mail."

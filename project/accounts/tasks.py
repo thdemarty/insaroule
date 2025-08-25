@@ -1,3 +1,4 @@
+import os
 import json
 
 from celery import shared_task
@@ -8,6 +9,24 @@ from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from django.utils.translation import gettext as _
+
+
+@shared_task
+def debug_env_vars():
+    """
+    Debug task to assert that Celery can access environment variables
+    """
+    required_vars = [
+        "DJANGO_EMAIL_HOST_USER",
+        "DJANGO_EMAIL_HOST_PASSWORD",
+        "DJANGO_SETTINGS_MODULE",
+    ]
+
+    missing = [var for var in required_vars if not os.getenv(var)]
+    if missing:
+        raise RuntimeError(f"Missing environment variables: {missing}")
+
+    return "All required environment variables are accessible"
 
 
 @shared_task
