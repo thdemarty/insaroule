@@ -154,5 +154,9 @@ class Ride(models.Model):
     def remaining_seats(self):
         return self.vehicle.seats - self.rider.count()
 
+    @property
+    def booked_seats(self):
+        return self.rider.count()
+
     def get_absolute_url(self):
         return reverse("carpool:detail", kwargs={"pk": self.pk})

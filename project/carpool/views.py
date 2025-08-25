@@ -12,8 +12,10 @@ from django.db.models.functions import TruncDate
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_http_methods
+from django.contrib import messages
+from django.utils.translation import gettext as _
 
-from carpool.forms import CreateRideForm
+from carpool.forms import CreateRideForm, EditRideForm
 from carpool.models import Location, Vehicle
 from carpool.models.ride import Ride
 from carpool.tasks import get_autocompletion, get_routing
@@ -72,7 +74,7 @@ def change_jrequest_status(request, jr_pk):
 
     action = request.POST.get("action")
     if action == "accept":
-        join_request.status = ChatRequest.Status.ACCEPTEDF
+        join_request.status = ChatRequest.Status.ACCEPTED
         # Add the user to the ride
         join_request.ride.rider.add(join_request.user)
 
@@ -115,7 +117,16 @@ def rides_edit(request, pk):
     if ride.driver != request.user:
         return HttpResponse("You are not the driver of this ride", status=403)
 
-    context = {"ride": ride, "geometry": ride.geometry.geojson}
+    form = EditRideForm(instance=ride)
+
+    if request.method == "POST":
+        form = EditRideForm(request.POST, instance=ride)
+        if form.is_valid():
+            form.save(ride)
+            messages.success(request, _("You successfully updated the ride."))
+            return redirect("carpool:detail", pk=ride.pk)
+
+    context = {"ride": ride, "geometry": ride.geometry.geojson, "form": form}
 
     return render(request, "rides/edit.html", context)
 
