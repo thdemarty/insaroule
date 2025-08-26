@@ -43,8 +43,10 @@
                 <form action="" method="post">
                     {% csrf_token %}
                     <p>
-                        Are you sure you want to delete the ride from {{ ride.start_loc.city }} to {{ ride.end_loc.city }} on {{ ride.start_dt|date:"l j F Y" }} at {{ ride.start_dt|date:"H:i" }} ?
+                        {% blocktranslate trimmed with start_loc=ride.start_loc.city end_loc=ride.end_loc.city date=ride.start_dt|date:"l j F Y" time=ride.start_dt|date:"H:i"%}
+                        Are you sure you want to delete the ride from {{ start_loc }} to {{ end_loc }} on {{ date }} at {{ time }} ?
                         This action cannot be undone.
+                        {% endblocktranslate %}
                     </p>
                     <button type="submit" class="btn btn-danger {% if ride.rider.count > 0 %} disabled {% endif %}">{% translate "Delete the ride" %}</button>
 
