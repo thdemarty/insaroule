@@ -77,6 +77,12 @@ class ChatMessage(models.Model):
         help_text=_("Indicates whether this message is hidden from regular users"),
     )
 
+    is_read = models.BooleanField(
+        default=False,
+        verbose_name=_("is read"),
+        help_text=_("Indicates whether this message has been read by the recipient"),
+    )
+
     class Meta:
         # Custom permission to moderate chat messages
         permissions = (("can_moderate_messages", _("Can moderate chat messages")),)
