@@ -5,8 +5,6 @@
 
 
     {% block extrahead %}
-    <link rel="stylesheet" href="{% static 'vendors/leaflet/leaflet.css' %}"
-        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
     <style>
         #departure {
             z-index: 999;
@@ -39,17 +37,27 @@
 
     {% block content %}
     <div class="container mt-3">
-        <input type="hidden" name="" id="id_d_latitude" value="{{ ride.start_loc.lat|stringformat:"g" }}">
-        <input type="hidden" name="" id="id_d_longitude" value="{{ ride.start_loc.lng|stringformat:"g" }}">
-        <input type="hidden" name="" id="id_a_latitude" value="{{ ride.end_loc.lat|stringformat:"g" }}">
-        <input type="hidden" name="" id="id_a_longitude" value="{{ ride.end_loc.lng|stringformat:"g" }}">
-        <input type="hidden" name="" id="id_r_geometry" value="{{ geometry|default_if_none:"" }}">
-
-
-        <h1>{{ ride.start_dt|date:"l j F Y" }}</h1>
+        <h1>{% translate "Delete ride" %}</h1>
         <div class="row">
             <div class="col-xl-9">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <p>
+                        {% blocktranslate trimmed with start_loc=ride.start_loc.city end_loc=ride.end_loc.city date=ride.start_dt|date:"l j F Y" time=ride.start_dt|date:"H:i"%}
+                        Are you sure you want to delete the ride from {{ start_loc }} to {{ end_loc }} on {{ date }} at {{ time }} ?
+                        This action cannot be undone.
+                        {% endblocktranslate %}
+                    </p>
+                    <button type="submit" class="btn btn-danger">{% translate "Delete the ride" %}</button>
+
+                </form>
+                
+            </div>
+            <div class="col-xl-3">
                 <div class="card mb-3" style="background-color: #d2f4fa;">
+                    <div class="card-header">
+                        {{ ride.start_dt|date:"l j F Y" }}
+                    </div>
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
                             <div class="d-grid">
@@ -73,21 +81,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div id="ride-map" style="height: 50vh"></div>
-            </div>
-            <div class="col-xl-3">
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <ul>
-				<li>{% translate "Seats available:" %} {{ ride.remaining_seats }} </li>
-                        </ul>
-                    </div>
-                    <div class="card-footer d-flex flex-row">
-                        <img src="https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg"
-                            class="rounded-circle" width="40" height="40" />
-                        <span class="ms-2 my-auto fw-semibold text-muted fs-5">{{ ride.driver }}</span>
                     </div>
                 </div>
 
@@ -125,25 +118,23 @@
                         </div>
                     </div>
                 </div>
-                {% if not ride.driver == user %}
-                <form action="{% url 'carpool:subscribe' ride.pk %}" method="post">
-                    {% csrf_token %}
-                    <button class="btn btn-primary w-100" type="submit">{% translate "Subscribe" %}</button>
-                </form>
-                {% else %}
-                <div class="d-flex flex-row gap-3">
-                    <a href="{% url 'carpool:edit' ride.pk %}" class="btn btn-warning w-100">{% translate "Edit ride" %}</a>
-                    <a href="{% url 'carpool:delete' ride.pk %}" class="btn btn-danger w-100">{% translate "Delete ride" %}</a>
-                </div>
+                <div class="card mb-3">
+                    <div class="card-header">{% translate "Booked ride by" %}</div>
+                    <div class="card-body pb-0">
+                        <ul>
+                            {% for rider in ride.rider.all %}
+                                <li>{{ rider }}</li>
+                            {% endfor %}
+                        </ul>
 
-                {% endif %}
+
+                    </div>
+                </div>
             </div>
         </div>
     {% endblock %}
 
     {% block extrascript %}
-    <script src="{% static 'vendors/leaflet/leaflet.js' %}"
-        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
     <script src="{% static 'vendors/choices-js/public/assets/scripts/choices.min.js' %}"></script>
 
@@ -151,46 +142,5 @@
     <script>
         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
         const tooltipList = [...tooltipTriggerList].map(el => new bootstrap.Tooltip(el));
-    </script>
-
-
-    <script>
-        let route = null;
-        // Récupération des valeurs dans les inputs cachés
-        const departureLat = parseFloat(document.getElementById('id_d_latitude').value);
-        const departureLng = parseFloat(document.getElementById('id_d_longitude').value);
-        const arrivalLat = parseFloat(document.getElementById('id_a_latitude').value);
-        const arrivalLng = parseFloat(document.getElementById('id_a_longitude').value);
-        const r_geometry = document.getElementById('id_r_geometry').value;
-
-        const map = L.map('ride-map',
-            {
-
-            })
-
-        L.marker([departureLat, departureLng]).addTo(map)
-        L.marker([arrivalLat, arrivalLng]).addTo(map)
-
-        map.fitBounds([
-            [departureLat, departureLng],
-            [arrivalLat, arrivalLng]
-        ], {
-            padding: [50, 50]
-        });
-
-        route = L.geoJSON(JSON.parse(r_geometry), {
-            style: {
-                color: '#3388ff',
-                weight: 5,
-                opacity: 0.7
-            }
-        }).addTo(map);
-
-
-
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        }).addTo(map);
     </script>
     {% endblock extrascript %}

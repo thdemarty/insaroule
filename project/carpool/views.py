@@ -12,12 +12,23 @@ from django.db.models.functions import TruncDate
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_http_methods
+from django.contrib import messages
+from django.utils.translation import gettext as _
 
-from carpool.forms import CreateRideForm
+from carpool.forms import CreateRideForm, EditRideForm
 from carpool.models import Location, Vehicle
 from carpool.models.ride import Ride
 from carpool.tasks import get_autocompletion, get_routing
 from django.utils.timezone import localtime
+
+
+@login_required
+def list_my_rides(request):
+    rides = Ride.objects.filter(driver=request.user)
+    paginator = Paginator(rides, 10)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+    return render(request, "rides/my_rides.html", {"page_obj": page_obj})
 
 
 @login_required
@@ -97,6 +108,51 @@ def rides_detail(request, pk):
         "geometry": ride.geometry.geojson,
     }
     return render(request, "rides/detail.html", context)
+
+
+@login_required
+def rides_edit(request, pk):
+    ride = get_object_or_404(Ride, pk=pk)
+    # Check if user has permission
+    if ride.driver != request.user:
+        return HttpResponse("You are not the driver of this ride", status=403)
+
+    form = EditRideForm(instance=ride)
+
+    if request.method == "POST":
+        form = EditRideForm(request.POST, instance=ride)
+        if form.is_valid():
+            form.save(ride)
+            messages.success(request, _("You successfully updated the ride."))
+            return redirect("carpool:detail", pk=ride.pk)
+
+    context = {"ride": ride, "geometry": ride.geometry.geojson, "form": form}
+
+    return render(request, "rides/edit.html", context)
+
+
+@login_required
+def rides_delete(request, pk):
+    ride = get_object_or_404(Ride, pk=pk)
+    # Check if user has permission
+    if ride.driver != request.user:
+        return HttpResponse("You are not the driver of this ride", status=403)
+
+    if request.method == "POST":
+        if Ride.objects.safe_delete(ride):
+            messages.success(request, _("You successfully deleted the ride."))
+        else:
+            messages.error(
+                request,
+                _(
+                    "You cannot delete this ride because it has riders and is not over yet."
+                ),
+            )
+            return redirect("carpool:detail", pk=ride.pk)
+        return redirect("carpool:my-rides")
+
+    context = {"ride": ride, "geometry": ride.geometry.geojson}
+    return render(request, "rides/delete.html", context)
 
 
 @login_required
