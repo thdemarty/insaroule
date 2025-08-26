@@ -31,6 +31,13 @@ class RideManager(models.Manager):
             .count()
         )
 
+    def safe_delete(self, ride) -> bool:
+        """Soft delete rides delete the ride only if has no riders or if the ride has ended."""
+        if ride.rider.count() == 0 or (ride.end_dt and ride.end_dt < timezone.now()):
+            ride.delete()
+            return True
+        return False
+
 
 class Ride(models.Model):
     class PaymentMethod(models.TextChoices):

@@ -132,6 +132,29 @@ def rides_edit(request, pk):
 
 
 @login_required
+def rides_delete(request, pk):
+    ride = get_object_or_404(Ride, pk=pk)
+    # Check if user has permission
+    if ride.driver != request.user:
+        return HttpResponse("You are not the driver of this ride", status=403)
+
+    if request.method == "POST":
+        if Ride.objects.safe_delete(ride):
+            messages.success(request, _("You successfully deleted the ride."))
+        else:
+            messages.error(
+                request,
+                _(
+                    "You cannot delete this ride because it has riders and is not over yet."
+                ),
+            )
+        return redirect("carpool:my-rides")
+
+    context = {"ride": ride, "geometry": ride.geometry.geojson}
+    return render(request, "rides/delete.html", context)
+
+
+@login_required
 def rides_list(request):
     rides = Ride.objects.all()
 
