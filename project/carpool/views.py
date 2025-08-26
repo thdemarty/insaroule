@@ -148,6 +148,7 @@ def rides_delete(request, pk):
                     "You cannot delete this ride because it has riders and is not over yet."
                 ),
             )
+            return redirect("carpool:detail", pk=ride.pk)
         return redirect("carpool:my-rides")
 
     context = {"ride": ride, "geometry": ride.geometry.geojson}
