@@ -54,10 +54,8 @@ msgid "Map View"
 msgstr "Carte"
 
 #: templates/includes/navbar.html:22
-#, fuzzy
-#| msgid "Rides"
 msgid "My Rides"
-msgstr "Trajets"
+msgstr "Mes trajets"
 
 #: templates/includes/navbar.html:26
 msgid "Publish a ride"
