@@ -1,6 +1,8 @@
 import os
 
 from celery import Celery
+from celery.schedules import crontab
+from django.conf import settings
 
 # Set the default Django settings module for the 'celery' program.
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "project.settings.development")
@@ -15,3 +17,12 @@ app.config_from_object("django.conf:settings", namespace="CELERY")
 
 # Load task modules from all registered Django apps.
 app.autodiscover_tasks()
+
+app.conf.beat_schedule = {
+    "send-unread-messages-emails": {
+        "task": "chat.tasks.send_email_unread_messages",
+        "schedule": crontab(
+            minute=f"*/{settings.EMAIL_NOTIFICATION_THRESHOLD_MINUTES}"
+        ),
+    }
+}

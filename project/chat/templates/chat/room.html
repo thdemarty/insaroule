@@ -142,14 +142,14 @@
         wsScheme + '://' + window.location.host + '/ws/chat/' + roomName + '/'
     );
 
-        function hideMessage(messageId) {
+    function hideMessage(messageId) {
         // Hide the message element
         const messageEl = document.querySelector('.card[data-message-id="' + messageId + '"]');
         messageEl.querySelector('.card-body p').textContent = "This message has been removed.";
     }
 
     function unhideMessage(messageId) {
-        
+
         const messageEl = document.querySelector('.card[data-message-id="' + messageId + '"]');
         const messageText = messageEl.querySelector('.card-body p');
         messageText.textContent = "Refresh the page to see the original message.";
@@ -200,6 +200,13 @@
     }
 
 
+    chatSocket.onopen = function (e) {
+        // Mark the chat as read when the connection is established
+        chatSocket.send(JSON.stringify(
+            { action: "mark_read" }
+        ));
+    };
+
     chatSocket.onmessage = function (e) {
         const msg = JSON.parse(e.data);
         console.debug(msg);
@@ -219,7 +226,7 @@
         console.error('Chat socket closed unexpectedly');
     };
 
-    
+
     // Focus the input field when the page loads
     document.querySelector('#chat-message-input').focus();
 
