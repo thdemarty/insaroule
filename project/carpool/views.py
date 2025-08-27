@@ -162,7 +162,10 @@ def rides_delete(request, pk):
 
 @login_required
 def rides_list(request):
-    rides = Ride.objects.all()
+    # Get all rides that are whether today's date or in the future
+    rides = Ride.objects.filter(
+        start_dt__date__gte=datetime.date.today(),
+    )
 
     # ====================================================== #
     # Filters
@@ -175,7 +178,6 @@ def rides_list(request):
         # Get rides for a specific date
         filter_date = datetime.datetime.strptime(filter_date, "%Y-%m-%d").date()
         rides = rides.filter(start_dt__date=filter_date)
-        print("Rides:", rides)
 
     if filter_start:
         # Do the postgis check if the location is within 10km of the geometry
@@ -183,7 +185,6 @@ def rides_list(request):
         try:
             lat, lng = map(float, filter_start.split(","))
             point = Point(lng, lat, srid=4326)  # (lng, lat) — correct order for GEOS
-            print("Point:", point)
             # Annotate rides with distance from the point
             rides = rides.annotate(distance=Distance("geometry", point))
             rides = rides.filter(distance__lte=D(km=10))
@@ -197,6 +198,7 @@ def rides_list(request):
     if filter_end:
         # Do the postgis check if the location is within 10km of the geometry
         # Do nothing for now (or it will be to exclusive to the rides)
+        # TODO: implement it properly
         pass
 
     rides = rides.annotate(ride_date=TruncDate("start_dt")).order_by(
