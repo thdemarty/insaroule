@@ -1,0 +1,9 @@
+{% load i18n %}{% translate "Hello" %} {{ username}},
+
+{% blocktranslate trimmed with departure=ride.start_loc.city arrival=ride.end_loc.city date=ride.start_dt|date:"j F Y" driver=ride.driver %}
+Your reservation for the trip from {{ departure }} to {{ arrival }} on {{ date }} 
+with {{ driver }} has been declined.{% endblocktranslate %}
+
+{% translate "We wish you a pleasant ride!" %}
+
+{% include "emails/consent_footer.txt" %}

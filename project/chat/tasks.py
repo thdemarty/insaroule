@@ -36,8 +36,31 @@ def send_email_confirmed_ride(join_request_pk):
     )
 
     email.send(fail_silently=False)
+    logger.info(f"Sent ride confirmation email to {join_request.user.email}.")
 
-    return f"Sent ride confirmation email to {join_request.user.email}."
+
+@shared_task
+def send_email_declined_ride(join_request_pk):
+    """
+    Send an email to the rider when their ride is declined by the driver.
+    """
+    join_request = ChatRequest.objects.get(pk=join_request_pk)
+
+    context = {
+        "username": join_request.user.username,
+        "ride": join_request.ride,
+    }
+
+    message = render_to_string("chat/emails/declined_ride.txt", context)
+
+    email = EmailMessage(
+        subject="[INSAROULE] Your ride has been declined!",
+        body=message,
+        to=[join_request.user.email],
+    )
+
+    email.send(fail_silently=False)
+    logger.info(f"Sent ride decline email to {join_request.user.email}.")
 
 
 @shared_task
