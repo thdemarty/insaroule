@@ -77,6 +77,24 @@ class ChatMessage(models.Model):
         help_text=_("Indicates whether this message is hidden from regular users"),
     )
 
+    read_at = models.DateTimeField(
+        auto_now_add=False,
+        blank=True,
+        null=True,
+        verbose_name=_("read at"),
+        help_text=_("The date and time when the message was read"),
+    )
+
+    notified_at = models.DateTimeField(
+        auto_now_add=False,
+        blank=True,
+        null=True,
+        verbose_name=_("notified at"),
+        help_text=_(
+            "The date and time when the user was notified about this message (if any)"
+        ),
+    )
+
     class Meta:
         # Custom permission to moderate chat messages
         permissions = (("can_moderate_messages", _("Can moderate chat messages")),)

@@ -344,11 +344,31 @@
     }
 
     if (dFulltext && dLatLng) {
-        departure.setValue([`${d_latitude}/${d_longitude}`, dFulltext])
+        departure.setValue([{
+            value: dLatLng,
+            label: dFulltext,
+            customProperties: {
+                latitude: d_latitude,
+                longitude: d_longitude
+            },
+            selected: true
+        }]);
+        hDepartureFullText.value = dFulltext;
+        hDepartureLatLng.value = dLatLng;
     }
 
     if (aFulltext && aLatLng) {
-        arrival.setValue([`${a_latitude}/${a_longitude}`, aFulltext])
+        arrival.setValue([{
+            value: aLatLng,
+            label: aFulltext,
+            customProperties: {
+                latitude: a_latitude,
+                longitude: a_longitude
+            },
+            selected: true
+        }]);
+        hArrivalFullText.value = aFulltext;
+        hArrivalLatLng.value = aLatLng;
     }
 
 </script>
