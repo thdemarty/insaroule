@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-26 09:07+0200\n"
+"POT-Creation-Date: 2025-08-27 16:38+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,23 +18,27 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: carpool/forms.py:58 carpool/forms.py:157
+#: carpool/forms.py:58 carpool/forms.py:163
 msgid "Number of seats available"
 msgstr "Nombre de places disponibles"
 
-#: carpool/forms.py:62 carpool/forms.py:161
+#: carpool/forms.py:62 carpool/forms.py:167
 msgid "Number of seats available in the carpool."
 msgstr "Nombre de places disponibles dans le véhicule"
 
-#: carpool/forms.py:71 carpool/forms.py:170
+#: carpool/forms.py:71 carpool/forms.py:176
 msgid "Price per seat"
 msgstr "Prix par personne"
 
-#: carpool/forms.py:92 carpool/forms.py:228
+#: carpool/forms.py:92 carpool/forms.py:234
 msgid "A payment method is required if a price is set."
 msgstr "Un moyen de paiement est requis si un prix est défini."
 
-#: carpool/forms.py:239
+#: carpool/forms.py:98 carpool/forms.py:240
+msgid "The price per seat seems unreasonably high."
+msgstr ""
+
+#: carpool/forms.py:251
 #, python-format
 msgid ""
 "You cannot reduce the number of seats below the number of already booked "
@@ -255,31 +259,6 @@ msgstr "durée"
 msgid "Duration of the ride"
 msgstr "Durée du trajet"
 
-#: carpool/templates/emails/confirmed_ride.txt:1
-msgid "Hello"
-msgstr "Bonjour"
-
-#: carpool/templates/emails/confirmed_ride.txt:3
-#, python-format
-msgid ""
-"Your reservation for the trip from %(departure_city)s to %(arrival_city)s on "
-"%(ride_date)s at %(ride_time)s has been confirmed."
-msgstr ""
-"Votre réservation pour le trajet de %(departure_city)s à %(arrival_city)s le "
-"%(ride_date)s à %(ride_time)s a été confirmée."
-
-#: carpool/templates/emails/confirmed_ride.txt:8
-msgid ""
-"The driver has been informed of your reservation. You can communicate with "
-"them directly from your account if necessary."
-msgstr ""
-"Le conducteur a été informé de votre réservation. Vous pouvez communiquer "
-"avec eux directement depuis votre compte si nécessaire."
-
-#: carpool/templates/emails/confirmed_ride.txt:13
-msgid "We wish you a pleasant ride!"
-msgstr "Nous vous souhaitons une agréable conduite!"
-
 #: carpool/templates/rides/create.html:36
 msgid "Publish a new ride"
 msgstr "Publier un trajet"
@@ -298,22 +277,23 @@ msgstr "Ce champ est obligatoire"
 msgid "Arrival address"
 msgstr "Adresse d'arrivée"
 
-#: carpool/templates/rides/create.html:90 carpool/templates/rides/edit.html:100
+#: carpool/templates/rides/create.html:105
+#: carpool/templates/rides/edit.html:105
 msgid "Payment method"
 msgstr "Méthode de paiement"
 
-#: carpool/templates/rides/create.html:101
-#: carpool/templates/rides/edit.html:111
+#: carpool/templates/rides/create.html:116
+#: carpool/templates/rides/edit.html:116
 msgid "Publish ride"
 msgstr "Publier un trajet"
 
-#: carpool/templates/rides/create.html:161
-#: carpool/templates/rides/edit.html:171
+#: carpool/templates/rides/create.html:176
+#: carpool/templates/rides/edit.html:176
 msgid "Search for a precise departure address"
 msgstr "Rechercher une adresse de départ"
 
-#: carpool/templates/rides/create.html:165
-#: carpool/templates/rides/edit.html:175
+#: carpool/templates/rides/create.html:180
+#: carpool/templates/rides/edit.html:180
 msgid "Search for a precise arrival address"
 msgstr "Rechercher une adresse d'arrivée"
 
@@ -360,7 +340,6 @@ msgid "Search"
 msgstr "Rechercher"
 
 #: carpool/templates/rides/list.html:170
-#: carpool/templates/rides/my_rides.html:8
 msgid "No rides found"
 msgstr "Aucun trajet trouvé"
 
@@ -381,20 +360,45 @@ msgstr "Rechercher une adresse de départ"
 msgid "Search for an address of arrival"
 msgstr "Rechercher une adresse d'arrivée"
 
-#: carpool/templates/rides/my_rides.html:3
+#: carpool/templates/rides/my_rides.html:29
 msgid "My rides"
 msgstr "Mes trajets"
 
-#: carpool/views.py:126
+#: carpool/templates/rides/my_rides.html:87
+msgid "Booked seats:"
+msgstr ""
+
+#: carpool/views.py:130
 msgid "You successfully updated the ride."
 msgstr "Vous avez mis à jour le trajet avec succès."
 
-#: carpool/views.py:143
+#: carpool/views.py:147
 msgid "You successfully deleted the ride."
 msgstr "Vous avez supprimé le trajet avec succès."
 
-#: carpool/views.py:148
+#: carpool/views.py:152
 msgid "You cannot delete this ride because it has riders and is not over yet."
 msgstr ""
 "Vous ne pouvez pas supprimer ce trajet car il a des passagers et n'est pas "
 "encore terminé."
+
+#~ msgid "Hello"
+#~ msgstr "Bonjour"
+
+#, python-format
+#~ msgid ""
+#~ "Your reservation for the trip from %(departure_city)s to %(arrival_city)s "
+#~ "on %(ride_date)s at %(ride_time)s has been confirmed."
+#~ msgstr ""
+#~ "Votre réservation pour le trajet de %(departure_city)s à %(arrival_city)s "
+#~ "le %(ride_date)s à %(ride_time)s a été confirmée."
+
+#~ msgid ""
+#~ "The driver has been informed of your reservation. You can communicate "
+#~ "with them directly from your account if necessary."
+#~ msgstr ""
+#~ "Le conducteur a été informé de votre réservation. Vous pouvez communiquer "
+#~ "avec eux directement depuis votre compte si nécessaire."
+
+#~ msgid "We wish you a pleasant ride!"
+#~ msgstr "Nous vous souhaitons un agréable covoiturage !"

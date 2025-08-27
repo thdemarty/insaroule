@@ -2,18 +2,42 @@ from collections import defaultdict
 
 from accounts.models import User
 from celery import shared_task
+from celery.utils.log import get_task_logger
+from django.conf import settings
 from django.core.mail import EmailMessage
 from django.db.models import Case, Count, F, When
 from django.db.models.fields import UUIDField
 from django.template.loader import render_to_string
 from django.utils import timezone
-from celery.utils.log import get_task_logger
-from chat.models import ChatMessage
 
-EMAIL_NOTIFICATION_THRESHOLD_MINUTES = 30
-
+from chat.models import ChatMessage, ChatRequest
 
 logger = get_task_logger(__name__)
+
+
+@shared_task
+def send_email_confirmed_ride(join_request_pk):
+    """
+    Send an email to the rider when their ride is confirmed by the driver.
+    """
+    join_request = ChatRequest.objects.get(pk=join_request_pk)
+
+    context = {
+        "username": join_request.user.username,
+        "ride": join_request.ride,
+    }
+
+    message = render_to_string("chat/emails/confirmed_ride.txt", context)
+
+    email = EmailMessage(
+        subject="[INSAROULE] Your ride has been confirmed!",
+        body=message,
+        to=[join_request.user.email],
+    )
+
+    email.send(fail_silently=False)
+
+    return f"Sent ride confirmation email to {join_request.user.email}."
 
 
 @shared_task
@@ -21,7 +45,7 @@ def send_email_unread_messages():
     # We want to notify users about unread messages that are older than a certain threshold
     # and haven't been notified yet, to avoid spamming them with immediate notifications.
     cutoff = timezone.now() - timezone.timedelta(
-        minutes=EMAIL_NOTIFICATION_THRESHOLD_MINUTES
+        minutes=settings.EMAIL_NOTIFICATION_THRESHOLD_MINUTES
     )
 
     unread_struct = (

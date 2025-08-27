@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-21 14:33+0200\n"
+"POT-Creation-Date: 2025-08-27 16:38+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,7 +26,7 @@ msgstr "Français"
 msgid "English"
 msgstr "Anglais"
 
-#: templates/emails/consent_footer.txt:1
+#: templates/emails/consent_footer.txt:2
 #, python-format
 msgid ""
 "You are receiving this email because you consented to receive our "
@@ -34,14 +34,14 @@ msgid ""
 "time by going on your account's settings %(consent_link_communication)s"
 msgstr ""
 
-#: templates/emails/mandatory_footer.txt:1
+#: templates/emails/mandatory_footer.txt:2
 msgid ""
 "You are receiving this email because it contains essential information "
 "regarding your account or our legal obligations.To stop receiving this type "
 "of mandatory communication, you must close your account."
 msgstr ""
 
-#: templates/emails/signature.txt:2
+#: templates/emails/signature.txt:1
 msgid "Your favorite carpooling app"
 msgstr "Votre application préférée de covoiturage"
 
@@ -50,29 +50,35 @@ msgid "Rides"
 msgstr "Trajets"
 
 #: templates/includes/navbar.html:18
-msgid "Publish a ride"
-msgstr "Publier un trajet"
-
-#: templates/includes/navbar.html:22
 msgid "Map View"
 msgstr "Carte"
 
-#: templates/includes/navbar.html:28
-msgid "Moderation"
-msgstr ""
+#: templates/includes/navbar.html:22
+#, fuzzy
+#| msgid "Rides"
+msgid "My Rides"
+msgstr "Trajets"
 
-#: templates/includes/navbar.html:36
+#: templates/includes/navbar.html:26
+msgid "Publish a ride"
+msgstr "Publier un trajet"
+
+#: templates/includes/navbar.html:33
 msgid "Messages"
 msgstr "Messages"
 
-#: templates/includes/navbar.html:60
+#: templates/includes/navbar.html:57
 msgid "My Account"
 msgstr "Mon compte"
 
-#: templates/includes/navbar.html:62
+#: templates/includes/navbar.html:59
 msgid "Admin Panel"
 msgstr "Panneau d'administration"
 
-#: templates/includes/navbar.html:69
+#: templates/includes/navbar.html:65
+msgid "Moderation"
+msgstr ""
+
+#: templates/includes/navbar.html:74
 msgid "Logout"
 msgstr "Se déconnecter"
