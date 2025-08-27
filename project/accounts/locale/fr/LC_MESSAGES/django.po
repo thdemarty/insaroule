@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-27 16:38+0200\n"
+"POT-Creation-Date: 2025-08-27 18:22+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -275,8 +275,8 @@ msgid "Password reset"
 msgstr "Réinitialisation du mot de passe"
 
 #: accounts/templates/registration/password_reset/index.html:22
-msgid "Send reset password email"
-msgstr "Envoyer l'e-mail de réinitialisation du mot de passe"
+msgid "Reset password"
+msgstr "Réinitialiser le mot de passe"
 
 #: accounts/templates/registration/register.html:8
 msgid "Registrations are currently disabled."
@@ -390,3 +390,4 @@ msgid "Your email has been changed. Please verify your new email address."
 msgstr ""
 "Votre adresse e-mail a été modifiée. Veuillez vérifier votre nouvelle "
 "adresse e-mail."
+

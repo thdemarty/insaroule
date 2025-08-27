@@ -241,6 +241,12 @@
     document.querySelector('#chat-message-submit').onclick = function (e) {
         const messageInputDom = document.querySelector('#chat-message-input');
         const message = messageInputDom.value.trim();
+        // Limit to big size messages to be send
+        if (message.length > 1000) {
+            alert("Your message is too long. Please limit it to 1000 character. (Current length: " + message.length + ")");
+            return;
+        } 
+        
         if (message === '') return;
 
         chatSocket.send(JSON.stringify({ message }));
