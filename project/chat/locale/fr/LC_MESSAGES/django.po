@@ -1,0 +1,279 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-27 11:56+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: models.py:11
+msgid "Pending"
+msgstr ""
+
+#: models.py:12
+msgid "Accepted"
+msgstr ""
+
+#: models.py:13
+msgid "Declined"
+msgstr ""
+
+#: models.py:16
+msgid "UUID"
+msgstr ""
+
+#: models.py:23
+msgid "status"
+msgstr ""
+
+#: models.py:26
+msgid "Status of the join request"
+msgstr ""
+
+#: models.py:32
+msgid "ride"
+msgstr ""
+
+#: models.py:33
+msgid "The ride for which the chat request is made"
+msgstr ""
+
+#: models.py:40
+msgid "user"
+msgstr ""
+
+#: models.py:41
+msgid "The user who made the chat request"
+msgstr ""
+
+#: models.py:47
+msgid "created at"
+msgstr ""
+
+#: models.py:48
+msgid "The date and time when the chat request was created"
+msgstr ""
+
+#: models.py:62
+msgid "sender"
+msgstr ""
+
+#: models.py:69
+msgid "join request"
+msgstr ""
+
+#: models.py:76
+msgid "hidden"
+msgstr ""
+
+#: models.py:77
+msgid "Indicates whether this message is hidden from regular users"
+msgstr ""
+
+#: models.py:84
+msgid "read at"
+msgstr ""
+
+#: models.py:85
+msgid "The date and time when the message was read"
+msgstr ""
+
+#: models.py:92
+msgid "notified at"
+msgstr ""
+
+#: models.py:93
+msgid ""
+"The date and time when the user was notified about this message (if any)"
+msgstr ""
+
+#: models.py:98
+msgid "Can moderate chat messages"
+msgstr ""
+
+#: models.py:106
+msgid "chat request"
+msgstr ""
+
+#: models.py:113
+msgid "reported by"
+msgstr ""
+
+#: models.py:116 models.py:146
+msgid "reason"
+msgstr ""
+
+#: models.py:126
+msgid "Flag User"
+msgstr ""
+
+#: models.py:127
+msgid "Block User"
+msgstr ""
+
+#: models.py:133
+msgid "performed by"
+msgstr ""
+
+#: models.py:140
+msgid "on user"
+msgstr ""
+
+#: models.py:147
+msgid "Reason for the moderation action"
+msgstr ""
+
+#: models.py:155
+msgid "action"
+msgstr ""
+
+#: models.py:156
+msgid "The type of moderation action performed"
+msgstr ""
+
+#: templates/chat/emails/unread_messages.txt:1
+msgid "Hello"
+msgstr "Bonjour"
+
+#: templates/chat/emails/unread_messages.txt:3
+#, python-format
+msgid "You have %(count)s unread messages on INSA'ROULE."
+msgstr "Vous avez %(count)s messages non lus sur INSA'ROULE."
+
+#: templates/chat/emails/unread_messages.txt:5
+msgid "%(contact)s contacted you about the ride to %(destination)s on %(date)s"
+msgstr "%(contact)s vous a contacté au sujet du trajet vers %(destination)s le %(date)s"
+
+#: templates/chat/emails/unread_messages.txt:8
+msgid "To answer these messages, connect to your account."
+msgstr "Pour répondre à ces messages, connectez-vous à votre compte."
+
+#: templates/chat/includes/mod_profile.html:15
+msgid "Driver"
+msgstr ""
+
+#: templates/chat/includes/mod_profile.html:17
+msgid "Requester"
+msgstr ""
+
+#: templates/chat/includes/mod_profile.html:32
+msgid "Report user"
+msgstr ""
+
+#: templates/chat/includes/mod_profile.html:37
+msgid "Reason for reporting"
+msgstr ""
+
+#: templates/chat/includes/mod_profile.html:40
+msgid "Report"
+msgstr ""
+
+#: templates/chat/includes/mod_profile.html:45
+msgid "Mod history"
+msgstr ""
+
+#: templates/chat/includes/mod_profile.html:50
+msgid "No moderation actions found."
+msgstr ""
+
+#: templates/chat/includes/sidebar.html:31
+msgid "Ride Requests"
+msgstr ""
+
+#: templates/chat/includes/sidebar.html:68
+msgid "No ride requests found"
+msgstr ""
+
+#: templates/chat/includes/sidebar.html:71
+msgid "Search a ride"
+msgstr ""
+
+#: templates/chat/includes/sidebar.html:80
+msgid "Incoming requests"
+msgstr ""
+
+#: templates/chat/includes/sidebar.html:128
+msgid "Nobody has requested to join your rides yet."
+msgstr ""
+
+#: templates/chat/index.html:18
+msgid "Choose a conversation on the left to start discussing."
+msgstr ""
+
+#: templates/chat/moderation/index.html:6
+msgid "Moderation center"
+msgstr ""
+
+#: templates/chat/moderation/index.html:13
+msgid "Chat"
+msgstr ""
+
+#: templates/chat/moderation/index.html:16
+msgid "Reported"
+msgstr ""
+
+#: templates/chat/moderation/index.html:32
+msgid "No chats to moderate"
+msgstr ""
+
+#: templates/chat/moderation/search.html:5
+msgid "username"
+msgstr ""
+
+#: templates/chat/moderation/search.html:8
+msgid "search by chat content"
+msgstr ""
+
+#: templates/chat/moderation/search.html:11
+msgid "Search"
+msgstr ""
+
+#: templates/chat/room.html:29
+msgid "Report the conversation"
+msgstr ""
+
+#: templates/chat/room.html:38
+msgid "We can moderate messages if necessary."
+msgstr ""
+
+#: templates/chat/room.html:69
+msgid "You have never ride with this user."
+msgstr ""
+
+#: templates/chat/room.html:71
+msgid ""
+"You have already shared {{ shared_ride_count }} ride{{ shared_ride_count|"
+"pluralize }} with this user."
+msgstr "Vous avez déjà partagé {{ shared_ride_count }} trajet{{ shared_ride_count|"
+"pluralize }} avec cet utilisateur."
+
+#: templates/chat/room.html:115
+msgid ""
+"You have the possibility to accept or decline the request made by this user. "
+"When declining, the user won't be able to send you a request for this ride "
+"anymore."
+msgstr ""
+
+#: templates/chat/room.html:123
+msgid "Decline"
+msgstr ""
+
+#: templates/chat/room.html:124
+msgid "Accept"
+msgstr ""
+
+#: templates/chat/room.html:126
+msgid "Submit"
+msgstr ""
