@@ -173,11 +173,12 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
                 chats = await sync_to_async(
                     ChatMessage.objects.filter(
-                        chat_request=self.chat_request, is_read=False
+                        chat_request=self.chat_request,
+                        read_at__isnull=True,
                     )
                     .exclude(sender=self.user)
                     .update
-                )(is_read=True)
+                )(read_at=timezone.now())
 
                 logging.debug(f"Marked {chats} messages as read.")
 

@@ -77,10 +77,22 @@ class ChatMessage(models.Model):
         help_text=_("Indicates whether this message is hidden from regular users"),
     )
 
-    is_read = models.BooleanField(
-        default=False,
-        verbose_name=_("is read"),
-        help_text=_("Indicates whether this message has been read by the recipient"),
+    read_at = models.DateTimeField(
+        auto_now_add=False,
+        blank=True,
+        null=True,
+        verbose_name=_("read at"),
+        help_text=_("The date and time when the message was read"),
+    )
+
+    notified_at = models.DateTimeField(
+        auto_now_add=False,
+        blank=True,
+        null=True,
+        verbose_name=_("notified at"),
+        help_text=_(
+            "The date and time when the user was notified about this message (if any)"
+        ),
     )
 
     class Meta:
