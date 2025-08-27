@@ -94,7 +94,12 @@
                     {% endif %}
                 </div>
 
-                <div class="mb-3">{{ form.price_per_seat }}</div>
+                <div class="mb-3">
+                    {{ form.price_per_seat }}
+                    {% if form.price_per_seat.errors %}
+                    <span class="text-danger">{{ form.price_per_seat.errors }}</span>
+                    {% endif %}
+                </div>
 
                 <div class="mb-3">
                     <label for="payment-options">{% translate "Payment method" %}</label>
