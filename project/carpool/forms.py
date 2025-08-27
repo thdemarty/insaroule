@@ -92,6 +92,12 @@ class CreateRideForm(forms.Form):
                     _("A payment method is required if a price is set."),
                 )
 
+        if price is not None and price > 999:
+            self.add_error(
+                "price_per_seat",
+                _("The price per seat seems unreasonably high."),
+            )
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
@@ -227,6 +233,12 @@ class EditRideForm(forms.Form):
                     "payment_method",
                     _("A payment method is required if a price is set."),
                 )
+
+        if price is not None and price > 999:
+            self.add_error(
+                "price_per_seat",
+                _("The price per seat seems unreasonably high."),
+            )
 
         # Ensure that the user cannot reduce the number of seats below the
         # number of already booked seats

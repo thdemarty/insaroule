@@ -80,11 +80,26 @@
                     {{ form.r_duration }}
                 </div>
 
-                <div class="mb-3">{{ form.departure_datetime }}</div>
+                <div class="mb-3">
+                    {{ form.departure_datetime }}
+                    {% if form.departure_datetime.errors %}
+                    <span class="text-danger">{{ form.departure_datetime.errors }}</span>
+                    {% endif %}
+                </div>
 
-                <div class="mb-3">{{ form.seats }}</div>
+                <div class="mb-3">
+                    {{ form.seats }}
+                    {% if form.seats.errors %}
+                    <span class="text-danger">{{ form.seats.errors }}</span>
+                    {% endif %}
+                </div>
 
-                <div class="mb-3">{{ form.price_per_seat }}</div>
+                <div class="mb-3">
+                    {{ form.price_per_seat }}
+                    {% if form.price_per_seat.errors %}
+                    <span class="text-danger">{{ form.price_per_seat.errors }}</span>
+                    {% endif %}
+                </div>
 
                 <div class="mb-3">
                     <label for="payment-options">{% translate "Payment method" %}</label>
