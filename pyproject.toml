@@ -74,7 +74,12 @@ cwd = "project"
 env = { "DJANGO_SETTINGS_MODULE" = "project.settings.development" }
 cmd = "uv run manage.py compilemessages"
 
-[tool.poe.tasks.celery]
+[tool.poe.tasks.celery-worker]
 cwd = "project"
 env = { "DJANGO_SETTINGS_MODULE" = "project.settings.development" }
 cmd = "uv run celery -A project worker -l info"
+
+[tool.poe.tasks.celery-beat]
+cwd = "project"
+env = { "DJANGO_SETTINGS_MODULE" = "project.settings.development" }
+cmd = "uv run celery -A project beat -l info"

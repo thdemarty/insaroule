@@ -95,7 +95,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         """
         from chat.models import ChatMessage
 
-        logging.warning(f"Received message: {text_data}")
+        logging.debug(f"Received message: {text_data}")
 
         text_data = json.loads(text_data)
         if "message" in text_data:
@@ -118,20 +118,20 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 "message_id": message.id,
             }
 
-            logging.warning(f"Broadcasting message: {data}")
+            logging.debug(f"Broadcasting message: {data}")
 
             await self.channel_layer.group_send(self.room_group_name, data)
 
         elif "action" in text_data:
-            if not self.user.has_perm("chat.can_moderate_messages"):
-                logging.warning(
-                    f"User {self.user.username} attempted to perform moderation action without permission.",
-                )
-                return
             action = text_data["action"]
             message_id = text_data.get("message_id")
 
             if action == "hide" and message_id:
+                if not self.user.has_perm("chat.can_moderate_messages"):
+                    logging.warning(
+                        f"User {self.user.username} attempted to hide a message without permission.",
+                    )
+                    return
                 # Hide the message
                 _ = await sync_to_async(
                     ChatMessage.objects.filter(pk=message_id).update,
@@ -147,6 +147,11 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 )
 
             elif action == "unhide" and message_id:
+                if not self.user.has_perm("chat.can_moderate_messages"):
+                    logging.warning(
+                        f"User {self.user.username} attempted to unhide a message without permission.",
+                    )
+                    return
                 _ = await sync_to_async(
                     ChatMessage.objects.filter(pk=message_id).update,
                 )(hidden=False)
@@ -159,6 +164,23 @@ class ChatConsumer(AsyncWebsocketConsumer):
                         "message_id": message_id,
                     },
                 )
+
+            elif action == "mark_read":
+                logging.debug(
+                    f"User {self.user.username} is marking messages as read in chat {self.room_name}.",
+                )
+                # Mark all messages in this chat as read by the user
+
+                chats = await sync_to_async(
+                    ChatMessage.objects.filter(
+                        chat_request=self.chat_request,
+                        read_at__isnull=True,
+                    )
+                    .exclude(sender=self.user)
+                    .update
+                )(read_at=timezone.now())
+
+                logging.debug(f"Marked {chats} messages as read.")
 
     async def chat_message(self, event):
         """Handler for type 'chat.message'."""
@@ -179,16 +201,28 @@ class ChatConsumer(AsyncWebsocketConsumer):
         )
 
     async def chat_action(self, event):
-        """Handle chat actions such as hiding or unhiding messages."""
+        """Handle chat actions."""
         action = event["action"]
-        message_id = event["message_id"]
 
-        await self.send(
-            text_data=json.dumps(
-                {
-                    "type": "chat.action",
-                    "action": action,
-                    "message_id": message_id,
-                },
-            ),
-        )
+        if action in ["hide", "unhide"]:
+            message_id = event["message_id"]
+
+            await self.send(
+                text_data=json.dumps(
+                    {
+                        "type": "chat.action",
+                        "action": action,
+                        "message_id": message_id,
+                    },
+                ),
+            )
+        if action == "mark_read":
+            await self.send(
+                text_data=json.dumps(
+                    {
+                        "type": "chat.action",
+                        "action": "mark_read",
+                        "user_uuid": event["user_uuid"],
+                    }
+                )
+            )
