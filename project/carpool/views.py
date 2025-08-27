@@ -3,6 +3,7 @@ import json
 
 from asgiref.sync import sync_to_async
 from chat.models import ChatRequest
+from chat.tasks import send_email_confirmed_ride, send_email_declined_ride
 from django.contrib.auth.decorators import login_required
 from django.contrib.gis.db.models.functions import Distance
 from django.contrib.gis.geos import GEOSGeometry, Point
@@ -75,6 +76,8 @@ def change_jrequest_status(request, jr_pk):
     action = request.POST.get("action")
     if action == "accept":
         join_request.status = ChatRequest.Status.ACCEPTED
+        # Send an email to the user to notify them that their request has been accepted
+        send_email_confirmed_ride.delay(join_request.pk)
         # Add the user to the ride
         join_request.ride.rider.add(join_request.user)
 
@@ -83,6 +86,8 @@ def change_jrequest_status(request, jr_pk):
         # Remove the user to the ride if they were added
         if join_request.user in join_request.ride.rider.all():
             join_request.ride.rider.remove(join_request.user)
+        # Send an email to the user to notify them that their request has been declined
+        send_email_declined_ride.delay(join_request.pk)
 
     else:
         return HttpResponse("Invalid action", status=400)
