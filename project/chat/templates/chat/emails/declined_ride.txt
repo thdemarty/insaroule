@@ -4,6 +4,4 @@
 Your reservation for the trip from {{ departure }} to {{ arrival }} on {{ date }} 
 with {{ driver }} has been declined.{% endblocktranslate %}
 
-{% translate "We wish you a pleasant ride!" %}
-
 {% include "emails/consent_footer.txt" %}
