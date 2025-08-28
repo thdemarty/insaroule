@@ -26,11 +26,24 @@ from django.db.models import Count, F, ExpressionWrapper, IntegerField
 
 @login_required
 def list_my_rides(request):
-    rides = Ride.objects.filter(driver=request.user)
-    paginator = Paginator(rides, 10)
-    page_number = request.GET.get("page")
-    page_obj = paginator.get_page(page_number)
-    return render(request, "rides/my_rides.html", {"page_obj": page_obj})
+    p_rides = Ride.objects.filter(driver=request.user)
+    s_rides = Ride.objects.all()
+
+    s_paginator = Paginator(s_rides, 10)
+    p_paginator = Paginator(p_rides, 10)
+
+    s_page_num = request.GET.get("subscribed_page")
+    p_page_num = request.GET.get("published_page")
+
+    s_page_obj = s_paginator.get_page(s_page_num)
+    p_page_obj = p_paginator.get_page(p_page_num)
+
+    context = {
+        "s_page_obj": s_page_obj,
+        "p_page_obj": p_page_obj,
+    }
+
+    return render(request, "rides/my_rides.html", context)
 
 
 @login_required
