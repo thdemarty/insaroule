@@ -177,7 +177,7 @@ msgstr ""
 msgid "You have an unread message on INSA'ROULE."
 msgid_plural "You have %(counter)s unread messages on INSA'ROULE."
 msgstr[0] "Vous avez un message non lu sur INSA'ROULE."
-msgstr[1] "Vous avez %(count)s messages non lus sur INSA'ROULE."
+msgstr[1] "Vous avez %(counter)s messages non lus sur INSA'ROULE."
 
 #: chat/templates/chat/emails/unread_messages.txt:9
 #, python-format
