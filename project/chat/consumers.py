@@ -102,6 +102,12 @@ class ChatConsumer(AsyncWebsocketConsumer):
             message = text_data["message"]
             timestamp = timezone.now()
 
+            if len(message.strip()) > 1000:
+                logging.warning(
+                    f"User {self.user.username} attempted to send a message exceeding 1000 characters.",
+                )
+                return
+
             message = await ChatMessage.objects.acreate(
                 chat_request=self.chat_request,
                 sender=self.user,

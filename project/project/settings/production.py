@@ -9,6 +9,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+import os
 from pathlib import Path
 from django.utils.translation import gettext_lazy as _
 
@@ -227,3 +228,54 @@ DPO_EMAIL = env("DPO_EMAIL")
 EMAIL_NOTIFICATION_THRESHOLD_MINUTES = env.int(
     "EMAIL_NOTIFICATION_THRESHOLD_MINUTES", default=30
 )
+
+LOG_DIR = "/var/log/insaroule"
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,  # keep Django's default loggers
+    "formatters": {
+        "verbose": {
+            "format": "[{asctime}] {levelname} {name} {message}",
+            "style": "{",
+        },
+        "simple": {
+            "format": "{levelname} {message}",
+            "style": "{",
+        },
+    },
+    "handlers": {
+        "file_all": {
+            "level": "INFO",
+            "class": "logging.FileHandler",
+            "filename": os.path.join(LOG_DIR, "insaroule.log"),
+            "formatter": "verbose",
+        },
+        "file_errors": {
+            "level": "ERROR",
+            "class": "logging.FileHandler",
+            "filename": os.path.join(LOG_DIR, "error.log"),
+            "formatter": "verbose",
+        },
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "simple",
+        },
+    },
+    "root": {
+        "handlers": ["file_all", "file_errors", "console"],
+        "level": "INFO",
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["file_all", "file_errors"],
+            "level": "INFO",
+            "propagate": True,
+        },
+        "insaroule": {
+            "handlers": ["file_all", "file_errors"],
+            "level": "INFO",
+            "propagate": False,
+        },
+    },
+}
