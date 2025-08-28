@@ -1,5 +1,6 @@
 name: Django CI
 
+
 on:
   push:
     branches: [ "main" ]
@@ -34,34 +35,26 @@ jobs:
           --health-timeout 5s
           --health-retries 5
 
-    strategy:
-      max-parallel: 4
-
     steps:
     - uses: actions/checkout@v4
     - name: Set up Python 3.12
-      uses: actions/setup-python@v3
+      uses: actions/setup-python@v5
       with:
-        python-version: 3.12
+        python-version-file: ".python-version"
     - name: Install System Dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y postgresql-client redis-tools binutils libproj-dev gdal-bin
+        sudo apt-get install -y libproj-dev gdal-bin
     - name: Install uv
-      run: |
-        curl -LsSf https://astral.sh/uv/install.sh | sh
-        echo "$HOME/.cargo/bin" >> $GITHUB_PATH  # Ensure uv is in the PATH
-    - name: Install Dependencies (including dev group)
-      run: |
-        uv sync --dev
+      uses: astral-sh/setup-uv@v6
+      with:
+        enable-cache: true
+    - name: Install the project
+      run: uv sync  --locked --all-extras --dev
     - name: Setup .env file
       run: |
         cp .env.dist .env
-    - name: Wait for DB and Redis
-      run: |
-        until pg_isready -h localhost -p 5432 -U insaroule_user; do sleep 1; done
-        until redis-cli -h localhost ping | grep PONG; do sleep 1; done
     - name: Run Tests
       run: |
         cd project
-        uv run python manage.py test
+        uv run python manage.py test --parallel
