@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-28 18:07+0200\n"
+"POT-Creation-Date: 2025-08-28 18:20+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -145,6 +145,18 @@ msgstr "action"
 msgid "The type of moderation action performed"
 msgstr "Type d'action de modération effectuée"
 
+#: chat/tasks.py:34
+msgid "Your ride has been confirmed!"
+msgstr "Votre trajet a été confirmé !"
+
+#: chat/tasks.py:58
+msgid "Your ride has been declined!"
+msgstr "Votre trajet a été refusé !"
+
+#: chat/tasks.py:126
+msgid "You have unread messages"
+msgstr "Vous avez des messages non lus"
+
 #: chat/templates/chat/emails/confirmed_ride.txt:1
 #: chat/templates/chat/emails/declined_ride.txt:1
 #: chat/templates/chat/emails/unread_messages.txt:1
@@ -174,6 +186,7 @@ msgstr ""
 "avec %(driver)s a été refusée."
 
 #: chat/templates/chat/emails/unread_messages.txt:3
+#, python-format
 msgid "You have an unread message on INSA'ROULE."
 msgid_plural "You have %(counter)s unread messages on INSA'ROULE."
 msgstr[0] "Vous avez un message non lu sur INSA'ROULE."

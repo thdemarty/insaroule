@@ -8,6 +8,7 @@ from django.core.mail import EmailMessage
 from django.db.models import Case, Count, F, When
 from django.db.models.fields import UUIDField
 from django.template.loader import render_to_string
+from django.utils.translation import gettext as _
 from django.utils import timezone
 
 from chat.models import ChatMessage, ChatRequest
@@ -30,7 +31,7 @@ def send_email_confirmed_ride(join_request_pk):
     message = render_to_string("chat/emails/confirmed_ride.txt", context)
 
     email = EmailMessage(
-        subject="[INSAROULE] Your ride has been confirmed!",
+        subject="[INSAROULE]" + _("Your ride has been confirmed!"),
         body=message,
         to=[join_request.user.email],
     )
@@ -54,7 +55,7 @@ def send_email_declined_ride(join_request_pk):
     message = render_to_string("chat/emails/declined_ride.txt", context)
 
     email = EmailMessage(
-        subject="[INSAROULE] Your ride has been declined!",
+        subject="[INSAROULE]" + _("Your ride has been declined!"),
         body=message,
         to=[join_request.user.email],
     )
@@ -122,7 +123,7 @@ def send_email_unread_messages():
 
         message = render_to_string("chat/emails/unread_messages.txt", context)
         email = EmailMessage(
-            subject="[INSAROULE] You have unread messages",
+            subject="[INSAROULE]" + _("You have unread messages"),
             body=message,
             to=[user.email],
         )
@@ -137,5 +138,3 @@ def send_email_unread_messages():
             read_at__isnull=True,
             notified_at__isnull=True,
         ).update(notified_at=timezone.now())
-
-    return f"{len(chats_by_user)} emails sent about unread messages."
