@@ -1,6 +1,6 @@
 {% load i18n %}{% include "emails/signature.txt" %}
-{% blocktranslate trimmed %}
-You are receiving this email because you consented to receive our
-communications concerning {{ reason }}. You may withdraw your consent at any
-time by going on your account's settings {{ consent_link_communication }} 
+------------------------------------------------------------------
+{% blocktranslate %}You are receiving this email because you consented to receive our 
+communications. You may withdraw your consent at any time by going 
+on your account's settings. 
 {% endblocktranslate %}

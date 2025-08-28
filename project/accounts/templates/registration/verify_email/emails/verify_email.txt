@@ -1,6 +1,4 @@
-{% load i18n %}
-
-{% translate "Hello" %} {{ user }},
+{% load i18n %}{% translate "Hello" %} {{ user }},
 
 {% blocktranslate trimmed %}
 An account has been created with your email address on INSA'Roule. If you initiated this request, please click the following link to verify your email address.
@@ -12,5 +10,4 @@ An account has been created with your email address on INSA'Roule. If you initia
 If you did not request this, please ignore this email.
 {% endblocktranslate %}
 
-
-INSA'Roule
+{% include "emails/mandatory_footer.txt" %}
