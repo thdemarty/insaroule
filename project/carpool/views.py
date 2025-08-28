@@ -21,6 +21,7 @@ from carpool.models import Location, Vehicle
 from carpool.models.ride import Ride
 from carpool.tasks import get_autocompletion, get_routing
 from django.utils.timezone import localtime
+from django.db.models import Count, F, ExpressionWrapper, IntegerField
 
 
 @login_required
@@ -173,6 +174,14 @@ def rides_list(request):
     filter_date = request.GET.get("start_dt", "")
     filter_start = request.GET.get("d_latlng", "")
     filter_end = request.GET.get("a_latlng", "")
+
+    rides = rides.annotate(
+        booked_seats_count=Count("rider", distinct=True),
+        remaining_seats_count=ExpressionWrapper(
+            F("vehicle__seats") - Count("rider", distinct=True),
+            output_field=IntegerField(),
+        ),
+    ).exclude(remaining_seats_count__lte=0)
 
     if filter_date:
         # Get rides for a specific date

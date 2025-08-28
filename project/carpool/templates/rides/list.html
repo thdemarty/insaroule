@@ -57,8 +57,10 @@
 
                 <div class="row">
                     <div class="col mb-3 mb-lg-0">
-                        <!-- Autcomplete for departure -->
-                        <select class="form-select" id="departure" value="{{ filter_departure }}"></select>
+                        <!-- Autcomplete for departure --
+                        <select class="form-select" id="departure" value="{{ filter_departure }}"></select>-->
+                        <select class="form-select" id="departure" name="departure" data-selected="{{ filter_departure }}"></select>
+
                     </div>
 
                     <div class="col-lg mb-3 mb-lg-0">
