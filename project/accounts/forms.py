@@ -104,4 +104,17 @@ class EmailChangeForm(forms.Form):
                 _("This email is already in use. Please use another email."),
             )
 
+        # Check if domain is whitelisted
+        domain = email.split("@")[1]
+        if settings.WHITELIST_DOMAINS == ["*"]:
+            # Allow all domains
+            pass
+        elif domain not in settings.WHITELIST_DOMAINS:
+            allowed_domains = [f"@{domain}" for domain in settings.WHITELIST_DOMAINS]
+            message = _(
+                "Only emails with whitelisted domains are allowed to register. Allowed domains are:"
+            )
+            message += f"{', '.join(allowed_domains)}"
+            raise forms.ValidationError(message)
+
         return email
