@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-27 16:38+0200\n"
+"POT-Creation-Date: 2025-08-28 18:07+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -98,7 +98,8 @@ msgstr "notifié à"
 msgid ""
 "The date and time when the user was notified about this message (if any)"
 msgstr ""
-"La date et l'heure auxquelles l'utilisateur a été notifié de ce message (le cas échéant)"
+"La date et l'heure auxquelles l'utilisateur a été notifié de ce message (le "
+"cas échéant)"
 
 #: chat/models.py:100
 msgid "Can moderate chat messages"
@@ -145,6 +146,7 @@ msgid "The type of moderation action performed"
 msgstr "Type d'action de modération effectuée"
 
 #: chat/templates/chat/emails/confirmed_ride.txt:1
+#: chat/templates/chat/emails/declined_ride.txt:1
 #: chat/templates/chat/emails/unread_messages.txt:1
 msgid "Hello"
 msgstr "Bonjour"
@@ -155,24 +157,36 @@ msgid ""
 "Your reservation for the trip from %(departure)s to %(arrival)s on %(date)s "
 "with %(driver)s has been confirmed."
 msgstr ""
+"Votre réservation pour le trajet de %(departure)s à %(arrival)s le %(date)s "
+"avec %(driver)s a été confirmée."
 
 #: chat/templates/chat/emails/confirmed_ride.txt:7
 msgid "We wish you a pleasant ride!"
 msgstr "Nous vous souhaitant un agréable voyage !"
 
-#: chat/templates/chat/emails/unread_messages.txt:3
+#: chat/templates/chat/emails/declined_ride.txt:3
 #, python-format
-msgid "You have %(count)s unread messages on INSA'ROULE."
-msgstr "Vous avez %(count)s messages non lus sur INSA'ROULE."
+msgid ""
+"Your reservation for the trip from %(departure)s to %(arrival)s on %(date)s "
+"with %(driver)s has been declined."
+msgstr ""
+"Votre réservation pour le trajet de %(departure)s à %(arrival)s le %(date)s "
+"avec %(driver)s a été refusée."
 
-#: chat/templates/chat/emails/unread_messages.txt:5
+#: chat/templates/chat/emails/unread_messages.txt:3
+msgid "You have an unread message on INSA'ROULE."
+msgid_plural "You have %(counter)s unread messages on INSA'ROULE."
+msgstr[0] "Vous avez un message non lu sur INSA'ROULE."
+msgstr[1] "Vous avez %(count)s messages non lus sur INSA'ROULE."
+
+#: chat/templates/chat/emails/unread_messages.txt:9
 #, python-format
 msgid "%(contact)s contacted you about the ride to %(destination)s on %(date)s"
 msgstr ""
 "%(contact)s vous a contacté au sujet du trajet vers %(destination)s le "
 "%(date)s"
 
-#: chat/templates/chat/emails/unread_messages.txt:8
+#: chat/templates/chat/emails/unread_messages.txt:12
 msgid "To answer these messages, connect to your account."
 msgstr "Pour répondre à ces messages, connectez-vous à votre compte."
 

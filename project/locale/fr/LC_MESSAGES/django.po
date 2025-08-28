@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-27 16:38+0200\n"
+"POT-Creation-Date: 2025-08-28 18:07+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,28 +18,35 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: project/settings/production.py:140
+#: project/settings/production.py:141
 msgid "French"
 msgstr "Français"
 
-#: project/settings/production.py:141
+#: project/settings/production.py:142
 msgid "English"
 msgstr "Anglais"
 
-#: templates/emails/consent_footer.txt:2
-#, python-format
+#: templates/emails/consent_footer.txt:3
 msgid ""
-"You are receiving this email because you consented to receive our "
-"communications concerning %(reason)s. You may withdraw your consent at any "
-"time by going on your account's settings %(consent_link_communication)s"
+"You are receiving this email because you consented to receive our \n"
+"communications. You may withdraw your consent at any time by going \n"
+"on your account's settings. \n"
 msgstr ""
+"Vous recevez cet e-mail car vous avez consenti à recevoir nos \n"
+"communications. Vous pouvez retirer votre consentement à tout \n"
+"moment en vous rendant dans les paramètres de votre compte. \n"
 
-#: templates/emails/mandatory_footer.txt:2
+#: templates/emails/mandatory_footer.txt:3
 msgid ""
-"You are receiving this email because it contains essential information "
-"regarding your account or our legal obligations.To stop receiving this type "
-"of mandatory communication, you must close your account."
+"You are receiving this email because it contains essential \n"
+"information regarding your account or our legal obligations.To stop\n"
+"receiving this type of mandatory communication, you must close your\n"
+"account. \n"
 msgstr ""
+"Vous recevez cet e-mail car il contient des informations essentielles \n"
+"concernant votre compte ou nos obligations légales. Pour ne plus \n"
+"recevoir ce type de communication obligatoire, vous devez fermer \n"
+"votre compte. \n"
 
 #: templates/emails/signature.txt:1
 msgid "Your favorite carpooling app"
