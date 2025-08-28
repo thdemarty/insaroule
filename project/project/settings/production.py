@@ -78,6 +78,7 @@ TEMPLATES = [
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
+                "project.context_processors.constants",
                 "django.template.context_processors.debug",
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
@@ -228,6 +229,10 @@ DPO_EMAIL = env("DPO_EMAIL")
 EMAIL_NOTIFICATION_THRESHOLD_MINUTES = env.int(
     "EMAIL_NOTIFICATION_THRESHOLD_MINUTES", default=30
 )
+
+# The email that users can use to contact support
+# You can use GitLab Service Desk feature to handle incoming emails
+SUPPORT_EMAIL = env("SUPPORT_EMAIL")
 
 LOG_DIR = "/var/log/insaroule"
 

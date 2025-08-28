@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-28 18:07+0200\n"
+"POT-Creation-Date: 2025-08-28 23:32+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,11 +18,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: project/settings/production.py:141
+#: project/settings/production.py:142
 msgid "French"
 msgstr "Français"
 
-#: project/settings/production.py:142
+#: project/settings/production.py:143
 msgid "English"
 msgstr "Anglais"
 
@@ -76,14 +76,18 @@ msgstr "Messages"
 msgid "My Account"
 msgstr "Mon compte"
 
-#: templates/includes/navbar.html:59
+#: templates/includes/navbar.html:58
+msgid "Report Issue"
+msgstr "Signaler un problème"
+
+#: templates/includes/navbar.html:60
 msgid "Admin Panel"
 msgstr "Panneau d'administration"
 
-#: templates/includes/navbar.html:65
+#: templates/includes/navbar.html:66
 msgid "Moderation"
-msgstr ""
+msgstr "Modération"
 
-#: templates/includes/navbar.html:74
+#: templates/includes/navbar.html:75
 msgid "Logout"
 msgstr "Se déconnecter"
