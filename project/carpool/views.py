@@ -175,7 +175,7 @@ def rides_list(request):
     filter_start = request.GET.get("d_latlng", "")
     filter_end = request.GET.get("a_latlng", "")
 
-    rides = Ride.objects.annotate(
+    rides = rides.annotate(
         booked_seats_count=Count("rider", distinct=True),
         remaining_seats_count=ExpressionWrapper(
             F("vehicle__seats") - Count("rider", distinct=True),
