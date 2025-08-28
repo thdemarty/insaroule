@@ -93,7 +93,8 @@ class EmailChangeForm(forms.Form):
         widget=forms.EmailInput(attrs={"class": "form-control"}),
     )
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
         super().__init__(*args, **kwargs)
 
     def clean_email(self):
@@ -118,3 +119,11 @@ class EmailChangeForm(forms.Form):
             raise forms.ValidationError(message)
 
         return email
+
+    def save(self, commit=True):
+        new_email = self.cleaned_data["email"]
+        self.user.email = new_email
+        self.user.email_verified = False
+        if commit:
+            self.user.save()
+        return self.user

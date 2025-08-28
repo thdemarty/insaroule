@@ -40,19 +40,14 @@ def delete_profile(request):
 
 @login_required
 def email_change(request):
-    form = EmailChangeForm()
+    form = EmailChangeForm(request.user)
     if request.method == "POST":
-        form = EmailChangeForm(request.POST)
+        form = EmailChangeForm(request.user, request.POST)
         if form.is_valid():
-            email = form.cleaned_data["email"]
-            request.user.email = email
-            # set user's email verified to False
-            request.user.save()
-            messages.success(
-                request,
-                _("Your email has been changed. Please verify your new email address."),
-            )
+            form.save()
+            messages.success(request, "Your email has been updated. Please verify it.")
             return redirect("accounts:me")
+
     context = {"form": form}
     return render(request, "account/email_change.html", context)
 
