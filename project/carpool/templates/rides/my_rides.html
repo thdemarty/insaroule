@@ -44,7 +44,7 @@
         <div class="col-xl-6 border-start">
             <h4>{% translate "Subscribed rides" %}</h4>
             {% for jr in s_page_obj %}
-                {% include "rides/includes/ride_card.html" with ride=jr.ride status="PENDING" %}
+                {% include "rides/includes/ride_card.html" with ride=jr.ride status=jr.status %}
             {% empty %}
             <div class="card">
                 <div class="card-body">
