@@ -93,7 +93,8 @@ class EmailChangeForm(forms.Form):
         widget=forms.EmailInput(attrs={"class": "form-control"}),
     )
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
         super().__init__(*args, **kwargs)
 
     def clean_email(self):
@@ -104,4 +105,25 @@ class EmailChangeForm(forms.Form):
                 _("This email is already in use. Please use another email."),
             )
 
+        # Check if domain is whitelisted
+        domain = email.split("@")[1]
+        if settings.WHITELIST_DOMAINS == ["*"]:
+            # Allow all domains
+            pass
+        elif domain not in settings.WHITELIST_DOMAINS:
+            allowed_domains = [f"@{domain}" for domain in settings.WHITELIST_DOMAINS]
+            message = _(
+                "Only emails with whitelisted domains are allowed to register. Allowed domains are:"
+            )
+            message += f"{', '.join(allowed_domains)}"
+            raise forms.ValidationError(message)
+
         return email
+
+    def save(self, commit=True):
+        new_email = self.cleaned_data["email"]
+        self.user.email = new_email
+        self.user.email_verified = False
+        if commit:
+            self.user.save()
+        return self.user

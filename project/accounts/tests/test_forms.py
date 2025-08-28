@@ -152,12 +152,21 @@ class EmailChangeFormTest(TestCase):
     @override_settings(WHITELIST_DOMAINS=["example.com"])
     def test_cleaned_email(self):
         """Test that EmailChangeForm cleans email correctly."""
-        existing_user = UserFactory(email="existinguser@example.com")
-        existing_user.save()
-        form = EmailChangeForm(data={"email": "existinguser@example.com"})
+        _existing_user = UserFactory(email="existinguser@example.com")
+
+        # The email already exists
+        user = UserFactory()
+        form = EmailChangeForm(user, data={"email": "existinguser@example.com"})
         self.assertFalse(form.is_valid())
         self.assertIn("email", form.errors)
 
-        form = EmailChangeForm(data={"email": "newuser@example.com"})
+        # The email does not exist and domain is whitelisted
+        form = EmailChangeForm(user, data={"email": "emailnottaken@example.com"})
         self.assertTrue(form.is_valid())
-        self.assertEqual(form.cleaned_data["email"], "newuser@example.com")
+        form.save()
+        self.assertEqual(user.email, "emailnottaken@example.com")
+
+        # The email does not exist and domain is not whitelisted
+        form = EmailChangeForm(user, data={"email": "emailnottaken@notwhitelisted.abc"})
+        self.assertFalse(form.is_valid())
+        self.assertIn("email", form.errors)
