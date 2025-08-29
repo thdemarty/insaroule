@@ -1,6 +1,7 @@
 from uuid import uuid4
 
 from carpool.models.ride import Ride
+from django.urls import reverse
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -48,6 +49,9 @@ class ChatRequest(models.Model):
         help_text=_("The date and time when the chat request was created"),
         auto_now_add=True,
     )
+
+    def get_room_url(self):
+        return reverse("chat:room", kwargs={"jr_pk": self.pk})
 
     def __str__(self):
         return f"ChatRequest({self.user.username} for {self.ride.uuid})"
