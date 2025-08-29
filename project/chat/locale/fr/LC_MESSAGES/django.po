@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-28 18:20+0200\n"
+"POT-Creation-Date: 2025-08-29 17:39+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,142 +18,142 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: chat/models.py:11
+#: chat/models.py:12
 msgid "Pending"
 msgstr "En attente"
 
-#: chat/models.py:12
+#: chat/models.py:13
 msgid "Accepted"
 msgstr "Accepté"
 
-#: chat/models.py:13
+#: chat/models.py:14
 msgid "Declined"
 msgstr "Refusé"
 
-#: chat/models.py:16
+#: chat/models.py:17
 msgid "UUID"
 msgstr ""
 
-#: chat/models.py:23
+#: chat/models.py:24
 msgid "status"
 msgstr "statut"
 
-#: chat/models.py:26
+#: chat/models.py:27
 msgid "Status of the join request"
 msgstr "Statut de la demande"
 
-#: chat/models.py:32
+#: chat/models.py:33
 msgid "ride"
 msgstr "trajet"
 
-#: chat/models.py:33
+#: chat/models.py:34
 msgid "The ride for which the chat request is made"
 msgstr "Le trajet pour lequel la demande de chat est faite"
 
-#: chat/models.py:40
+#: chat/models.py:41
 msgid "user"
 msgstr "utilisateur"
 
-#: chat/models.py:41
+#: chat/models.py:42
 msgid "The user who made the chat request"
 msgstr "L'utilisateur qui a fait la demande de chat"
 
-#: chat/models.py:47
+#: chat/models.py:48
 msgid "created at"
 msgstr "créé le"
 
-#: chat/models.py:48
+#: chat/models.py:49
 msgid "The date and time when the chat request was created"
 msgstr "La date et l'heure auxquelles la demande de chat a été créée"
 
-#: chat/models.py:62
+#: chat/models.py:66
 msgid "sender"
 msgstr "expéditeur"
 
-#: chat/models.py:69
+#: chat/models.py:73
 msgid "join request"
 msgstr ""
 
-#: chat/models.py:76
+#: chat/models.py:80
 msgid "hidden"
 msgstr "caché"
 
-#: chat/models.py:77
+#: chat/models.py:81
 msgid "Indicates whether this message is hidden from regular users"
 msgstr "Indique si ce message est masqué pour les utilisateurs réguliers"
 
-#: chat/models.py:84
+#: chat/models.py:88
 msgid "read at"
 msgstr "lu à"
 
-#: chat/models.py:85
+#: chat/models.py:89
 msgid "The date and time when the message was read"
 msgstr "La date et l'heure auxquelles le message a été lu"
 
-#: chat/models.py:92
+#: chat/models.py:96
 msgid "notified at"
 msgstr "notifié à"
 
-#: chat/models.py:94
+#: chat/models.py:98
 msgid ""
 "The date and time when the user was notified about this message (if any)"
 msgstr ""
 "La date et l'heure auxquelles l'utilisateur a été notifié de ce message (le "
 "cas échéant)"
 
-#: chat/models.py:100
+#: chat/models.py:104
 msgid "Can moderate chat messages"
 msgstr "Peut modérer les messages"
 
-#: chat/models.py:108
+#: chat/models.py:112
 msgid "chat request"
 msgstr ""
 
-#: chat/models.py:115
+#: chat/models.py:119
 msgid "reported by"
 msgstr "signalé par"
 
-#: chat/models.py:118 chat/models.py:148
+#: chat/models.py:122 chat/models.py:152
 msgid "reason"
 msgstr "raison"
 
-#: chat/models.py:128
+#: chat/models.py:132
 msgid "Flag User"
 msgstr "Signaler l'utilisateur"
 
-#: chat/models.py:129
+#: chat/models.py:133
 msgid "Block User"
 msgstr "Bloquer l'utilisateur"
 
-#: chat/models.py:135
+#: chat/models.py:139
 msgid "performed by"
 msgstr "réalisé par"
 
-#: chat/models.py:142
+#: chat/models.py:146
 msgid "on user"
 msgstr "concernant l'utilisateur"
 
-#: chat/models.py:149
+#: chat/models.py:153
 msgid "Reason for the moderation action"
 msgstr "Raison de l'action de modération"
 
-#: chat/models.py:157
+#: chat/models.py:161
 msgid "action"
 msgstr "action"
 
-#: chat/models.py:158
+#: chat/models.py:162
 msgid "The type of moderation action performed"
 msgstr "Type d'action de modération effectuée"
 
-#: chat/tasks.py:34
+#: chat/tasks.py:41
 msgid "Your ride has been confirmed!"
 msgstr "Votre trajet a été confirmé !"
 
-#: chat/tasks.py:58
+#: chat/tasks.py:72
 msgid "Your ride has been declined!"
 msgstr "Votre trajet a été refusé !"
 
-#: chat/tasks.py:126
+#: chat/tasks.py:146
 msgid "You have unread messages"
 msgstr "Vous avez des messages non lus"
 
@@ -231,23 +231,30 @@ msgstr "Historique de modération"
 msgid "No moderation actions found."
 msgstr "Aucune action de modération trouvée."
 
-#: chat/templates/chat/includes/sidebar.html:31
+#: chat/templates/chat/includes/sidebar.html:32
 msgid "Ride Requests"
 msgstr "Demandes de trajet"
 
-#: chat/templates/chat/includes/sidebar.html:83
+#: chat/templates/chat/includes/sidebar.html:39
+#: chat/templates/chat/includes/sidebar.html:43
+#: chat/templates/chat/includes/sidebar.html:98
+#: chat/templates/chat/includes/sidebar.html:102
+msgid "Declined requests"
+msgstr "Requêtes refusées"
+
+#: chat/templates/chat/includes/sidebar.html:58
 msgid "No ride requests found"
 msgstr "Aucune demande de trajet trouvée"
 
-#: chat/templates/chat/includes/sidebar.html:86
+#: chat/templates/chat/includes/sidebar.html:61
 msgid "Search a ride"
 msgstr "Rechercher un trajet"
 
-#: chat/templates/chat/includes/sidebar.html:95
+#: chat/templates/chat/includes/sidebar.html:91
 msgid "Incoming requests"
 msgstr "Requêtes entrantes"
 
-#: chat/templates/chat/includes/sidebar.html:143
+#: chat/templates/chat/includes/sidebar.html:116
 msgid "Nobody has requested to join your rides yet."
 msgstr "Personne n'a encore demandé à rejoindre un de vos trajets."
 

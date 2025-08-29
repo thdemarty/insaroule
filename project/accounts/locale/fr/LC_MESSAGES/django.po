@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-28 18:20+0200\n"
+"POT-Creation-Date: 2025-08-29 17:39+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,7 +23,7 @@ msgstr ""
 msgid "Email verification"
 msgstr "Vérification de l'adresse e-mail"
 
-#: accounts/forms.py:33
+#: accounts/forms.py:33 accounts/forms.py:116
 msgid ""
 "Only emails with whitelisted domains are allowed to register. Allowed "
 "domains are:"
@@ -31,7 +31,7 @@ msgstr ""
 "Seuls les emails avec des domaines autorisés sont autorisés à s'inscrire. "
 "Les domaines autorisés sont :"
 
-#: accounts/forms.py:42 accounts/forms.py:104
+#: accounts/forms.py:42 accounts/forms.py:105
 msgid "This email is already in use. Please use another email."
 msgstr ""
 "Cette adresse e-mail est déjà utilisée. Veuillez en utiliser une autre."
@@ -48,11 +48,11 @@ msgstr ""
 msgid "Email Address"
 msgstr "Adresse e-mail"
 
-#: accounts/tasks.py:43
+#: accounts/tasks.py:44
 msgid "Vérification de votre adresse email"
 msgstr "Vérification de votre adresse e-mail"
 
-#: accounts/tasks.py:146
+#: accounts/tasks.py:147
 msgid "Data export"
 msgstr "Exportation de données"
 
@@ -134,7 +134,7 @@ msgstr ""
 "Le formulaire pour exporter vos données n'est pas encore implémenté. Pour "
 "recevoir le fichier contenant vos données, vous pouvez nous envoyer un mail "
 "à <a href\"mailto:%(dpo_email)s\">%(dpo_email)s</a>. Nous répondrons à votre "
-"demande aussi rapidement que possible (dans un délai maximal d'un mois)"
+"demande aussi rapidement que possible (dans un délai maximal d'un mois)."
 
 #: accounts/templates/account/data_export_email.txt:3
 msgid ""
@@ -170,9 +170,21 @@ msgstr "Gestion des données"
 msgid "Notifications"
 msgstr "Notifications"
 
-#: accounts/templates/account/detail.html:47
-msgid "You will be able to manage your notification preferences in the future."
-msgstr "Vous pourrez gérer vos préférences de notification à l'avenir."
+#: accounts/templates/account/detail.html:55
+msgid "Notifications for unread messages"
+msgstr "Notifications pour les messages non lus"
+
+#: accounts/templates/account/detail.html:64
+msgid "Ride request status update"
+msgstr "Mise à jour du statut des demandes de trajet"
+
+#: accounts/templates/account/detail.html:71
+msgid "Mandatory notifications (e.g., policy updates)"
+msgstr "Notifications obligatoires (ex., mises à jour des politiques)"
+
+#: accounts/templates/account/detail.html:75
+msgid "Save Changes"
+msgstr "Sauvegarder les modifications"
 
 #: accounts/templates/account/email_change.html:7
 msgid "Change your email"
@@ -383,8 +395,6 @@ msgstr "Envoyer le lien de vérification sur mon adresse mail"
 msgid "Your password has been changed successfully!"
 msgstr "Votre mot de passe vient d'être changé avec succès"
 
-#: accounts/views/profile.py:53
-msgid "Your email has been changed. Please verify your new email address."
-msgstr ""
-"Votre adresse e-mail a été modifiée. Veuillez vérifier votre nouvelle "
-"adresse e-mail."
+#: accounts/views/profile.py:37
+msgid "Your preferences have been updated."
+msgstr "Vos préférences ont été mises à jour."
