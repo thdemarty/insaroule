@@ -27,57 +27,32 @@
 </style>
 
 <div class="list-group mb-3">
-    <span class="list-group-item text-bg-light"
-        >{% translate "Ride Requests" %}</span
-    >
-    {% for jr in outgoing_requests %} {% url 'chat:room' jr.pk as jr_url %}
-    <a
-        href="{{ jr_url }}"
-        class="list-group-item list-group-item-action {% if request.path == jr_url %}active{% endif %}"
-    >
-        <div class="d-flex justify-content-between">
-            <div class="d-grid">
-                <div class="d-flex flex-row">
-                    <div class="d-flex flex-column mx-1 my-1">
-                        <div class="circle"></div>
-                        <div class="line"></div>
-                        <div class="circle"></div>
-                    </div>
-                    <div class="d-flex flex-column ms-2">
-                        <span
-                            >{{ jr.ride.start_loc.city|truncatechars:20 }}</span
-                        >
-                        <span class="h-100"></span>
-                        <span>{{ jr.ride.end_loc.city|truncatechars:20 }}</span>
-                    </div>
-                </div>
-            </div>
-            <div class="d-flex flex-column align-items-end">
-                <span>{{ jr.ride.start_dt|date:"d/m/Y" }}</span>
-                <span>
-                    <span>{{ jr.ride.driver.username|truncatechars:16 }}</span>
-                    {% if jr.status == "PENDING" %}
-                    <span>
-                        <i class="bi bi-envelope-fill"></i>
-                    </span>
-                    {% elif jr.status == "ACCEPTED" %}
-                    <span class="text-success">
-                        <i class="bi bi-envelope-check-fill"></i>
-                    </span>
-                    {% elif jr.status == "DECLINED" %}
-                    <span class="text-danger">
-                        <i class="bi bi-envelope-x-fill"></i>
-                    </span>
-                    {% endif %}
-                </span>
+    <span class="list-group-item text-bg-light">
+        <div class="d-flex">
+            {% translate "Ride Requests" %}
+            <div class="dropdown ms-auto">
+                <i class="bi bi-three-dots-vertical" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li>
+                        {% if request.GET.o_declined %}
+                        <a href="{% querystring o_declined=None %}" class="dropdown-item">
+                            <i class="bi bi-check-lg"></i> {% translate "Declined requests" %}
+                        </a>
+                        {% else %}
+                        <a href="{% querystring o_declined=1 %}" class="dropdown-item">
+                            {% translate "Declined requests" %}
+                        </a>
+                        {% endif %}
+                    </li>
+                </ul>
             </div>
         </div>
-    </a>
+
+    </span>
+    {% for jr in outgoing_requests %}
+    {% include "chat/includes/sidebar_item.html" with jr=jr contact=jr.ride.driver %}
     {% empty %}
-    <a
-        href="{% url 'carpool:list' %}"
-        class="list-group-item list-group-item-action"
-    >
+    <a href="{% url 'carpool:list' %}" class="list-group-item list-group-item-action">
         <div class="d-flex flex-column align-items-center">
             <span class="text-muted mb-2 small">
                 {% translate "No ride requests found" %}
@@ -90,53 +65,51 @@
     {% endfor %}
 </div>
 
+{# Pagination for outgoing requests #}
+{% if outgoing_requests.has_other_pages %}
+<nav>
+    <ul class="pagination pagination-sm my-3 justify-content-center">
+        <li class="page-item"><a class="page-link {% if not outgoing_requests.has_previous %}disabled{% endif %}"
+                href="{% querystring o_page=1 %}">&laquo;</a></li>
+        <li class="page-item"><a class="page-link {% if not outgoing_requests.has_previous %}disabled{% endif %}"
+                href="{%if outgoing_requests.has_previous%}{%querystring o_page=outgoing_requests.previous_page_number%}{%endif%}">&lsaquo;</a>
+        </li>
+        <li class="page-item"><span class="page-link text-dark">{{ outgoing_requests.number }} / {{ outgoing_requests.paginator.num_pages }}</span></li>
+        
+        <li class="page-item"><a class="page-link {% if not outgoing_requests.has_next %}disabled{% endif %}"
+                href="{%if outgoing_requests.has_next%}{%querystring o_page=outgoing_requests.next_page_number%}{%endif%}">&rsaquo;</a>
+        </li>
+        <li class="page-item"><a class="page-link {% if not outgoing_requests.has_next %}disabled{% endif %}"
+                href="{% querystring o_page=outgoing_requests.paginator.num_pages %}">&raquo;</a></li>
+    </ul>
+</nav>
+{% endif %}
+
 <div class="list-group">
     <span class="list-group-item text-bg-light">
-        {% translate "Incoming requests" %}
-    </span>
-    {% for jr in incoming_requests %} {% url 'chat:room' jr.pk as jr_url %}
-    <a
-        href="{{ jr_url }}"
-        class="list-group-item list-group-item-action {% if request.path == jr_url %}active{% endif %}"
-    >
-        <div class="d-flex justify-content-between">
-            <div class="d-grid">
-                <div class="d-flex flex-row">
-                    <div class="d-flex flex-column mx-1 my-1">
-                        <div class="circle"></div>
-                        <div class="line"></div>
-                        <div class="circle"></div>
-                    </div>
-                    <div class="d-flex flex-column ms-2">
-                        <span>
-                            {{ jr.ride.start_loc.city|truncatechars:20 }}
-                        </span>
-                        <span class="h-100"></span>
-                        <span>{{ jr.ride.end_loc.city|truncatechars:20 }}</span>
-                    </div>
-                </div>
-            </div>
-            <div class="d-flex flex-column align-items-end">
-                <span>{{ jr.ride.start_dt|date:"d/m/Y" }}</span>
-                <span>
-                    <span>{{ jr.user.username|truncatechars:12 }}</span>
-                    {% if jr.status == "PENDING" %}
-                    <span>
-                        <i class="bi bi-envelope-fill"></i>
-                    </span>
-                    {% elif jr.status == "ACCEPTED" %}
-                    <span class="text-success">
-                        <i class="bi bi-envelope-check-fill"></i>
-                    </span>
-                    {% elif jr.status == "DECLINED" %}
-                    <span class="text-danger">
-                        <i class="bi bi-envelope-x-fill"></i>
-                    </span>
-                    {% endif %}
-                </span>
+        <div class="d-flex">
+            {% translate "Incoming requests" %}
+            <div class="dropdown ms-auto">
+                <i class="bi bi-three-dots-vertical" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li>
+                        {% if request.GET.i_declined %}
+                        <a href="{% querystring i_declined=None %}" class="dropdown-item">
+                            <i class="bi bi-check-lg"></i> {% translate "Declined requests" %}
+                        </a>
+                        {% else %}
+                        <a href="{% querystring i_declined=1 %}" class="dropdown-item">
+                            {% translate "Declined requests" %}
+                        </a>
+                        {% endif %}
+                    </li>
+                </ul>
             </div>
         </div>
-    </a>
+    </span>
+    {% for jr in incoming_requests %}
+    {% include "chat/includes/sidebar_item.html" with jr=jr contact=jr.user %}
+
     {% empty %}
 
     <span class="list-group-item text-muted text-center small">
@@ -145,3 +118,23 @@
 
     {% endfor %}
 </div>
+
+{# Pagination for incoming requests #}
+{% if incoming_requests.has_other_pages %}
+<nav>
+    <ul class="pagination pagination-sm my-3 justify-content-center">
+        <li class="page-item"><a class="page-link {% if not incoming_requests.has_previous %}disabled{% endif %}"
+                href="{% querystring i_page=1 %}">&laquo;</a></li>
+        <li class="page-item"><a class="page-link {% if not incoming_requests.has_previous %}disabled{% endif %}"
+                href="{%if incoming_requests.has_previous%}{%querystring i_page=incoming_requests.previous_page_number%}{%endif%}">&lsaquo;</a>
+        </li>
+        <li class="page-item"><span class="page-link text-dark">{{ incoming_requests.number }} / {{ incoming_requests.paginator.num_pages }}</span></li>
+        
+        <li class="page-item"><a class="page-link {% if not incoming_requests.has_next %}disabled{% endif %}"
+                href="{%if incoming_requests.has_next%}{%querystring i_page=incoming_requests.next_page_number%}{%endif%}">&rsaquo;</a>
+        </li>
+        <li class="page-item"><a class="page-link {% if not incoming_requests.has_next %}disabled{% endif %}"
+                href="{% querystring i_page=incoming_requests.paginator.num_pages %}">&raquo;</a></li>
+    </ul>
+</nav>
+{% endif %}
