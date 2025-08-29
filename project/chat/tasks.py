@@ -23,6 +23,13 @@ def send_email_confirmed_ride(join_request_pk):
     """
     join_request = ChatRequest.objects.get(pk=join_request_pk)
 
+    # User Notification preferences
+    if not join_request.user.notification_preferences.ride_status_update_notification:
+        logger.info(
+            f"User {join_request.user.email} has disabled ride confirmed notifications."
+        )
+        return
+
     context = {
         "username": join_request.user.username,
         "ride": join_request.ride,
@@ -46,6 +53,13 @@ def send_email_declined_ride(join_request_pk):
     Send an email to the rider when their ride is declined by the driver.
     """
     join_request = ChatRequest.objects.get(pk=join_request_pk)
+
+    # User Notification preferences
+    if not join_request.user.notification_preferences.ride_status_update_notification:
+        logger.info(
+            f"User {join_request.user.email} has disabled ride declined notifications."
+        )
+        return
 
     context = {
         "username": join_request.user.username,
@@ -86,6 +100,11 @@ def send_email_unread_messages():
             ),
             contact=F("sender__username"),
         )
+        .filter(
+            recipient_id__in=User.objects.filter(
+                notification_preferences__unread_messages_notification=True
+            ).values_list("pk", flat=True)
+        )
         .values(
             "contact",  # contact
             "recipient_id",  # recipient
@@ -115,6 +134,7 @@ def send_email_unread_messages():
 
     for user_id, chats in chats_by_user.items():
         user = User.objects.get(pk=user_id)
+
         context = {
             "user": user,
             "unread_count": sum(chat["unread_count"] for chat in chats),
