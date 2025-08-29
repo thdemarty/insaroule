@@ -101,18 +101,49 @@ def mod_center(request):
     return render(request, "chat/moderation/index.html", context)
 
 
-@login_required
-def index(request):
+def get_sidebar_context(request):
+    """
+    Get the context for the sidebar, including outgoing and incoming chat requests.
+    Used to avoid code duplication in multiple views.
+    """
     outgoing_requests = ChatRequest.objects.filter(user=request.user)
     incoming_requests = ChatRequest.objects.filter(
         ride__in=request.user.rides_as_driver.all(),
     )
 
-    context = {
+    if not request.GET.get("o_declined"):
+        outgoing_requests = outgoing_requests.exclude(
+            status=ChatRequest.Status.DECLINED
+        )
+
+    if not request.GET.get("i_declined"):
+        incoming_requests = incoming_requests.exclude(
+            status=ChatRequest.Status.DECLINED
+        )
+
+    # Order by most recent
+    outgoing_requests = outgoing_requests.order_by("ride__start_dt")
+    incoming_requests = incoming_requests.order_by("ride__start_dt")
+
+    # Pagination
+    o_paginator = Paginator(outgoing_requests, 4)
+    i_paginator = Paginator(incoming_requests, 4)
+
+    o_page_number = request.GET.get("o_page")
+    i_page_number = request.GET.get("i_page")
+
+    outgoing_requests = o_paginator.get_page(o_page_number)
+    incoming_requests = i_paginator.get_page(i_page_number)
+
+    return {
         "outgoing_requests": outgoing_requests,
         "incoming_requests": incoming_requests,
     }
 
+
+@login_required
+def index(request):
+    context = get_sidebar_context(request)
     return render(request, "chat/index.html", context)
 
 
@@ -130,19 +161,12 @@ def room(request, jr_pk):
 
     shared_ride_count = Ride.objects.count_shared_ride(request.user, with_user)
 
-    outgoing_requests = ChatRequest.objects.filter(user=request.user)
-    incoming_requests = ChatRequest.objects.filter(
-        ride__in=request.user.rides_as_driver.all(),
-    )
-
-    # Keep rides that are from today or in the future
-    # others_rides_requests = others_rides_requests.filter(ride__start_dt__gte=timezone.now()).order_by("ride__start_dt")
-
     context = {
         "with_user": with_user,
         "join_request": join_request,
         "shared_ride_count": shared_ride_count,
-        "outgoing_requests": outgoing_requests,
-        "incoming_requests": incoming_requests,
     }
+    # Inject sidebar context
+    context.update(get_sidebar_context(request))
+
     return render(request, "chat/room.html", context)
