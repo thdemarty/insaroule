@@ -24,6 +24,18 @@ class PasswordChangeView(BasePasswordChangeView):
 
 @login_required
 def user_profile(request):
+    if request.method == "POST":
+        # Update notification preferences
+        preferences = request.user.notification_preferences
+        preferences.unread_messages_notification = (
+            request.POST.get("unread_messages_notification") == "on"
+        )
+        preferences.ride_status_update_notification = (
+            request.POST.get("ride_status_update_notification") == "on"
+        )
+        preferences.save()
+        messages.success(request, _("Your preferences have been updated."))
+
     context = {}
     return render(request, "account/detail.html", context)
 

@@ -31,3 +31,17 @@ class User(AbstractUser):
         if self.last_verification_email_sent:
             return timezone.now() - self.last_verification_email_sent < cooldown
         return False
+
+
+class UserNotificationPreferences(models.Model):
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        related_name="notification_preferences",
+    )
+    unread_messages_notification = models.BooleanField(
+        default=True, help_text="Receive notifications for unread messages."
+    )
+    ride_status_update_notification = models.BooleanField(
+        default=True, help_text="Receive notifications for ride status updates."
+    )

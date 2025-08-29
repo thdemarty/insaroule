@@ -16,8 +16,8 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-4">
-                            <img src="{% static 'img/avatar.jpg' %}"
-                                class="img-fluid rounded-circle" style="width: 90px; height: 90px;" alt="User Avatar">
+                            <img src="{% static 'img/avatar.jpg' %}" class="img-fluid rounded-circle"
+                                style="width: 90px; height: 90px;" alt="User Avatar">
                         </div>
                         <div class="col-8">
                             <h3 class="card-title">{{ user.username }}</h3>
@@ -43,16 +43,46 @@
 
             <h3>{% translate "Notifications" %}</h3>
 
-            <div class="alert alert-secondary" role="alert">
-                {% translate "You will be able to manage your notification preferences in the future." %}
-            </div>
+            {% if user.notification_preferences %}
+            <form action="" method="post">
+                {% csrf_token %}
+                <fieldset class="border p-3 rounded">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" id="unread_messages_notification"
+                            {%if user.notification_preferences.unread_messages_notification%}checked{%endif%}
+                            name="unread_messages_notification">
+                        <label class="form-check-label" for="unread_messages_notification">
+                            {% translate "Notifications for unread messages" %}
+                        </label>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch"
+                            id="ride_status_update_notification" 
+                            {%if user.notification_preferences.ride_status_update_notification%}checked{%endif%}
+                            name="ride_status_update_notification">
+                        <label class="form-check-label" for="ride_status_update_notification">
+                            {% translate "Ride request status update" %}
+                        </label>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" id="mandatory_notifications"
+                            disabled checked>
+                        <label class="form-check-label" for="mandatory_notifications">
+                            {% translate "Mandatory notifications (e.g., policy updates)" %}
+                        </label>
+                    </div>
 
-            <!-- <ul>
-                <li>Receive email notifications for new rides</li>
-                <li>Receive email notifications for ride updates</li>
-                <li>Receive email notifications for account activity</li>
-            </ul> -->
+                    <button type="submit" class="btn btn-primary mt-3">{% translate "Save Changes" %}</button>
+                </fieldset>
+            </form>
+            {% else %}
+            <div class="alert alert-warning">
+                An error occurred while loading your notification preferences. <br>
+                Please contact <a href="mailto:{{SUPPORT_EMAIL}}?subject=UserNotificationPreferences missing for user '{{user}}'">support</a>.
+            </div>
+            {% endif %}
         </div>
     </div>
 </div>
-{% endblock content %}
+
+{% endblock %}
