@@ -47,9 +47,10 @@
 
     const roomName = JSON.parse(document.getElementById('room-name').textContent);
     const currentUserUuid = JSON.parse(document.getElementById('current-user-uuid').textContent);
-
+    
+    const wsScheme = window.location.protocol === "https:" ? "wss" : "ws";
     const chatSocket = new WebSocket(
-        'ws://' + window.location.host + '/ws/chat/' + roomName + '/'
+        wsScheme + '://' + window.location.host + '/ws/chat/' + roomName + '/'
     );
 
     const driver = JSON.parse(document.getElementById('driver-uuid').textContent);
