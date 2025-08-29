@@ -114,6 +114,10 @@ def change_jrequest_status(request, jr_pk):
 def rides_subscribe(request, pk):
     ride = get_object_or_404(Ride, pk=pk)
     if request.method == "POST":
+        if ChatRequest.objects.filter(user=request.user, ride=ride).exists():
+            messages.error(request, _("You have already requested to join this ride."))
+            return redirect("carpool:detail", pk=ride.pk)
+
         ride.join_requests.create(user=request.user)
         return redirect("chat:index")
     return redirect("carpool:detail", pk=ride.pk)
@@ -121,11 +125,17 @@ def rides_subscribe(request, pk):
 
 @login_required
 def rides_detail(request, pk):
+    # Check if the user has already booked this ride
+    # used to disabled the subscribe button
+    chat_request = ChatRequest.objects.filter(user=request.user, ride__pk=pk).first()
+
     ride = get_object_or_404(Ride, pk=pk)
     context = {
         "ride": ride,
         "geometry": ride.geometry.geojson,
+        "chat_request": chat_request,
     }
+
     return render(request, "rides/detail.html", context)
 
 
