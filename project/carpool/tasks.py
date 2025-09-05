@@ -167,6 +167,8 @@ def compute_daily_statistics():
     current_month_stats = MonthlyStatistics.objects.get(month=now.month, year=now.year)
     current_month_stats.total_rides = current_month_rides.count()
     current_month_stats.total_users = get_user_model().objects.count()
-    current_month_stats.total_distance = total_distance.km
-    current_month_stats.total_co2 = total_co2 / 1000  # convert to kg
+    current_month_stats.total_distance = total_distance.km if total_distance else 0
+    current_month_stats.total_co2 = (
+        total_co2 / 1000 if total_co2 else 0
+    )  # Convert into kg
     current_month_stats.save()
