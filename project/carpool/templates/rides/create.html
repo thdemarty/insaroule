@@ -1,30 +1,30 @@
 {% extends 'base.html' %} {% load i18n %} {% load static %} {% block extrahead %}
-<link
-    rel="stylesheet"
-    href="{% static 'vendors/leaflet/leaflet.css' %}"
-    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-    crossorigin=""
-/>
-<link
-    rel="stylesheet"
-    href="{% static 'vendors/choices-js/public/assets/styles/choices.min.css' %}"
-/>
+<link rel="stylesheet" href="{% static 'vendors/leaflet/leaflet.css' %}"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+<link rel="stylesheet" href="{% static 'vendors/choices-js/public/assets/styles/choices.min.css' %}" />
 <style>
     .choices__inner {
-        background-color: #ffffff !important; /* white background instead of grey */
-        border: 1px solid #cccccc; /* lighter border */
+        background-color: #ffffff !important;
+        /* white background instead of grey */
+        border: 1px solid #cccccc;
+        /* lighter border */
     }
-    
-    .choices__placeholder {
-        opacity: 1;
+
+    .choices__input {
+        background-color: #ffffff !important;
+        /* white background instead of grey */
+
     }
+
     #departure {
         z-index: 999;
     }
+
     #arrival {
         z-index: 998;
     }
 </style>
+<link rel="stylesheet" href="{% static 'vendors/bootstrap-icons/bootstrap-icons.css' %}" />
 
 {% endblock extrahead %} {% block content %}
 <div class="container-fluid mt-3">
@@ -61,26 +61,27 @@
                 {% csrf_token %}
 
                 <div id="hidden">
-                    {# Departure information #} 
-                    {{ form.d_fulltext }} 
-                    {{ form.d_street }} 
+                    {# Departure information #}
+                    {{ form.d_fulltext }}
+                    {{ form.d_street }}
                     {{ form.d_city }}
-                    {{ form.d_zipcode }} 
-                    {{ form.d_latitude }} 
-                    {{ form.d_longitude }} 
-                    {# Arrival information #} 
-                    {{ form.a_fulltext }} 
-                    {{ form.a_street }} 
-                    {{ form.a_city }} 
-                    {{ form.a_zipcode }} 
-                    {{ form.a_latitude }} 
-                    {{ form.a_longitude }} 
-                    {# Routing information #} 
-                    {{ form.r_geometry }} 
+                    {{ form.d_zipcode }}
+                    {{ form.d_latitude }}
+                    {{ form.d_longitude }}
+                    {# Arrival information #}
+                    {{ form.a_fulltext }}
+                    {{ form.a_street }}
+                    {{ form.a_city }}
+                    {{ form.a_zipcode }}
+                    {{ form.a_latitude }}
+                    {{ form.a_longitude }}
+                    {# Routing information #}
+                    {{ form.r_geometry }}
                     {{ form.r_duration }}
                 </div>
 
                 <div class="mb-3">
+                    <label for="{{ form.departure_datetime.id_for_label }}">{% translate "Departure date" %}</label>
                     {{ form.departure_datetime }}
                     {% if form.departure_datetime.errors %}
                     <span class="text-danger">{{ form.departure_datetime.errors }}</span>
@@ -88,30 +89,65 @@
                 </div>
 
                 <div class="mb-3">
-                    {{ form.seats }}
-                    {% if form.seats.errors %}
-                    <span class="text-danger">{{ form.seats.errors }}</span>
+                    <label for="{{ form.seats.id_for_label }}">{% translate "Seats offering" %}</label>
+                    {{ form.seats_offered }}
+                    {% if form.seats_offered.errors %}
+                    <span class="text-danger">{{ form.seats_offered.errors }}</span>
                     {% endif %}
                 </div>
 
-                <div class="mb-3">
+                <div class="mb-2">
+                    <label for="{{ form.price_per_seat.id_for_label }}">
+                        {% translate "Price and Payment method" %}
+                    </label>
                     {{ form.price_per_seat }}
-                    {% if form.price_per_seat.errors %}
-                    <span class="text-danger">{{ form.price_per_seat.errors }}</span>
+
+                    <div class="mt-1 small text-center">
+                        {% for payment_method in payment_methods %}
+                        <div class="form-check form-check-inline" id="payment-options">
+                            <input class="form-check-input" type="checkbox" id="id_{{ payment_method.0 }}"
+                                value="{{ payment_method.0 }}" name="payment_method">
+                            <label class="form-check-label" for="id_{{ payment_method.0 }}">
+                                {{ payment_method.1 }}
+                            </label>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+
+
+                <div class="mb-3">
+                    <label for="vehicle" class="d-flex justify-content-between vertical-align mb-1">
+                        <span class="mt-auto">{% translate "Vehicle" %}</span>
+                        <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="modal"
+                            data-bs-target="#vehicleModal" id="createButton">{% translate "Add a new vehicle" %}</button>
+                    </label>
+                    {% if user.vehicles.all %}
+                    <div class="input-group">
+                        <select class="form-select" name="vehicle" id="vehicle">
+                            {% for vehicle in user.vehicles.all %}
+                            <option value="{{ vehicle.pk }}" data-name="{{ vehicle.name }}"
+                                data-description="{{ vehicle.description }}" data-seats="{{ vehicle.seats }}"
+                                data-co2="{{ vehicle.geqCO2_per_km}}">
+                                {{ vehicle.name }} - {{ vehicle.seats }} {% translate "seats" %}
+                            </option>
+                            {% endfor %}
+                        </select>
+                        <button class="btn btn-secondary" type="button" id="editVehicleBtn">
+                            Edit
+                        </button>
+                    </div>
+                    {% else %}
+                    <div class="card border border-primary" style="border-style: dashed !important;">
+                        <div class="card-body">
+                            {% translate "You don't have any vehicle registered to your account. Please add one to publish a ride." %}
+                        </div>
+                    </div>
+
                     {% endif %}
                 </div>
 
-                <div class="mb-3">
-                    <label for="payment-options">{% translate "Payment method" %}</label>
-                   
-                    <div id="payment-options">
-                        {{ form.payment_method }}
-                    </div>
-                    {% if form.payment_method.errors %}
-                    <span class="text-danger">{{ form.payment_method.errors }}</span>
-                    {% endif %}
-                </div>
-                
                 <button class="btn btn-primary w-100" type="submit">
                     {% translate "Publish ride" %}
                 </button>
@@ -119,12 +155,58 @@
         </div>
     </div>
 </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="vehicleModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <form method="post" id="vehicleForm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="vehicleModalTitle">Vehicle form</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {% csrf_token %}
+                    <input type="hidden" name="vehicle_id" id="vehicle_id">
+
+                    <div class="mb-3">
+                        <label for="vehicle_name">{% translate "Name" %}<sup class="text-danger">*</sup></label>
+                        <input type="text" name="name" id="vehicle_name" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="vehicle_description">{% translate "Visual Description" %}<sup class="text-danger">*</sup></label>
+                        <input type="text" name="description" id="vehicle_description" class="form-control" required>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label for="vehicle_seats">{% translate "Maximum number of seats" %}<sup class="text-danger">*</sup></label>
+                            <input type="text" name="seats" id="vehicle_seats" class="form-control">
+                        </div>
+                        <div class="col">
+                            <label for="vehicle_co2">{% translate "CO<sub>2</sub> emission (g/km)" %}</label>
+                            <input type="text" name="geqCO2_per_km" id="vehicle_co2" class="form-control">
+                        </div>
+                    </div>
+                    <p class="small text-muted">
+                        {% blocktranslate trimmed %}
+                        You can find the CO<sub>2</sub> emission on your vehicle registration certificate
+                        (in France, it's in the section V.7).
+                        {% endblocktranslate %}
+                    </p>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% translate "Close" %}</button>
+                    <button type="submit" class="btn btn-primary">{% translate "Save changes" %}</button>
+                </div>
+        </form>
+    </div>
+</div>
+</div>
 {% endblock content %} {% block extrascript %}
-<script
-    src="{% static 'vendors/leaflet/leaflet.js' %}"
-    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-    crossorigin=""
-></script>
+<script src="{% static 'vendors/leaflet/leaflet.js' %}" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""></script>
 
 <script src="{% static 'vendors/choices-js/public/assets/scripts/choices.min.js' %}"></script>
 
@@ -171,13 +253,16 @@
     const hRouteGeometry = document.getElementById("id_r_geometry");
     const hRouteDuration = document.getElementById("id_r_duration");
 
+
     const departure = new Choices(departureEl, {
         placeholder: true,
         placeholderValue: "{% translate 'Search for a precise departure address' %}",
+        noChoicesText: "{% translate 'No address found' %}",
     });
     const arrival = new Choices(arrivalEl, {
         placeholder: true,
         placeholderValue: "{% translate 'Search for a precise arrival address' %}",
+        noChoicesText: "{% translate 'No address found' %}",
     });
 
     var departureM,
@@ -287,7 +372,6 @@
                             opacity: 0.7,
                         },
                     }).addTo(map);
-                    // TODO: store duration
 
                     // Update hidden inputs with route information
                     hRouteDuration.value = data.duration;
@@ -436,9 +520,10 @@
             ]);
         }
     });
-</script>
 
-<script>
+    // =================================================================
+    // Automated enabling/disabling of payment method checkboxes
+    // =================================================================
     document.addEventListener("DOMContentLoaded", function () {
         const priceInput = document.getElementById("id_price_per_seat");
         const paymentCheckboxes = document.querySelectorAll(
@@ -451,10 +536,6 @@
 
             paymentCheckboxes.forEach((checkbox) => {
                 checkbox.disabled = disable;
-                checkbox.closest("label").style.opacity = disable ? 0.5 : 1;
-                checkbox.closest("label").style.pointerEvents = disable
-                    ? "none"
-                    : "auto";
             });
         }
 
@@ -462,6 +543,206 @@
 
         priceInput.addEventListener("input", togglePaymentMethodCheckboxes);
     });
+</script>
+
+<script>
+    function createToast(alert, content) {
+        const toastContainer = document.getElementById("toastContainer");
+        const toastEl = document.createElement("div");
+        
+        if (alert == "debug") {
+                toastEl.className = "toast align-items-center bg-secondary text-white";
+        } else if (alert == "info") {
+                toastEl.className = "toast align-items-center bg-info text-white";
+        } else if (alert == "success") {
+                toastEl.className = "toast align-items-center bg-success text-white";
+        } else if (alert == "warning") {
+                toastEl.className = "toast align-items-center bg-warning";
+        } else if (alert == "error") {
+                toastEl.className = "toast align-items-center bg-danger text-white";
+        } else {
+                toastEl.className = "toast align-items-center bg-secondary text-white";
+        }
+
+        toastEl.setAttribute("role", "alert");
+        toastEl.setAttribute("aria-live", "assertive");
+        toastEl.setAttribute("aria-atomic", "true");
+
+        const toastContent = document.createElement("div");
+        toastContent.innerHTML = `
+            <div class="d-flex">
+                <div class="toast-body">
+                    ${content}
+                </div>
+                <button type="button" class="btn-close me-2 m-auto ${
+                    alert == "debug" || alert == "info" || alert == "success" || alert == "error"
+                        ? "btn-close-white"
+                        : ""
+                }" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        `;
+        toastEl.appendChild(toastContent);
+        toastContainer.appendChild(toastEl);
+
+        bootstrap.Toast.getOrCreateInstance(toastEl).show();
+    }
+
+
+    // =================================================================
+    // Vehicle modal form handling
+    // =================================================================
+    document.addEventListener("DOMContentLoaded", function () {
+        const vehicleModal = new bootstrap.Modal(
+            document.getElementById("vehicleModal"),
+        );
+        const vehicleForm = document.getElementById("vehicleForm");
+        const vehicleModalTitle = document.getElementById("vehicleModalTitle");
+        const createButton = document.getElementById("createButton");
+        const editVehicleBtn = document.getElementById("editVehicleBtn");
+
+        const vehicleIdInput = document.getElementById("vehicle_id");
+        const vehicleNameInput = document.getElementById("vehicle_name");
+        const vehicleDescriptionInput = document.getElementById(
+            "vehicle_description",
+        );
+        const vehicleSeatsInput = document.getElementById("vehicle_seats");
+        const vehicleCO2Input = document.getElementById("vehicle_co2");
+
+        // Open modal in "create" mode
+        createButton.addEventListener("click", function () {
+            vehicleModalTitle.textContent = "{% translate 'Add a new vehicle' %}";
+            vehicleForm.reset();
+            vehicleIdInput.value = "";
+        });
+
+        // Open modal in "edit" mode
+        if (editVehicleBtn) {
+            editVehicleBtn.addEventListener("click", function () {
+                let vehicleSelect = document.getElementById("vehicle");
+                const selectedOption =
+                    vehicleSelect.options[vehicleSelect.selectedIndex];
+
+                if (!selectedOption) {
+                    alert("{% translate 'Please select a vehicle to edit.' %}");
+                    return;
+                }
+
+                vehicleModalTitle.textContent = "{% translate 'Edit vehicle' %}";
+                vehicleIdInput.value = selectedOption.value;
+                vehicleNameInput.value = selectedOption.dataset.name || "";
+                vehicleDescriptionInput.value =
+                    selectedOption.dataset.description || "";
+                vehicleSeatsInput.value = selectedOption.dataset.seats || "";
+                vehicleCO2Input.value = selectedOption.dataset.co2 || "";
+
+                vehicleModal.show();
+            });
+        }
+
+        // Handle form submission
+        vehicleForm.addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            const formData = new FormData(vehicleForm);
+            const url = formData.get("vehicle_id")
+                ? `/api/vehicles/${formData.get("vehicle_id")}/update/`
+                : "/api/vehicles/new/";
+
+            fetch(url, {
+                method: formData.get("vehicle_id") ? "POST" : "POST",
+                headers: {
+                    "X-CSRFToken": formData.get("csrfmiddlewaretoken"),
+                },
+                body: formData,
+            })
+                .then((response) => {
+                    if (!response.ok) {
+                        return response.json().then((data) => {
+                            throw new Error(
+                                data.error || "{% translate 'Failed to save vehicle' %}",
+                            );
+                        });
+                    }
+                    return response.json();
+                })
+                .then((data) => {
+                    let vehicleSelect = document.getElementById("vehicle");
+
+                    if (!vehicleSelect) {
+                        // We assume that the vehicleSelect doesn't exist because
+                        // there was no vehicle registered yet
+                        const vehicleDiv = createButton.parentElement.parentElement.querySelector(".card");
+
+                        vehicleDiv.innerHTML = `
+                            <div class="input-group">
+                                <select class="form-select" name="vehicle" id="vehicle"></select>
+                                <button class="btn btn-secondary" type="button" id="editVehicleBtn">
+                                    Edit this vehicle
+                                </button>
+                            </div>
+                        `;
+                        vehicleSelect = document.getElementById("vehicle");
+                        // Re-attach event listener to the new edit button
+                        document.getElementById("editVehicleBtn").addEventListener("click", function () {
+                            const selectedOption = vehicleSelect.options[vehicleSelect.selectedIndex];
+
+                            if (!selectedOption) {
+                                alert("{% translate 'Please select a vehicle to edit.' %}");
+                                return;
+                            }
+
+                            vehicleModalTitle.textContent = "{% translate 'Edit vehicle' %}";
+                            vehicleIdInput.value = selectedOption.value;
+                            vehicleNameInput.value = selectedOption.dataset.name || "";
+                            vehicleDescriptionInput.value = selectedOption.dataset.description || "";
+                            vehicleSeatsInput.value = selectedOption.dataset.seats || "";
+                            vehicleCO2Input.value = selectedOption.dataset.co2 || "";
+
+                            console.log(selectedOption.dataset.co2)
+
+                            vehicleModal.show();
+                        });
+
+                    }
+
+                    let option = vehicleSelect.querySelector(
+                        `option[value="${data.vehicle.id}"]`,
+                    );
+
+                    if (option) {
+                        // Update existing option
+                        option.textContent = `${data.vehicle.name} - ${data.vehicle.seats} {% translate "seats" %}`;
+                        option.dataset.name = data.vehicle.name;
+                        option.dataset.description = data.vehicle.description;
+                        option.dataset.seats = data.vehicle.seats;
+                        option.dataset.co2 = data.vehicle.geqCO2_per_km;
+
+                        createToast("success", "Vehicle updated successfully!");
+                    } else {
+                        // Add new option
+                        option = document.createElement("option");
+                        option.value = data.vehicle.id;
+                        option.textContent = `${data.vehicle.name} - ${data.vehicle.seats} {% translate "seats" %}`;
+                        option.dataset.name = data.vehicle.name;
+                        option.dataset.description = data.vehicle.description;
+                        option.dataset.seats = data.vehicle.seats;
+                        option.dataset.co2 = data.vehicle.geqCO2_per_km;
+                        vehicleSelect.appendChild(option);
+
+                        createToast("success", "Vehicle added successfully!");
+                    }
+                    
+                    // Select the newly added/edited vehicle
+                    vehicleSelect.value = data.vehicle.id;
+
+                    vehicleModal.hide();
+                })
+                .catch((error) => {
+                    alert(error.message);
+                });
+        });
+    });
+
 </script>
 
 {% endblock extrascript %}

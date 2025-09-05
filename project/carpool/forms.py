@@ -6,9 +6,22 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib.gis.geos import GEOSGeometry
 
 from carpool.models.ride import Ride
+from carpool.models import Vehicle
 
 
 MAXIMUM_SEATS_IN_VEHICLE = 8
+
+
+class VehicleForm(forms.ModelForm):
+    seats = forms.IntegerField(
+        required=True,
+        min_value=1,
+        max_value=MAXIMUM_SEATS_IN_VEHICLE,
+    )
+
+    class Meta:
+        model = Vehicle
+        fields = ["name", "description", "seats", "geqCO2_per_km"]
 
 
 class CreateRideForm(forms.Form):
@@ -49,23 +62,36 @@ class CreateRideForm(forms.Form):
         ),
     )
 
-    seats = forms.IntegerField(
+    seats_offered = forms.IntegerField(
         required=True,
         min_value=1,
         max_value=MAXIMUM_SEATS_IN_VEHICLE,
         widget=forms.NumberInput(
             attrs={
-                "placeholder": _("Number of seats available"),
+                "placeholder": _("Number of seats available for the carpool"),
                 "class": "form-control",
             },
         ),
-        help_text=_("Number of seats available in the carpool."),
+        help_text=_("Number of seats available for the carpool."),
+    )
+
+    vehicle = forms.ModelChoiceField(
+        required=True,
+        queryset=Vehicle.objects.all(),
+        widget=forms.Select(
+            attrs={
+                "class": "form-control",
+            },
+        ),
+        help_text=_("Select the vehicle you will use for this ride."),
+        label=_("Vehicle"),
     )
 
     price_per_seat = forms.DecimalField(
         required=True,
         min_value=0,
         decimal_places=2,
+        max_value=999,
         widget=forms.NumberInput(
             attrs={
                 "placeholder": _("Price per seat"),
@@ -84,6 +110,17 @@ class CreateRideForm(forms.Form):
         cleaned_data = super().clean()
         price = cleaned_data.get("price_per_seat")
         payment = cleaned_data.get("payment_method")
+
+        if seats_offered := cleaned_data.get("seats_offered"):
+            vehicle = cleaned_data.get("vehicle")
+            if vehicle and seats_offered > vehicle.seats:
+                self.add_error(
+                    "seats_offered",
+                    _(
+                        "The number of seats offered (%(offered)s) cannot exceed the number of seats in the vehicle (%(vehicle)s)."
+                    )
+                    % {"offered": seats_offered, "vehicle": vehicle.seats},
+                )
 
         if price is not None and price > 0:
             if not payment:

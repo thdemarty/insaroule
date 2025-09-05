@@ -4,24 +4,143 @@ import json
 from asgiref.sync import sync_to_async
 from chat.models import ChatRequest
 from chat.tasks import send_email_confirmed_ride, send_email_declined_ride
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.gis.db.models.functions import Distance
 from django.contrib.gis.geos import GEOSGeometry, Point
 from django.contrib.gis.measure import D
 from django.core.paginator import Paginator
 from django.db.models.functions import TruncDate
 from django.http import HttpResponse, JsonResponse
+from django.core.exceptions import PermissionDenied
+
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_http_methods
 from django.contrib import messages
 from django.utils.translation import gettext as _
 
-from carpool.forms import CreateRideForm, EditRideForm
+from carpool.forms import CreateRideForm, EditRideForm, VehicleForm
 from carpool.models import Location, Vehicle
+from carpool.models.statistics import Statistics, MonthlyStatistics
 from carpool.models.ride import Ride
 from carpool.tasks import get_autocompletion, get_routing
 from django.utils.timezone import localtime
+from django.utils import timezone
 from django.db.models import Count, F, ExpressionWrapper, IntegerField
+
+import logging
+
+
+@permission_required(["carpool.view_statistics"])
+def bo_statistics_json_monthly(request):
+    # Get labels for the current academic year (from September to August)
+    now = timezone.now()
+    if now.month >= 9:
+        start_year = now.year
+    else:
+        start_year = now.year - 1
+    labels = []
+    for month in range(9, 13):
+        labels.append(f"{month:02d}-{start_year}")
+    for month in range(1, 9):
+        labels.append(f"{month:02d}-{start_year + 1}")
+    monthly_stats = MonthlyStatistics.objects.filter_by_academic_year(start_year)
+    monthly_total_rides = [stat.total_rides for stat in monthly_stats]
+    monthly_total_users = [stat.total_users for stat in monthly_stats]
+    monthly_total_distance = [stat.total_distance for stat in monthly_stats]
+    monthly_total_co2 = [stat.total_co2 for stat in monthly_stats]
+
+    data = {
+        "labels": labels,
+        "monthly_total_rides": monthly_total_rides,
+        "monthly_total_users": monthly_total_users,
+        "monthly_total_distance": monthly_total_distance,
+        "monthly_total_co2": monthly_total_co2,
+    }
+
+    return JsonResponse(data)
+
+
+@permission_required(["carpool.view_statistics"])
+def bo_statistics(request):
+    if Statistics.objects.count() == 0:
+        # Create the Statistics object if it does not exist
+        Statistics.objects.create()
+
+    context = {
+        "last_updated_at": Statistics.objects.first().updated_at,
+        "total_users": Statistics.objects.first().total_users,
+        "total_rides": Statistics.objects.first().total_rides,
+        "total_distance": Statistics.objects.first().total_distance,
+        "total_co2": Statistics.objects.first().total_co2,
+    }
+
+    return render(request, "rides/back-office/statistics.html", context)
+
+
+@login_required
+def vehicles_create(request):
+    form = VehicleForm()
+    if request.method == "POST":
+        form = VehicleForm(request.POST)
+        if form.is_valid():
+            vehicle = form.save(commit=False)
+            vehicle.driver = request.user
+            vehicle.save()
+            logging.info(f"Vehicle {vehicle.pk} created by user {request.user.pk}")
+            return JsonResponse(
+                {
+                    "status": "OK",
+                    "vehicle": {
+                        "id": vehicle.pk,
+                        "name": vehicle.name,
+                        "description": vehicle.description,
+                        "seats": vehicle.seats,
+                        "geqCO2_per_km": vehicle.geqCO2_per_km,
+                    },
+                },
+                status=201,
+            )
+        else:
+            logging.error(f"Vehicle creation form invalid: {form.errors}")
+            return JsonResponse({"status": "NOK", "errors": form.errors}, status=400)
+    return JsonResponse(
+        {"status": "NOK", "error": "Invalid request method"}, status=400
+    )
+
+
+@login_required
+def vehicles_update(request, pk):
+    vehicle = get_object_or_404(Vehicle, pk=pk)
+    if vehicle.driver != request.user:
+        return JsonResponse(
+            {"status": "NOK", "error": "You are not the driver of this vehicle"},
+            status=403,
+        )
+
+    form = VehicleForm(instance=vehicle)
+    if request.method == "POST":
+        form = VehicleForm(request.POST, instance=vehicle)
+        if form.is_valid():
+            form.save()
+            logging.info(f"Vehicle {vehicle.pk} updated by user {request.user.pk}")
+            return JsonResponse(
+                {
+                    "status": "OK",
+                    "vehicle": {
+                        "id": vehicle.pk,
+                        "name": vehicle.name,
+                        "description": vehicle.description,
+                        "seats": vehicle.seats,
+                        "geqCO2_per_km": vehicle.geqCO2_per_km,
+                    },
+                },
+                status=201,
+            )
+        return JsonResponse({"status": "NOK", "errors": form.errors}, status=400)
+
+    return JsonResponse(
+        {"status": "NOK", "error": "Invalid request method"}, status=400
+    )
 
 
 @login_required
@@ -29,11 +148,11 @@ def list_my_rides(request):
     p_rides = Ride.objects.filter(driver=request.user).order_by("start_dt")
     s_rides = ChatRequest.objects.filter(user=request.user).order_by("ride__start_dt")
 
-    s_paginator = Paginator(s_rides, 10)
-    p_paginator = Paginator(p_rides, 10)
+    s_paginator = Paginator(s_rides, 3)
+    p_paginator = Paginator(p_rides, 3)
 
-    s_page_num = request.GET.get("subscribed_page")
-    p_page_num = request.GET.get("published_page")
+    s_page_num = request.GET.get("s_page")
+    p_page_num = request.GET.get("p_page")
 
     s_page_obj = s_paginator.get_page(s_page_num)
     p_page_obj = p_paginator.get_page(p_page_num)
@@ -284,17 +403,22 @@ def rides_create(request):
                 lat=form.cleaned_data["a_latitude"],
                 lng=form.cleaned_data["a_longitude"],
             )[0]
-            vehicle, _ = Vehicle.objects.get_or_create(
-                name="default",
-                driver=request.user,
-                seats=form.cleaned_data["seats"],
-            )
+
+            vehicle = form.cleaned_data["vehicle"]
+            print(vehicle)
+
+            if vehicle and vehicle.driver != request.user:
+                raise PermissionDenied("You are not the driver of this vehicle")
+
+            vehicle = get_object_or_404(Vehicle, pk=vehicle.pk)
+
             ride = Ride.objects.create(
                 driver=request.user,
                 start_dt=form.cleaned_data["departure_datetime"],
                 end_dt=form.cleaned_data["departure_datetime"]
                 + datetime.timedelta(hours=form.cleaned_data["r_duration"]),
                 start_loc=departure,
+                seats_offered=form.cleaned_data["seats_offered"],
                 vehicle=vehicle,
                 end_loc=arrival,
                 payment_method=form.cleaned_data["payment_method"],
@@ -302,7 +426,6 @@ def rides_create(request):
                 geometry=GEOSGeometry(form.cleaned_data["r_geometry"], srid=4326),
                 duration=datetime.timedelta(hours=form.cleaned_data["r_duration"]),
             )
-
             return redirect("carpool:detail", pk=ride.pk)
 
     context = {
