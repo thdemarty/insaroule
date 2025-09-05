@@ -156,6 +156,7 @@
                                 </div>
                             </div>
                         </div>
+                        {% if user.is_authenticated %}
                         <div class="card-footer bg-white d-flex flex-row">
                             <img src="{% static 'img/avatar.jpg' %}"
                                 class="rounded-circle" width="30" />
@@ -164,6 +165,7 @@
                                 <span class="my-auto text-muted">{{ ride.remaining_seats }} {% translate "remaining seats" %}</span>
                             </div>
                         </div>
+                        {% endif %}
                     </div>
                 {% endfor %}
             {% empty %}
