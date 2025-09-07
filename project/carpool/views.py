@@ -303,7 +303,6 @@ def rides_delete(request, pk):
     return render(request, "rides/delete.html", context)
 
 
-@login_required
 def rides_list(request):
     # Get all rides that are whether today's date or in the future
     rides = Ride.objects.filter(
