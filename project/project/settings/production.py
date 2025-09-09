@@ -18,6 +18,8 @@ import environ
 env = environ.Env(
     # set casting, default value
     DJANGO_DEBUG=(bool, False),
+    DJANGO_EMAIL_USE_SSL=(bool, False),
+    DJANGO_EMAIL_USE_TLS=(bool, True),
     ALLOW_REGISTRATION=(bool, False),
 )
 
@@ -177,8 +179,8 @@ EMAIL_BACKEND = env(
 )
 EMAIL_HOST = env("DJANGO_EMAIL_HOST")
 EMAIL_PORT = env("DJANGO_EMAIL_PORT")
-EMAIL_USE_TLS = True
-EMAIL_USE_SSL = False
+EMAIL_USE_TLS = env("DJANGO_EMAIL_USE_TLS")
+EMAIL_USE_SSL = env("DJANGO_EMAIL_USE_SSL")
 EMAIL_HOST_USER = env("DJANGO_EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = env("DJANGO_EMAIL_HOST_PASSWORD")
 DEFAULT_FROM_EMAIL = env("DJANGO_DEFAULT_FROM_EMAIL")
