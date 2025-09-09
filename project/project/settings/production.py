@@ -235,6 +235,9 @@ EMAIL_NOTIFICATION_THRESHOLD_MINUTES = env.int(
     "EMAIL_NOTIFICATION_THRESHOLD_MINUTES", default=30
 )
 
+# Anonymous access settings
+ANONYMOUS_ACCESS_RIDES_LIST = env.bool("ANONYMOUS_ACCESS_RIDES_LIST", default=True)
+
 # The email that users can use to contact support
 # You can use GitLab Service Desk feature to handle incoming emails
 SUPPORT_EMAIL = env("SUPPORT_EMAIL")

@@ -1,33 +1,33 @@
 import datetime
 import json
+import logging
 
 from asgiref.sync import sync_to_async
 from chat.models import ChatRequest
 from chat.tasks import send_email_confirmed_ride, send_email_declined_ride
+from django.conf import settings
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.gis.db.models.functions import Distance
 from django.contrib.gis.geos import GEOSGeometry, Point
 from django.contrib.gis.measure import D
+from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator
+from django.db.models import Count, ExpressionWrapper, F, IntegerField
 from django.db.models.functions import TruncDate
 from django.http import HttpResponse, JsonResponse
-from django.core.exceptions import PermissionDenied
-
 from django.shortcuts import get_object_or_404, redirect, render
-from django.views.decorators.http import require_http_methods
-from django.contrib import messages
+from django.urls import reverse
+from django.utils import timezone
+from django.utils.timezone import localtime
 from django.utils.translation import gettext as _
+from django.views.decorators.http import require_http_methods
 
 from carpool.forms import CreateRideForm, EditRideForm, VehicleForm
 from carpool.models import Location, Vehicle
-from carpool.models.statistics import Statistics, MonthlyStatistics
 from carpool.models.ride import Ride
+from carpool.models.statistics import MonthlyStatistics, Statistics
 from carpool.tasks import get_autocompletion, get_routing
-from django.utils.timezone import localtime
-from django.utils import timezone
-from django.db.models import Count, F, ExpressionWrapper, IntegerField
-
-import logging
 
 
 @permission_required(["carpool.view_statistics"])
@@ -304,6 +304,10 @@ def rides_delete(request, pk):
 
 
 def rides_list(request):
+    if not settings.ANONYMOUS_ACCESS_RIDES_LIST and not request.user.is_authenticated:
+        # We have a global setting that disable anonymous access to the rides list
+        return redirect(f"{reverse('accounts:login')}?next={request.path}")
+
     # Get all rides that are whether today's date or in the future
     rides = Ride.objects.filter(
         start_dt__date__gte=datetime.date.today(),
