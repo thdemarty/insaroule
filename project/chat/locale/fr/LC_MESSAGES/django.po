@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-29 17:39+0200\n"
+"POT-Creation-Date: 2025-09-09 20:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -303,14 +303,15 @@ msgid "You have never ride with this user."
 msgstr "Vous n'avez jamais fait de trajet avec cet utilisateur."
 
 #: chat/templates/chat/room.html:71
+#, python-format
 msgid ""
-"You have already shared {{ shared_ride_count }} ride{{ shared_ride_count|"
-"pluralize }} with this user."
+"You have already shared %(shared_ride_count)s "
+"ride%(shared_ride_count|pluralize)s with this user."
 msgstr ""
-"Vous avez déjà partagé {{ shared_ride_count }} trajet{{ shared_ride_count|"
-"pluralize }} avec cet utilisateur."
+"Vous avez déjà partagé %(shared_ride_count)s trajet%(shared_ride_count|pluralize)s "
+"avec cet utilisateur."
 
-#: chat/templates/chat/room.html:115
+#: chat/templates/chat/room.html:117
 msgid ""
 "You have the possibility to accept or decline the request made by this user. "
 "When declining, the user won't be able to send you a request for this ride "
@@ -320,14 +321,14 @@ msgstr ""
 "utilisateur. En refusant, l'utilisateur ne pourra plus vous envoyer de "
 "demande pour ce trajet."
 
-#: chat/templates/chat/room.html:123
+#: chat/templates/chat/room.html:125
 msgid "Decline"
 msgstr "Refuser"
 
-#: chat/templates/chat/room.html:124
+#: chat/templates/chat/room.html:126
 msgid "Accept"
 msgstr "Accepter"
 
-#: chat/templates/chat/room.html:126
+#: chat/templates/chat/room.html:128
 msgid "Submit"
 msgstr "Envoyer"
