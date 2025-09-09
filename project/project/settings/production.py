@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 import os
 from pathlib import Path
-from django.utils.translation import gettext_lazy as _
 
 import environ
 
@@ -141,8 +140,8 @@ USE_I18N = True
 LANGUAGE_CODE = "fr"
 
 LANGUAGES = [
-    ("fr", _("French")),
-    ("en", _("English")),
+    ("fr", "Français"),
+    ("en", "English"),
 ]
 
 LOCALE_PATHS = [

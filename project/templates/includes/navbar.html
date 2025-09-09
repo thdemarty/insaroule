@@ -43,14 +43,7 @@
                 {% endif %}
 
                 <div class="my-auto">
-                    <form action="{% url 'set_language' %}" method="post">
-                    {% csrf_token %}
-                    <input name="next" type="hidden" value="{{ request.path }}">
-                    <select name="language"  class="form-select form-select-sm" onchange="this.form.submit()">
-                        <option value="en" {% if LANGUAGE_CODE == 'en' %}selected{% endif %}>English</option>
-                        <option value="fr" {% if LANGUAGE_CODE == 'fr' %}selected{% endif %}>Français</option>
-                    </select>
-                    </form>
+                    {% include "includes/langselect.html" %}
                 </div>
                 
                 {% if user.is_authenticated %}

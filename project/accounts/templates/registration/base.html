@@ -1,6 +1,8 @@
-{% load static %}
+{% load i18n static %}
+{% get_current_language as LANGUAGE_CODE %}
+
 <!doctype html>
-<html lang="fr" class="h-100">
+<html lang="{{ LANGUAGE_CODE }}" class="h-100">
 
 <head>
     <meta charset="utf-8">
@@ -16,6 +18,10 @@
 </head>
 
 <body class="d-flex flex-column h-100">
+    <div class="position-fixed top-0 start-0 p-2" style="z-index: 1030;">
+        {% include "includes/langselect.html" %}
+    </div>
+
     <main class="flex-shrink-0">
         {% block content %}{% endblock %}
     </main>
