@@ -1,6 +1,6 @@
 {% load static %}
 <!doctype html>
-<html lang="fr">
+<html lang="fr" class="h-100">
 
 <head>
     <meta charset="utf-8">
@@ -15,8 +15,12 @@
     {% block extrahead %}{% endblock %}
 </head>
 
-<body>
-    {% block content %}{% endblock %}
+<body class="d-flex flex-column h-100">
+    <main class="flex-shrink-0">
+        {% block content %}{% endblock %}
+    </main>
+    {% include "includes/footer.html" %}
+
     <script src="{% static 'vendors/bootstrap/js/bootstrap.bundle.min.js' %}"
         integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
         crossorigin="anonymous"></script>
