@@ -18,6 +18,8 @@ import environ
 env = environ.Env(
     # set casting, default value
     DJANGO_DEBUG=(bool, False),
+    DJANGO_EMAIL_USE_SSL=(bool, False),
+    DJANGO_EMAIL_USE_TLS=(bool, True),
     ALLOW_REGISTRATION=(bool, False),
 )
 
