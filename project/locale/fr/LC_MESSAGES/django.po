@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-09 20:45+0200\n"
+"POT-Creation-Date: 2025-09-09 23:07+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,14 +17,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-
-#: project/settings/production.py:144
-msgid "French"
-msgstr "Français"
-
-#: project/settings/production.py:145
-msgid "English"
-msgstr "Anglais"
 
 #: templates/emails/consent_footer.txt:3
 msgid ""
@@ -54,11 +46,11 @@ msgstr "Votre application préférée de covoiturage"
 
 #: templates/includes/footer.html:3
 msgid "Privacy Policy"
-msgstr ""
+msgstr "Politique de confidentialité"
 
 #: templates/includes/footer.html:4
 msgid "Terms of Service"
-msgstr ""
+msgstr "Conditions d'utilisation"
 
 #: templates/includes/navbar.html:14
 msgid "Rides"
@@ -80,30 +72,30 @@ msgstr "Publier un trajet"
 msgid "Messages"
 msgstr "Messages"
 
-#: templates/includes/navbar.html:63
+#: templates/includes/navbar.html:56
 msgid "My Account"
 msgstr "Mon compte"
 
-#: templates/includes/navbar.html:64
+#: templates/includes/navbar.html:57
 msgid "Report Issue"
 msgstr "Signaler un problème"
 
-#: templates/includes/navbar.html:66
+#: templates/includes/navbar.html:59
 msgid "Back Office"
 msgstr "Back Office"
 
-#: templates/includes/navbar.html:69
+#: templates/includes/navbar.html:62
 msgid "Admin Panel"
 msgstr "Panneau d'administration"
 
-#: templates/includes/navbar.html:75
+#: templates/includes/navbar.html:68
 msgid "Moderation"
 msgstr "Modération"
 
-#: templates/includes/navbar.html:84
+#: templates/includes/navbar.html:77
 msgid "Logout"
 msgstr "Se déconnecter"
 
-#: templates/includes/navbar.html:91
+#: templates/includes/navbar.html:84
 msgid "Login"
 msgstr "Se connecter"
