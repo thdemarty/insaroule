@@ -13,6 +13,8 @@
                     <a class="nav-link {% if request.resolver_match.url_name == 'list' %}active{% endif %}" 
                     {% if request.resolver_match.url_name == 'list' %}aria-current="page"{% endif %} href="{% url 'carpool:list' %}">{% translate "Rides" %}</a>
                 </li>
+
+                {% if user.is_authenticated %}
                 <li class="nav-item">
                     <a class="nav-link {% if request.resolver_match.url_name == 'map' %}active{% endif %}" 
                     {% if request.resolver_match.url_name == 'map' %}aria-current="page"{% endif %} href="{% url 'carpool:map' %}">{% translate "Map View" %}</a>
@@ -25,8 +27,10 @@
                     <a class="nav-link {% if request.resolver_match.url_name == 'create' %}active{% endif %}" 
                     {% if request.resolver_match.url_name == 'create' %}aria-current="page"{% endif %} href="{% url 'carpool:create' %}">{% translate "Publish a ride" %}</a>
                 </li>
+                {% endif %}
             </ul>
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                {% if user.is_authenticated %}
 
                 <li class="nav-item my-auto me-3 mb-2 my-xl-auto">
                     <a class="btn btn-sm btn-outline-primary position-relative" href="{% url 'chat:index' %}">
@@ -36,6 +40,7 @@
                         </span>-->
                     </a>
                 </li>
+                {% endif %}
 
                 <div class="my-auto">
                     <form action="{% url 'set_language' %}" method="post">
@@ -47,7 +52,8 @@
                     </select>
                     </form>
                 </div>
-
+                
+                {% if user.is_authenticated %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
@@ -79,6 +85,13 @@
                         </form>
                     </ul>
                 </li>
+                {% else %}
+                <li class="nav-item my-auto ms-3 mb-2 my-xl-auto">
+                    <a class="btn btn-sm btn-outline-primary position-relative" href="{% url 'accounts:login' %}">
+                        {% translate "Login" %}
+                    </a>
+                </li>
+                {% endif %}
             </ul>
         </div>
     </div>

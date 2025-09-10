@@ -2,7 +2,7 @@
 {% load static %}
 <!doctype html>
 {% get_current_language as LANGUAGE_CODE %}
-<html lang="{{ LANGUAGE_CODE }}">
+<html lang="{{ LANGUAGE_CODE }}"class="h-100">
 
 <head>
     <meta charset="utf-8">
@@ -87,12 +87,12 @@
     {% block extrahead %}{% endblock %}
 </head>
 
-<body>
-    {% include 'includes/navbar.html' %}
-    {% block content %}{% endblock %}
-
-    {% include 'messages/container.html' %}
-
+<body class="d-flex flex-column h-100">
+    <main class="flex-shrink-0">
+        {% include 'includes/navbar.html' %}
+        {% block content %}{% endblock %}
+        {% include 'messages/container.html' %}
+    </main>
     <script src="{% static 'vendors/bootstrap/js/bootstrap.bundle.min.js' %}"
         integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
         crossorigin="anonymous"></script>
@@ -116,6 +116,14 @@
     <div class="position-relative">
         <img src="{% static 'img/car.png' %}" class="floating-car car">
     </div>
+
+
+    <footer class="footer mt-auto py-3 px-1 bg-body-tertiary" style="z-index: 0;">
+        <div class="container-fluid d-flex justify-content-end gap-3 px-3">
+            <a href="{{ PRIVACY_POLICY }}" class="text-decoration-none">{% translate "Privacy Policy" %}</a>
+            <a href="{{ TERMS_OF_SERVICE }}" class="text-decoration-none">{% translate "Terms of Service" %}</a>
+        </div>
+    </footer>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
           const floatingCar = document.querySelector('.floating-car');
@@ -147,5 +155,4 @@
     {% block extrascript %}{% endblock %}
     {% include 'messages/script.html' %}
 </body>
-
 </html>
