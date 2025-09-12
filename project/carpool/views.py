@@ -167,7 +167,9 @@ def list_my_rides(request):
 
 @login_required
 def ride_map(request):
-    rides = Ride.objects.all()
+    rides = Ride.objects.filter(
+        start_dt__date__gte=datetime.date.today(),
+    )
     rides_geo = []
 
     for ride in rides:
