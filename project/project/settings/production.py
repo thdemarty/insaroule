@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 import os
 from pathlib import Path
-from django.utils.translation import gettext_lazy as _
 
 import environ
 
@@ -141,8 +140,8 @@ USE_I18N = True
 LANGUAGE_CODE = "fr"
 
 LANGUAGES = [
-    ("fr", _("French")),
-    ("en", _("English")),
+    ("fr", "Français"),
+    ("en", "English"),
 ]
 
 LOCALE_PATHS = [
@@ -234,6 +233,9 @@ PRIVACY_POLICY = env("PRIVACY_POLICY")
 EMAIL_NOTIFICATION_THRESHOLD_MINUTES = env.int(
     "EMAIL_NOTIFICATION_THRESHOLD_MINUTES", default=30
 )
+
+# Anonymous access settings
+ANONYMOUS_ACCESS_RIDES_LIST = env.bool("ANONYMOUS_ACCESS_RIDES_LIST", default=True)
 
 # The email that users can use to contact support
 # You can use GitLab Service Desk feature to handle incoming emails

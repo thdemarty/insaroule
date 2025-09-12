@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-02 08:28+0200\n"
+"POT-Creation-Date: 2025-09-09 23:07+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,14 +17,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-
-#: project/settings/production.py:142
-msgid "French"
-msgstr "Français"
-
-#: project/settings/production.py:143
-msgid "English"
-msgstr "Anglais"
 
 #: templates/emails/consent_footer.txt:3
 msgid ""
@@ -52,46 +44,58 @@ msgstr ""
 msgid "Your favorite carpooling app"
 msgstr "Votre application préférée de covoiturage"
 
+#: templates/includes/footer.html:3
+msgid "Privacy Policy"
+msgstr "Politique de confidentialité"
+
+#: templates/includes/footer.html:4
+msgid "Terms of Service"
+msgstr "Conditions d'utilisation"
+
 #: templates/includes/navbar.html:14
 msgid "Rides"
 msgstr "Trajets"
 
-#: templates/includes/navbar.html:18
+#: templates/includes/navbar.html:20
 msgid "Map View"
 msgstr "Carte"
 
-#: templates/includes/navbar.html:22
+#: templates/includes/navbar.html:24
 msgid "My Rides"
 msgstr "Mes trajets"
 
-#: templates/includes/navbar.html:26
+#: templates/includes/navbar.html:28
 msgid "Publish a ride"
 msgstr "Publier un trajet"
 
-#: templates/includes/navbar.html:33
+#: templates/includes/navbar.html:37
 msgid "Messages"
 msgstr "Messages"
 
-#: templates/includes/navbar.html:57
+#: templates/includes/navbar.html:56
 msgid "My Account"
 msgstr "Mon compte"
 
-#: templates/includes/navbar.html:58
+#: templates/includes/navbar.html:57
 msgid "Report Issue"
 msgstr "Signaler un problème"
 
-#: templates/includes/navbar.html:60
+#: templates/includes/navbar.html:59
 msgid "Back Office"
 msgstr "Back Office"
 
-#: templates/includes/navbar.html:63
+#: templates/includes/navbar.html:62
 msgid "Admin Panel"
 msgstr "Panneau d'administration"
 
-#: templates/includes/navbar.html:69
+#: templates/includes/navbar.html:68
 msgid "Moderation"
 msgstr "Modération"
 
-#: templates/includes/navbar.html:78
+#: templates/includes/navbar.html:77
 msgid "Logout"
 msgstr "Se déconnecter"
+
+#: templates/includes/navbar.html:84
+msgid "Login"
+msgstr "Se connecter"
