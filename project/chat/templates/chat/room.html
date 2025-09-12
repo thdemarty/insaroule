@@ -68,8 +68,10 @@
                                 {% if shared_ride_count == 0 %}
                                     {% translate "You have never ride with this user." %}
                                 {% else %}
-                                    {% blocktranslate trimmed %}
-                                    You have already shared {{ shared_ride_count }} ride{{ shared_ride_count|pluralize }} with this user.
+                                {% blocktranslate trimmed count counter=shared_ride_count %}
+                                    You have already shared {{ counter }} ride with this user.
+                                    {% plural %}
+                                    You have already shared {{ counter }} rides with this user.
                                     {% endblocktranslate %}
                                 {% endif %}
                             </span>
