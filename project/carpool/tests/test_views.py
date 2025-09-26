@@ -7,7 +7,7 @@ from django.urls import reverse
 from carpool.tests.factories import RideFactory
 
 
-class ViewTestCase(TestCase):
+class AnonymousAccessTestCase(TestCase):
     def setUp(self):
         u1 = UserFactory()
         self.r1 = RideFactory(driver=u1)
@@ -26,3 +26,13 @@ class ViewTestCase(TestCase):
         self.assertEqual(r.status_code, 200)
         self.assertIn(self.r1, r.context["rides"])
         self.assertIn(self.r2, r.context["rides"])
+
+    def test_login_required_map_view(self):
+        r = self.client.get(reverse("carpool:map"))
+        self.assertEqual(r.status_code, 302)
+        self.assertIn(reverse("accounts:login"), r.url)
+
+    def test_login_required_carpool_detail(self):
+        r = self.client.get(reverse("carpool:detail", kwargs={"pk": self.r1.pk}))
+        self.assertEqual(r.status_code, 302)
+        self.assertIn(reverse("accounts:login"), r.url)
