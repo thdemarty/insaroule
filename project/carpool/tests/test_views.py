@@ -28,11 +28,27 @@ class AnonymousAccessTestCase(TestCase):
         self.assertIn(self.r2, r.context["rides"])
 
     def test_login_required_map_view(self):
+        # Test that rides map view requires login
         r = self.client.get(reverse("carpool:map"))
         self.assertEqual(r.status_code, 302)
         self.assertIn(reverse("accounts:login"), r.url)
 
-    def test_login_required_carpool_detail(self):
+    def test_login_required_ride_detail(self):
+        # Test that ride detail view requires login
         r = self.client.get(reverse("carpool:detail", kwargs={"pk": self.r1.pk}))
+        self.assertEqual(r.status_code, 302)
+        self.assertIn(reverse("accounts:login"), r.url)
+
+    def test_login_required_ride_subscribe(self):
+        # Test that ride subscribe view requires login
+        r = self.client.get(
+            reverse("carpool:subscribe", kwargs={"ride_pk": self.r1.pk})
+        )
+        self.assertEqual(r.status_code, 302)
+        self.assertIn(reverse("accounts:login"), r.url)
+
+    def test_login_required_ride_edit(self):
+        # Test that ride edit view requires login
+        r = self.client.get(reverse("carpool:edit", kwargs={"pk": self.r1.pk}))
         self.assertEqual(r.status_code, 302)
         self.assertIn(reverse("accounts:login"), r.url)
