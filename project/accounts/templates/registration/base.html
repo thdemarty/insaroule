@@ -14,11 +14,17 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
+
+    <link rel="stylesheet" href="{% static 'css/insa.css' %}">
     {% block extrahead %}{% endblock %}
 </head>
 
 <body class="d-flex flex-column h-100">
-    <div class="position-fixed top-0 start-0 p-2" style="z-index: 1030;">
+    <div class="position-fixed top-0 start-0 p-2" style="z-index: 1000;">
+        <img src="{% static 'img/logo/insa-rennes.png' %}" style="max-width: 20vw;">
+    </div>
+
+    <div class="position-fixed top-0 end-0 p-2" style="z-index: 1030;">
         {% include "includes/langselect.html" %}
     </div>
 
