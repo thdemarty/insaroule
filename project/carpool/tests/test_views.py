@@ -88,6 +88,21 @@ class VehicleViewTestCase(TestCase):
         )
         self.assertEqual(r.status_code, 201)
 
+        # Test the vehicle data is invalid
+        r = self.client.post(
+            url,
+            {
+                "name": "",  # Name is required
+                "description": "Updated Description",
+                "seats": -1,  # Invalid seats
+                "geqCO2_per_km": -50.0,  # Invalid geqCO2_per_km
+            },
+        )
+        self.assertEqual(r.status_code, 400)
+        self.assertIn("name", r.json()["errors"])
+        self.assertIn("seats", r.json()["errors"])
+        self.assertIn("geqCO2_per_km", r.json()["errors"])
+
         # Test that a user cannot edit another user's vehicle
         self.client.force_login(self.user2)
         r = self.client.post(
