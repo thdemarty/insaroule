@@ -4,7 +4,7 @@ from django.conf import settings
 from django.test import TestCase
 from django.urls import reverse
 
-from carpool.tests.factories import RideFactory
+from carpool.tests.factories import RideFactory, VehicleFactory
 
 
 class AnonymousAccessTestCase(TestCase):
@@ -52,3 +52,52 @@ class AnonymousAccessTestCase(TestCase):
         r = self.client.get(reverse("carpool:edit", kwargs={"pk": self.r1.pk}))
         self.assertEqual(r.status_code, 302)
         self.assertIn(reverse("accounts:login"), r.url)
+
+
+class VehicleViewTestCase(TestCase):
+    def setUp(self):
+        self.user1 = UserFactory(email_verified=True)
+        self.user2 = UserFactory(email_verified=True)
+        self.vehicle1 = VehicleFactory(driver=self.user1)
+
+    def test_vehicle_create_view(self):
+        # Test only post method is allowed
+        # Test that the vehicle is created and linked to the request user
+        # Test the response is a json containing the vehicle data created
+        # Test that invalid data returns the form with errors TODO better errors in the frontend
+        pass
+
+    def test_vehicle_update_view(self):
+        self.client.force_login(self.user1)
+        url = reverse("carpool:update_vehicle", kwargs={"pk": self.vehicle1.pk})
+
+        # Test only post method is allowed
+        r = self.client.get(url)
+        self.assertEqual(r.status_code, 405)  # Method Not Allowed
+
+        # Test editing a vehicle by its driver
+        self.client.force_login(self.user1)
+        r = self.client.post(
+            url,
+            {
+                "name": "Updated Vehicle",
+                "description": "Updated Description",
+                "seats": 4,
+                "geqCO2_per_km": 90.0,
+            },
+        )
+        self.assertEqual(r.status_code, 201)
+
+        # Test that a user cannot edit another user's vehicle
+        self.client.force_login(self.user2)
+        r = self.client.post(
+            url,
+            {
+                "name": "Malicious Update",
+                "description": "Hacked Description",
+                "seats": 2,
+                "geqCO2_per_km": 150.0,
+            },
+        )
+        self.assertEqual(r.status_code, 403)  # Forbidden
+        self.assertIn("You are not the driver", r.json().get("error", ""))
