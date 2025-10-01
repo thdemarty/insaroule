@@ -20,15 +20,15 @@
 </head>
 
 <body class="d-flex flex-column h-100">
-    <div class="position-fixed top-0 start-0 p-2" style="z-index: 1000;">
-        <img src="{% static 'img/logo/insa-rennes.png' %}" style="max-width: 20vw;">
+    <div class="position-fixed top-0 start-0 p-3" style="z-index: 1000;">
+        <img src="{% static 'img/logo/insa-rennes.png' %}" class="img-fluid" alt="INSA Rennes Logo" style="max-height: 40px;">
     </div>
 
-    <div class="position-fixed top-0 end-0 p-2" style="z-index: 1030;">
+    <div class="position-fixed top-0 end-0 p-3" style="z-index: 1030;">
         {% include "includes/langselect.html" %}
     </div>
 
-    <main class="flex-shrink-0">
+    <main class="flex-shrink-0 pt-4">
         {% block content %}{% endblock %}
     </main>
     {% include "includes/footer.html" %}
