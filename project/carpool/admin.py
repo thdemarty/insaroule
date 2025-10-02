@@ -3,12 +3,24 @@ from django.contrib import admin
 from carpool.models import Location, Step, Vehicle
 from carpool.models.ride import Ride
 from carpool.models.statistics import Statistics, MonthlyStatistics
+from carpool.models.reservation import Reservation
 
-admin.site.register(Vehicle)
 admin.site.register(Location)
 admin.site.register(Step)
 
 admin.site.register(Statistics)
+
+
+@admin.register(Reservation)
+class ReservationAdmin(admin.ModelAdmin):
+    list_display = ("pk", "user", "created_at", "status")
+    list_filter = ("status", "created_at")
+    search_fields = ("user__username", "user__email")
+
+
+@admin.register(Vehicle)
+class VehicleAdmin(admin.ModelAdmin):
+    list_display = ("name", "driver", "seats", "description", "geqCO2_per_km")
 
 
 @admin.register(MonthlyStatistics)
