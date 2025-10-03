@@ -516,7 +516,7 @@ msgstr "Échec de l'enregistrement du véhicule"
 #: carpool/templates/rides/delete.html:40
 #: carpool/templates/rides/detail.html:140
 msgid "Delete ride"
-msgstr "Suppimer le trajet"
+msgstr "Supprimer le trajet"
 
 #: carpool/templates/rides/delete.html:46
 #, python-format
