@@ -63,7 +63,7 @@ def report(request, jr_pk):
         )
 
         # Notify moderators via email (asynchronous task)
-        site_base_url = (request.scheme + "://" + get_current_site(request).domain,)
+        site_base_url = request.scheme + "://" + get_current_site(request).domain
         send_email_report_to_mods.delay(join_request.pk, site_base_url)
 
     return redirect("chat:room", jr_pk=jr_pk)
