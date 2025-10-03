@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-22 16:42+0200\n"
+"POT-Creation-Date: 2025-10-03 08:39+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -52,50 +52,50 @@ msgstr "Conditions d'utilisation"
 msgid "Legal Notice"
 msgstr "Mentions légales"
 
-#: templates/includes/navbar.html:14
+#: templates/includes/navbar.html:17
 msgid "Rides"
 msgstr "Trajets"
 
-#: templates/includes/navbar.html:20
+#: templates/includes/navbar.html:23
 msgid "Map View"
 msgstr "Carte"
 
-#: templates/includes/navbar.html:24
+#: templates/includes/navbar.html:27
 msgid "My Rides"
 msgstr "Mes trajets"
 
-#: templates/includes/navbar.html:28
+#: templates/includes/navbar.html:31
 msgid "Publish a ride"
 msgstr "Publier un trajet"
 
-#: templates/includes/navbar.html:37
+#: templates/includes/navbar.html:40
 msgid "Messages"
 msgstr "Messages"
 
-#: templates/includes/navbar.html:56
+#: templates/includes/navbar.html:59
 msgid "My Account"
 msgstr "Mon compte"
 
-#: templates/includes/navbar.html:57
+#: templates/includes/navbar.html:60
 msgid "Report Issue"
 msgstr "Signaler un problème"
 
-#: templates/includes/navbar.html:59
+#: templates/includes/navbar.html:62
 msgid "Back Office"
 msgstr "Back Office"
 
-#: templates/includes/navbar.html:62
+#: templates/includes/navbar.html:65
 msgid "Admin Panel"
 msgstr "Panneau d'administration"
 
-#: templates/includes/navbar.html:68
+#: templates/includes/navbar.html:71
 msgid "Moderation"
 msgstr "Modération"
 
-#: templates/includes/navbar.html:77
+#: templates/includes/navbar.html:80
 msgid "Logout"
 msgstr "Se déconnecter"
 
-#: templates/includes/navbar.html:84
+#: templates/includes/navbar.html:87
 msgid "Login"
 msgstr "Se connecter"

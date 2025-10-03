@@ -48,6 +48,13 @@ def report(request, jr_pk):
                 "You are not allowed to report this chat request", status=403
             )
 
+        # Check if the user has already reported this chat request
+        if ChatReport.objects.filter(
+            chat_request=join_request, reported_by=request.user
+        ).exists():
+            messages.error(request, _("You have already reported this chat request."))
+            return redirect("chat:room", jr_pk=jr_pk)
+
         # Handle the report submission
         ChatReport.objects.create(
             chat_request=join_request,
@@ -158,16 +165,27 @@ def get_sidebar_context(request):
         .order_by("ride__start_dt")
     )
 
-    # Filtering for declined (if you re-enable later)
-    if not request.GET.get("o_declined"):
-        outgoing_requests = outgoing_requests.exclude(
-            last_reservation_status="DECLINED"
+    print("Outgoing Requests with last_reservation_status:")
+    for jr in outgoing_requests:
+        print(
+            f"JoinRequest ID: {jr.pk}, Last Reservation Status: {jr.last_reservation_status}"
+        )
+    print("Incoming Requests with last_reservation_status:")
+    for jr in incoming_requests:
+        print(
+            f"JoinRequest ID: {jr.pk}, Last Reservation Status: {jr.last_reservation_status}"
         )
 
-    if not request.GET.get("i_declined"):
-        incoming_requests = incoming_requests.exclude(
-            last_reservation_status="DECLINED"
-        )
+    # Filtering for declined (if you re-enable later)
+    # if not request.GET.get("o_declined"):
+    #     outgoing_requests = outgoing_requests.exclude(
+    #         last_reservation_status="DECLINED"
+    #     )
+
+    # if not request.GET.get("i_declined"):
+    #     incoming_requests = incoming_requests.exclude(
+    #         last_reservation_status="DECLINED"
+    #     )
 
     # Pagination
     o_paginator = Paginator(outgoing_requests, 4)
@@ -216,6 +234,7 @@ def room(request, jr_pk):
         "reservation": reservation,
         "join_request": join_request,
         "shared_ride_count": shared_ride_count,
+        "has_booked_ride": reservation is not None,
     }
     # Inject sidebar context
     context.update(get_sidebar_context(request))

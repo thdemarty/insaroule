@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-02 11:23+0200\n"
+"POT-Creation-Date: 2025-10-03 09:11+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -289,6 +289,10 @@ msgstr "Réservation"
 msgid "The user hasn't made a reservation yet."
 msgstr "L'utilisateur n'a pas encore fait de réservation."
 
+#: chat/templates/chat/room.html:130
+msgid "The user has made a reservation for this ride."
+msgstr "L'utilisateur a fait une réservation pour ce trajet."
+
 #: chat/templates/chat/room.html:151
 msgid "Decline"
 msgstr "Refuser"
@@ -301,19 +305,27 @@ msgstr "Accepter"
 msgid "Submit"
 msgstr "Envoyer"
 
-#: chat/templates/chat/room.html:178
+#: chat/templates/chat/room.html:173
+msgid ""
+"You have already made a reservation for this ride. The driver will accept or "
+"decline your request."
+msgstr ""
+"Vous avez déjà fait une réservation pour ce trajet. Le conducteur acceptera ou "
+"refusera votre demande."
+
+#: chat/templates/chat/room.html:180
 msgid "Date:"
 msgstr "Date :"
 
-#: chat/templates/chat/room.html:179
+#: chat/templates/chat/room.html:181
 msgid "Status:"
 msgstr "Statut :"
 
-#: chat/templates/chat/room.html:195
+#: chat/templates/chat/room.html:197
 msgid "Cancel my reservation"
 msgstr "Annuler ma réservation"
 
-#: chat/templates/chat/room.html:206
+#: chat/templates/chat/room.html:208
 msgid ""
 "To make a reservation on this ride, you need to make a request by clicking "
 "the button below. The driver will then accept or decline your request."
@@ -322,7 +334,7 @@ msgstr ""
 "cliquant sur le bouton ci-dessous. Le conducteur acceptera ou refusera alors "
 "votre demande."
 
-#: chat/templates/chat/room.html:214
+#: chat/templates/chat/room.html:216
 msgid "Make a reservation"
 msgstr "Faire une réservation"
 

@@ -18,7 +18,6 @@
         </div>
         <div class="d-flex flex-column align-items-end">
             <span>{{ jr.ride.start_dt|date:"d/m/Y" }}</span>
-            {{ jr.last_reservation_status }}
             <span>
                 <span>{{ contact.username|truncatechars:16 }}</span>
                 {% if jr.last_reservation_status == "PENDING" %}
