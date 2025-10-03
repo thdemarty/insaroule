@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-03 10:45+0200\n"
+"POT-Creation-Date: 2025-10-03 10:49+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -513,6 +513,14 @@ msgstr "Modifier le véhicule"
 msgid "Failed to save vehicle"
 msgstr "Échec de l'enregistrement du véhicule"
 
+#: carpool/templates/rides/create.html:720
+msgid "Vehicle updated successfully!"
+msgstr "Véhicule mis à jour avec succès !"
+
+#: carpool/templates/rides/create.html:732
+msgid "Vehicle added successfully!"
+msgstr "Véhicule ajouté avec succès !"
+
 #: carpool/templates/rides/delete.html:40
 #: carpool/templates/rides/detail.html:140
 msgid "Delete ride"
@@ -580,6 +588,7 @@ msgid "Search"
 msgstr "Rechercher"
 
 #: carpool/templates/rides/list.html:168
+#, python-format
 msgid "%(seat_count)s remaining seat"
 msgid_plural "%(seat_count)s remaining seats"
 msgstr[0] "%(seat_count)s siège restant"
