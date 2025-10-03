@@ -1,5 +1,6 @@
 from collections import defaultdict
 
+from django.contrib.auth.models import Group, Permission
 from accounts.models import User
 from celery import shared_task
 from celery.utils.log import get_task_logger
@@ -11,9 +12,45 @@ from django.template.loader import render_to_string
 from django.utils.translation import gettext as _
 from django.utils import timezone
 
-from chat.models import ChatMessage
+
+from chat.models import ChatMessage, ChatRequest
 
 logger = get_task_logger(__name__)
+
+
+@shared_task
+def send_email_report_to_mods(chat_request_pk, site_base_url):
+    """
+    Task to send an email report to moderators about a specific chat.
+    """
+    # A moderator is a User that is in a Group (mods) or has can_moderate permission
+    g = Group.objects.get(name="mods")
+    p = Permission.objects.get(codename="can_moderate_messages")
+    mods = User.objects.filter(groups=g) | User.objects.filter(user_permissions=p)
+    mod_emails = mods.values_list("email", flat=True).distinct()
+
+    # List all the messages in the chat
+    chat_messages = ChatMessage.objects.filter(
+        chat_request__pk=chat_request_pk
+    ).order_by("timestamp")
+
+    # Prepare the email content
+    context = {
+        "chat_messages": chat_messages,
+        "chat_request": ChatRequest.objects.get(pk=chat_request_pk),
+        "site_base_url": site_base_url,
+    }
+    message = render_to_string("chat/emails/report_chat.html", context)
+    email = EmailMessage(
+        subject="[INSAROULE]" + _("Chat report") + f" - Chat Request {chat_request_pk}",
+        body=message,
+        to=mod_emails,
+    )
+
+    email.send(fail_silently=False)
+    logger.info(
+        f"Sent chat report email to moderators about chat request {chat_request_pk}."
+    )
 
 
 @shared_task

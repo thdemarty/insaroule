@@ -555,7 +555,7 @@ msgstr "Trajet réservé par"
 
 #: carpool/templates/rides/detail.html:84
 msgid "Seats available:"
-msgstr "Place disponibles : "
+msgstr "Places disponibles : "
 
 #: carpool/templates/rides/detail.html:132
 msgid "Start a discussion"
