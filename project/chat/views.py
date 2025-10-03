@@ -1,20 +1,20 @@
 import logging
 
 from accounts.models import User
+from carpool.models.reservation import Reservation
 from carpool.models.ride import Ride
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.core.paginator import Paginator
-from django.db.models import Q
+from django.db.models import OuterRef, Q, Subquery
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_http_methods
-
-from carpool.models.reservation import Reservation
-from django.db.models import OuterRef, Subquery
+from django.contrib.sites.shortcuts import get_current_site
 
 from chat.models import ChatMessage, ChatReport, ChatRequest, ModAction
+from chat.tasks import send_email_report_to_mods
 
 
 @login_required
@@ -61,6 +61,11 @@ def report(request, jr_pk):
             reported_by=request.user,
             reason=request.POST.get("reason", ""),
         )
+
+        # Notify moderators via email (asynchronous task)
+        site_base_url = (request.scheme + "://" + get_current_site(request).domain,)
+        send_email_report_to_mods.delay(join_request.pk, site_base_url)
+
     return redirect("chat:room", jr_pk=jr_pk)
 
 

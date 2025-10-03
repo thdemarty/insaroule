@@ -39,6 +39,9 @@ class ChatRequest(models.Model):
     def get_room_url(self):
         return reverse("chat:room", kwargs={"jr_pk": self.pk})
 
+    def get_mod_room_url(self):
+        return reverse("chat:mod_room", kwargs={"jr_pk": self.pk})
+
     def __str__(self):
         return f"ChatRequest({self.user.username} for {self.ride.uuid})"
 
