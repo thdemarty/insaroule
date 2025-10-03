@@ -48,6 +48,13 @@ def report(request, jr_pk):
                 "You are not allowed to report this chat request", status=403
             )
 
+        # Check if the user has already reported this chat request
+        if ChatReport.objects.filter(
+            chat_request=join_request, reported_by=request.user
+        ).exists():
+            messages.error(request, _("You have already reported this chat request."))
+            return redirect("chat:room", jr_pk=jr_pk)
+
         # Handle the report submission
         ChatReport.objects.create(
             chat_request=join_request,
