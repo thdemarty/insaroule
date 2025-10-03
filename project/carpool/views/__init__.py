@@ -97,17 +97,17 @@ def cancel_reservation(request):
         )
 
     if reservation.status == Reservation.Status.CANCELED:
-        messages.warning(request, "This reservation is already canceled.")
+        messages.warning(request, _("This reservation is already canceled."))
         return HttpResponse("This reservation is already canceled", status=400)
 
     reservation.status = Reservation.Status.CANCELED
 
     if reservation.user in reservation.ride.rider.all():
         # Check if the user is already in the ride's riders
-        messages.warning(request, "You have been removed from the ride's riders.")
+        messages.warning(request, _("You have been removed from the ride's riders."))
         reservation.ride.rider.remove(reservation.user)
 
-    messages.warning(request, "You have successfully canceled your reservation.")
+    messages.warning(request, _("You have successfully canceled your reservation."))
     reservation.save()
     return redirect(next_url)
 
@@ -171,7 +171,7 @@ def rides_subscribe(request, ride_pk):
             return redirect("chat:room", jr_pk=join_request.pk)
         return redirect("chat:index")
 
-        messages.info(request, "You subscribed to this ride.")
+        messages.info(request, _("You subscribed to this ride."))
 
     return redirect("carpool:detail", pk=ride.pk)
 
