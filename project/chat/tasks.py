@@ -42,7 +42,7 @@ def send_email_report_to_mods(chat_request_pk, site_base_url):
     }
 
     # message render as html
-    message = render_to_string("chat/emails/chat_report.txt", context)
+    message = render_to_string("chat/emails/report_chat.html", context)
     email = EmailMessage(
         subject="[INSAROULE] "
         + _("Chat report")
