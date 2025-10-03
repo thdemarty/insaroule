@@ -120,14 +120,14 @@
             <div class="card mb-3">
                 <div class="card-header">{% translate "Reservation" %}</div>
                 <div class="card-body">
-                    {% if has_booked_ride %}
+                    {% if not has_booked_ride %}
                     <div class="text-muted fst-italic">
                         {% blocktranslate trimmed %}
                         The user hasn't made a reservation yet.
                         {% endblocktranslate %}
                     </div>
                     {% else %}
-                    The user has made a reservation for this ride.
+                    {% translate "The user has made a reservation for this ride." %}
                     <div class="ps-3 border-start mt-3 mb-4">
                         Date: {{ reservation.created_at }}<br>
                         Status: {% if reservation.status == "PENDING" %}
@@ -170,8 +170,10 @@
                     {% if reservation.status == 'ACCEPTED' or reservation.status == 'PENDING' or reservation.status == 'DECLINED' %}
                     
                     <span class="text-muted">
+                        {% blocktranslate trimmed %}
                         You have already made a reservation for this ride. The driver will accept or decline your
                         request.
+                        {% endblocktranslate %}
                     </span>
 
                     <div class="ps-3 border-start mt-3 mb-4">
