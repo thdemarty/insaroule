@@ -419,7 +419,7 @@ msgstr "Adresse d'arrivée"
 
 #: carpool/templates/rides/create.html:84
 msgid "Departure date"
-msgstr "Adresse de départ"
+msgstr "Horaire de départ"
 
 #: carpool/templates/rides/create.html:92
 msgid "Seats offering"
