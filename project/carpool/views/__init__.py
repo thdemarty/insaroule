@@ -31,7 +31,7 @@ import logging
 @login_required
 def list_my_rides(request):
     p_rides = Ride.objects.filter(driver=request.user).order_by("start_dt")
-    s_rides = ChatRequest.objects.filter(user=request.user).order_by("ride__start_dt")
+    s_rides = Reservation.objects.filter(user=request.user).order_by("ride__start_dt")
 
     s_paginator = Paginator(s_rides, 3)
     p_paginator = Paginator(p_rides, 3)
