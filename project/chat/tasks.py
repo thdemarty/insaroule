@@ -40,12 +40,17 @@ def send_email_report_to_mods(chat_request_pk, site_base_url):
         "chat_request": ChatRequest.objects.get(pk=chat_request_pk),
         "site_base_url": site_base_url,
     }
-    message = render_to_string("chat/emails/report_chat.html", context)
+
+    # message render as html
+    message = render_to_string("chat/emails/chat_report.txt", context)
     email = EmailMessage(
-        subject="[INSAROULE]" + _("Chat report") + f" - Chat Request {chat_request_pk}",
+        subject="[INSAROULE] "
+        + _("Chat report")
+        + f" - Chat Request {chat_request_pk}",
         body=message,
         to=mod_emails,
     )
+    email.content_subtype = "html"  # Main content is now text/html
 
     email.send(fail_silently=False)
     logger.info(
