@@ -164,7 +164,13 @@
                                 class="rounded-circle" width="30" />
                             <span class="ms-2 my-auto fw-semibold text-muted">{{ ride.driver }}</span>
                             <div class="d-flex flex-row gap-2 ms-auto">
-                                <span class="my-auto text-muted">{{ ride.remaining_seats }} {% translate "remaining seats" %}</span>
+                                <span class="my-auto text-muted">
+                                    {% blocktranslate trimmed count ride.remaining_seats as seat_count %}
+                                        {{ seat_count }} remaining seat
+                                    {% plural %}
+                                        {{ seat_count }} remaining seats
+                                    {% endblocktranslate %}
+                                </span>
                             </div>
                         </div>
                         {% endif %}
