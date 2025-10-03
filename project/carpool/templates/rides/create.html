@@ -717,7 +717,7 @@
                         option.dataset.seats = data.vehicle.seats;
                         option.dataset.co2 = data.vehicle.geqCO2_per_km;
 
-                        createToast("success", "Vehicle updated successfully!");
+                        createToast("success", "{% translate 'Vehicle updated successfully!' %}");
                     } else {
                         // Add new option
                         option = document.createElement("option");
@@ -729,7 +729,7 @@
                         option.dataset.co2 = data.vehicle.geqCO2_per_km;
                         vehicleSelect.appendChild(option);
 
-                        createToast("success", "Vehicle added successfully!");
+                        createToast("success", "{% translate 'Vehicle added successfully!' %}");
                     }
                     
                     // Select the newly added/edited vehicle
