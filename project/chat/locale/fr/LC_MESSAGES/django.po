@@ -177,11 +177,11 @@ msgstr "Pour répondre à ces messages, connectez-vous à votre compte."
 
 #: chat/templates/chat/includes/mod_profile.html:15
 msgid "Driver"
-msgstr "Conducteur"
+msgstr "Conducteur·rice"
 
 #: chat/templates/chat/includes/mod_profile.html:17
 msgid "Requester"
-msgstr "Demandeur"
+msgstr "Demandeur·se"
 
 #: chat/templates/chat/includes/mod_profile.html:32
 msgid "Report user"
@@ -310,7 +310,7 @@ msgid ""
 "You have already made a reservation for this ride. The driver will accept or "
 "decline your request."
 msgstr ""
-"Vous avez déjà fait une réservation pour ce trajet. Le conducteur acceptera ou "
+"Vous avez déjà fait une réservation pour ce trajet. Le conducteur·rice acceptera ou "
 "refusera votre demande."
 
 #: chat/templates/chat/room.html:180
@@ -331,7 +331,7 @@ msgid ""
 "the button below. The driver will then accept or decline your request."
 msgstr ""
 "Pour faire une réservation sur ce trajet, vous devez faire une demande en "
-"cliquant sur le bouton ci-dessous. Le conducteur acceptera ou refusera alors "
+"cliquant sur le bouton ci-dessous. Le conducteur·rice acceptera ou refusera alors "
 "votre demande."
 
 #: chat/templates/chat/room.html:216
