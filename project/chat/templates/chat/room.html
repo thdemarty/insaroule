@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
-{% load i18n %}
-{% load static %}
-{% load duration %}
+{% load i18n static duration %}
+{% get_current_language as LANGUAGE_CODE %}
+
 
 {% block content %}
 <link rel="stylesheet" href="{% static 'vendors/bootstrap-icons/bootstrap-icons.min.css' %}">
@@ -280,8 +280,12 @@
 
         const timestamp = document.createElement('div');
         timestamp.className = `text-end small ${isCurrentUser ? 'text-light' : 'text-muted'}`;
-        timestamp.textContent = new Date(msg.timestamp).toLocaleString();
-
+        
+        // Handle timestamp localization
+        const date = new Date(msg.timestamp);
+        const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' };
+        timestamp.textContent = date.toLocaleString("{{ LANGUAGE_CODE }}", options);
+        
         cardBody.appendChild(messageText);
         cardBody.appendChild(timestamp);
         card.appendChild(cardBody);
