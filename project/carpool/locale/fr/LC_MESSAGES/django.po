@@ -53,7 +53,7 @@ msgstr "Un moyen de paiement est requis si un prix est défini."
 
 #: carpool/forms.py:135 carpool/forms.py:277
 msgid "The price per seat seems unreasonably high."
-msgstr ""
+msgstr "Le prix par personne semble déraisonnablement élevé."
 
 #: carpool/forms.py:200
 msgid "Number of seats available"
