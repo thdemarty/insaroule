@@ -130,7 +130,12 @@
                             <option value="{{ vehicle.pk }}" data-name="{{ vehicle.name }}"
                                 data-description="{{ vehicle.description }}" data-seats="{{ vehicle.seats }}"
                                 data-co2="{{ vehicle.geqCO2_per_km}}">
-                                {{ vehicle.name }} - {{ vehicle.seats }} {% translate "seats" %}
+                                {{ vehicle.name }} - 
+                                {% blocktranslate trimmed count vehicle.seats as seat_count %}
+                                {{ seat_count }} seat
+                                {% plural %}
+                                {{ seat_count }} seats
+                                {% endblocktranslate %}
                             </option>
                             {% endfor %}
                         </select>
@@ -711,7 +716,15 @@
 
                     if (option) {
                         // Update existing option
-                        option.textContent = `${data.vehicle.name} - ${data.vehicle.seats} {% translate "seats" %}`;
+                        option.textContent = `${data.vehicle.name} - ${data.vehicle.seats}`;
+                        
+                        // Handle pluralization of "seats"
+                        if (data.vehicle.seats > 1) {
+                            option.textContent += " {% translate 'seats' %}";
+                        } else {
+                            option.textContent += " {% translate 'seat' %}";
+                        }
+
                         option.dataset.name = data.vehicle.name;
                         option.dataset.description = data.vehicle.description;
                         option.dataset.seats = data.vehicle.seats;
@@ -722,7 +735,15 @@
                         // Add new option
                         option = document.createElement("option");
                         option.value = data.vehicle.id;
-                        option.textContent = `${data.vehicle.name} - ${data.vehicle.seats} {% translate "seats" %}`;
+                        option.textContent = `${data.vehicle.name} - ${data.vehicle.seats}`;
+
+                        // Handle pluralization of "seats"
+                        if (data.vehicle.seats > 1) {
+                            option.textContent += " {% translate 'seats' %}";
+                        } else {
+                            option.textContent += " {% translate 'seat' %}";
+                        }
+
                         option.dataset.name = data.vehicle.name;
                         option.dataset.description = data.vehicle.description;
                         option.dataset.seats = data.vehicle.seats;
