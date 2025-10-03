@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-03 08:39+0200\n"
+"POT-Creation-Date: 2025-10-03 10:17+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -624,6 +624,18 @@ msgstr "Trajets souscrits"
 msgid "You don't have subscribed to any rides."
 msgstr "Vous n'êtes inscrit à aucun trajet."
 
+#: carpool/views/__init__.py:100
+msgid "This reservation is already canceled."
+msgstr "Cette réservation est déjà annulée."
+
+#: carpool/views/__init__.py:107
+msgid "You have been removed from the ride's riders."
+msgstr "Vous avez été retiré des passagers du trajet."
+
+#: carpool/views/__init__.py:110
+msgid "You have successfully canceled your reservation."
+msgstr "Vous avez annulé votre réservation avec succès."
+
 #: carpool/views/__init__.py:160
 msgid "You have already booked this ride."
 msgstr "Vous avez déjà réservé ce trajet."
@@ -631,6 +643,10 @@ msgstr "Vous avez déjà réservé ce trajet."
 #: carpool/views/__init__.py:166
 msgid "You have successfully booked this ride."
 msgstr "Vous avez réservé ce trajet avec succès."
+
+#: carpool/views/__init__.py:174
+msgid "You subscribed to this ride."
+msgstr "Vous êtes inscrit à ce trajet."
 
 #: carpool/views/__init__.py:212
 msgid "You successfully updated the ride."
