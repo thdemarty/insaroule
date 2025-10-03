@@ -32,11 +32,11 @@ msgstr "Le trajet pour lequel la demande de chat est faite"
 
 #: chat/models.py:27
 msgid "user"
-msgstr "utilisateur"
+msgstr "utilisateur·rice"
 
 #: chat/models.py:28
 msgid "The user who made the chat request"
-msgstr "L'utilisateur qui a fait la demande de chat"
+msgstr "L'utilisateur·rice qui a fait la demande de chat"
 
 #: chat/models.py:34
 msgid "created at"
@@ -60,7 +60,7 @@ msgstr "caché"
 
 #: chat/models.py:67
 msgid "Indicates whether this message is hidden from regular users"
-msgstr "Indique si ce message est masqué pour les utilisateurs réguliers"
+msgstr "Indique si ce message est masqué pour les utilisateur·rice·s réguliers"
 
 #: chat/models.py:74
 msgid "read at"
@@ -78,7 +78,7 @@ msgstr "notifié à"
 msgid ""
 "The date and time when the user was notified about this message (if any)"
 msgstr ""
-"La date et l'heure auxquelles l'utilisateur a été notifié de ce message (le "
+"La date et l'heure auxquelles l'utilisateur·rice a été notifié de ce message (le "
 "cas échéant)"
 
 #: chat/models.py:90
@@ -99,11 +99,11 @@ msgstr "raison"
 
 #: chat/models.py:118
 msgid "Flag User"
-msgstr "Signaler l'utilisateur"
+msgstr "Signaler l'utilisateur·rice"
 
 #: chat/models.py:119
 msgid "Block User"
-msgstr "Bloquer l'utilisateur"
+msgstr "Bloquer l'utilisateur·rice"
 
 #: chat/models.py:125
 msgid "performed by"
@@ -111,7 +111,7 @@ msgstr "réalisé par"
 
 #: chat/models.py:132
 msgid "on user"
-msgstr "concernant l'utilisateur"
+msgstr "concernant l'utilisateur·rice"
 
 #: chat/models.py:139
 msgid "Reason for the moderation action"
@@ -185,7 +185,7 @@ msgstr "Demandeur"
 
 #: chat/templates/chat/includes/mod_profile.html:32
 msgid "Report user"
-msgstr "Signaler l'utilisateur"
+msgstr "Signaler l'utilisateur·rice"
 
 #: chat/templates/chat/includes/mod_profile.html:37
 msgid "Reason for reporting"
@@ -252,7 +252,7 @@ msgstr "Aucun message à modérer"
 
 #: chat/templates/chat/moderation/search.html:5
 msgid "username"
-msgstr "nom d'utilisateur"
+msgstr "nom d'utilisateur·rice"
 
 #: chat/templates/chat/moderation/search.html:8
 msgid "search by chat content"
@@ -272,14 +272,14 @@ msgstr "Nous pouvons modérer les messages si nécessaire."
 
 #: chat/templates/chat/room.html:72
 msgid "You have never ride with this user."
-msgstr "Vous n'avez jamais fait de trajet avec cet utilisateur."
+msgstr "Vous n'avez jamais fait de trajet avec cet utilisateur·rice."
 
 #: chat/templates/chat/room.html:74
 #, python-format
 msgid "You have already shared %(counter)s ride with this user."
 msgid_plural "You have already shared %(counter)s rides with this user."
-msgstr[0] "Vous avez déjà fait %(counter)s trajet avec cet utilisateur."
-msgstr[1] "Vous avez déjà fait %(counter)s trajets avec cet utilisateur."
+msgstr[0] "Vous avez déjà fait %(counter)s trajet avec cet utilisateur·rice."
+msgstr[1] "Vous avez déjà fait %(counter)s trajets avec cet utilisateur·rice."
 
 #: chat/templates/chat/room.html:121 chat/templates/chat/room.html:168
 msgid "Reservation"
@@ -287,11 +287,11 @@ msgstr "Réservation"
 
 #: chat/templates/chat/room.html:125
 msgid "The user hasn't made a reservation yet."
-msgstr "L'utilisateur n'a pas encore fait de réservation."
+msgstr "L'utilisateur·rice n'a pas encore fait de réservation."
 
 #: chat/templates/chat/room.html:130
 msgid "The user has made a reservation for this ride."
-msgstr "L'utilisateur a fait une réservation pour ce trajet."
+msgstr "L'utilisateur·rice a fait une réservation pour ce trajet."
 
 #: chat/templates/chat/room.html:151
 msgid "Decline"
