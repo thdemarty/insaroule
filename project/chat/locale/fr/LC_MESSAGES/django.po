@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-03 10:17+0200\n"
+"POT-Creation-Date: 2025-10-04 11:53+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -46,86 +46,90 @@ msgstr "créé le"
 msgid "The date and time when the chat request was created"
 msgstr "La date et l'heure auxquelles la demande de chat a été créée"
 
-#: chat/models.py:52
+#: chat/models.py:55
 msgid "sender"
 msgstr "expéditeur"
 
-#: chat/models.py:59
+#: chat/models.py:62
 msgid "join request"
 msgstr ""
 
-#: chat/models.py:66
+#: chat/models.py:69
 msgid "hidden"
 msgstr "caché"
 
-#: chat/models.py:67
+#: chat/models.py:70
 msgid "Indicates whether this message is hidden from regular users"
 msgstr "Indique si ce message est masqué pour les utilisateur·rice·s réguliers"
 
-#: chat/models.py:74
+#: chat/models.py:77
 msgid "read at"
 msgstr "lu à"
 
-#: chat/models.py:75
+#: chat/models.py:78
 msgid "The date and time when the message was read"
 msgstr "La date et l'heure auxquelles le message a été lu"
 
-#: chat/models.py:82
+#: chat/models.py:85
 msgid "notified at"
 msgstr "notifié à"
 
-#: chat/models.py:84
+#: chat/models.py:87
 msgid ""
 "The date and time when the user was notified about this message (if any)"
 msgstr ""
 "La date et l'heure auxquelles l'utilisateur·rice a été notifié de ce message "
 "(le cas échéant)"
 
-#: chat/models.py:90
+#: chat/models.py:93
 msgid "Can moderate chat messages"
 msgstr "Peut modérer les messages"
 
-#: chat/models.py:98
+#: chat/models.py:101
 msgid "chat request"
-msgstr ""
+msgstr "demande de chat"
 
-#: chat/models.py:105
+#: chat/models.py:108
 msgid "reported by"
 msgstr "signalé par"
 
-#: chat/models.py:108 chat/models.py:138
+#: chat/models.py:111 chat/models.py:141
 msgid "reason"
 msgstr "raison"
 
-#: chat/models.py:118
+#: chat/models.py:121
 msgid "Flag User"
 msgstr "Signaler l'utilisateur·rice"
 
-#: chat/models.py:119
+#: chat/models.py:122
 msgid "Block User"
 msgstr "Bloquer l'utilisateur·rice"
 
-#: chat/models.py:125
+#: chat/models.py:128
 msgid "performed by"
 msgstr "réalisé par"
 
-#: chat/models.py:132
+#: chat/models.py:135
 msgid "on user"
 msgstr "concernant l'utilisateur·rice"
 
-#: chat/models.py:139
+#: chat/models.py:142
 msgid "Reason for the moderation action"
 msgstr "Raison de l'action de modération"
 
-#: chat/models.py:147
+#: chat/models.py:150
 msgid "action"
 msgstr "action"
 
-#: chat/models.py:148
+#: chat/models.py:151
 msgid "The type of moderation action performed"
 msgstr "Type d'action de modération effectuée"
 
-#: chat/tasks.py:84
+#: chat/tasks.py:48
+msgid "Chat report"
+msgstr "Signalement de message"
+
+#: chat/tasks.py:126
 msgid "You have unread messages"
 msgstr "Vous avez des messages non lus"
 
