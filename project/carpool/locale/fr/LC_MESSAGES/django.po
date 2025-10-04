@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-04 11:53+0200\n"
+"POT-Creation-Date: 2025-10-04 12:16+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -226,11 +226,11 @@ msgstr "trajet"
 msgid "The ride for which the chat request is made"
 msgstr "Le trajet pour lequel la demande de chat est faite"
 
-#: carpool/models/ride.py:54
+#: carpool/models/ride.py:54 carpool/templates/rides/detail.html:103
 msgid "Cash"
 msgstr "Liquide"
 
-#: carpool/models/ride.py:55
+#: carpool/models/ride.py:55 carpool/templates/rides/detail.html:117
 msgid "Lyf Pay"
 msgstr "Lyf Pay"
 
@@ -535,6 +535,10 @@ msgstr "Trajet réservé par"
 #: carpool/templates/rides/detail.html:84
 msgid "Seats available:"
 msgstr "Places disponibles : "
+
+#: carpool/templates/rides/detail.html:110
+msgid "Wire transfer"
+msgstr "Virement bancaire"
 
 #: carpool/templates/rides/detail.html:132
 msgid "Start a discussion"
