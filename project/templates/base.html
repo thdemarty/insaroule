@@ -16,74 +16,6 @@
     <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon-16x16.png' %}">
     <link rel="manifest" href="{% static 'site.webmanifest' %}">
     
-    <style>
-        .floating-cloud {
-            position: fixed;
-            bottom: 16px;
-            width: 60px;
-            z-index: 999;
-        }
-
-        .floating-car {
-            position: fixed;
-            bottom: 16px;
-            width: 70px;
-            z-index: 999;
-        }
-
-        @media (max-width: 768px) {
-            .floating-cloud {
-                width: 40px;
-            }
-
-            .floating-car {
-                width: 45px;
-            }
-
-            .cloud-1 {
-                left: 3vw;
-            }
-
-            .cloud-2 {
-                left: 13vw;
-            }
-
-            .cloud-3 {
-                left: 25vw;
-            }
-
-            .cloud-4 {
-                left: 37vw;
-            }
-
-            .car {
-                left: 50vw;
-            }
-        }
-
-
-        @media (min-width: 769px) {
-            .cloud-1 {
-                left: 1vw;
-            }
-
-            .cloud-2 {
-                left: 5vw;
-            }
-
-            .cloud-3 {
-                left: 9vw;
-            }
-
-            .cloud-4 {
-                left: 13vw;
-            }
-
-            .car {
-                left: 18vw;
-            }
-        }
-    </style>
     {% block extrahead %}{% endblock %}
 </head>
 
@@ -97,56 +29,8 @@
         integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
         crossorigin="anonymous"></script>
 
-    <div class="position-relative">
-        <img src="{% static 'img/cloud.png' %}"
-            class="floating-cloud cloud-1">
-    </div>
-    <div class="position-relative">
-        <img src="{% static 'img/cloud.png' %}"
-            class="floating-cloud cloud-2">
-    </div>
-    <div class="position-relative">
-        <img src="{% static 'img/cloud.png' %}"
-            class="floating-cloud cloud-3">
-    </div>
-    <div class="position-relative">
-        <img src="{% static 'img/cloud.png' %}"
-            class="floating-cloud cloud-4">
-    </div>
-    <div class="position-relative">
-        <img src="{% static 'img/car.png' %}" class="floating-car car">
-    </div>
-
 
     {% include "includes/footer.html" %}
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-          const floatingCar = document.querySelector('.floating-car');
-          const floatingClouds = document.querySelectorAll('.floating-cloud');
-      
-          if (floatingCar && floatingClouds.length > 0) {
-            window.addEventListener('scroll', () => {
-              const scrollY = window.scrollY;
-              const visibleHeight = window.innerHeight;
-              const pageHeight = document.documentElement.scrollHeight;
-      
-              if (scrollY + visibleHeight >= pageHeight - 50) {
-                // Masquer la voiture
-                floatingCar.style.display = 'none';
-                // Masquer tous les nuages
-                floatingClouds.forEach(cloud => {
-                  cloud.style.display = 'none';
-                });
-              } else {
-                floatingCar.style.display = '';
-                floatingClouds.forEach(cloud => {
-                  cloud.style.display = '';
-                });
-              }
-            });
-          }
-        });
-      </script>
     {% block extrascript %}{% endblock %}
     {% include 'messages/script.html' %}
 </body>
