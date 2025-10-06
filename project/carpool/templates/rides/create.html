@@ -146,7 +146,7 @@
                         </button>
                     </div>
                     {% else %}
-                    <div class="card border border-primary" style="border-style: dashed !important;">
+                    <div class="card border border-primary" style="border-style: dashed !important;" id="NoVehicleCard">
                         <div class="card-body">
                             {% blocktranslate trimmed %}
                             You don't have any vehicle registered to your account. Please add one to
@@ -604,6 +604,38 @@
     // =================================================================
     // Vehicle modal form handling
     // =================================================================
+    function vehicleEditBtnEventListener() {
+        let vehicleSelect = document.getElementById("vehicle");
+        let vehicleModal = bootstrap.Modal.getInstance(
+            document.getElementById("vehicleModal"),
+        );
+        let vehicleModalTitle = document.getElementById("vehicleModalTitle");
+        const vehicleIdInput = document.getElementById("vehicle_id");
+        const vehicleNameInput = document.getElementById("vehicle_name");
+        const vehicleDescriptionInput = document.getElementById(
+            "vehicle_description",
+        );
+        const vehicleSeatsInput = document.getElementById("vehicle_seats");
+        const vehicleCO2Input = document.getElementById("vehicle_co2");
+        const selectedOption =
+            vehicleSelect.options[vehicleSelect.selectedIndex];
+
+        if (!selectedOption) {
+            alert("{% translate 'Please select a vehicle to edit.' %}");
+            return;
+        }
+
+        vehicleModalTitle.textContent = "{% translate 'Edit vehicle' %}";
+        vehicleIdInput.value = selectedOption.value;
+        vehicleNameInput.value = selectedOption.dataset.name || "";
+        vehicleDescriptionInput.value =
+            selectedOption.dataset.description || "";
+        vehicleSeatsInput.value = selectedOption.dataset.seats || "";
+        vehicleCO2Input.value = selectedOption.dataset.co2 || "";
+
+        vehicleModal.show();
+    }
+
     document.addEventListener("DOMContentLoaded", function () {
         const vehicleModal = new bootstrap.Modal(
             document.getElementById("vehicleModal"),
@@ -630,26 +662,7 @@
 
         // Open modal in "edit" mode
         if (editVehicleBtn) {
-            editVehicleBtn.addEventListener("click", function () {
-                let vehicleSelect = document.getElementById("vehicle");
-                const selectedOption =
-                    vehicleSelect.options[vehicleSelect.selectedIndex];
-
-                if (!selectedOption) {
-                    alert("{% translate 'Please select a vehicle to edit.' %}");
-                    return;
-                }
-
-                vehicleModalTitle.textContent = "{% translate 'Edit vehicle' %}";
-                vehicleIdInput.value = selectedOption.value;
-                vehicleNameInput.value = selectedOption.dataset.name || "";
-                vehicleDescriptionInput.value =
-                    selectedOption.dataset.description || "";
-                vehicleSeatsInput.value = selectedOption.dataset.seats || "";
-                vehicleCO2Input.value = selectedOption.dataset.co2 || "";
-
-                vehicleModal.show();
-            });
+            editVehicleBtn.addEventListener("click", vehicleEditBtnEventListener);
         }
 
         vehicleForm.addEventListener("submit", function (event) {
@@ -700,8 +713,66 @@
                     return response.json();
                 })
                 .then((data) => {
+                    console.debug("Vehicle saved:", data);
                     createToast("success", "{% translate 'Vehicle saved successfully!' %}");
                     vehicleModal.hide();
+
+                    // Update the vehicle select dropdown
+                    let vehicleSelect = document.getElementById("vehicle");
+
+                    if (!vehicleSelect) {
+                        console.debug("Creating vehicle select");
+                        // If the select doesn't exist, create it
+                        // with the edit button next to it (in an input group)
+                        const inputGroup = document.createElement("div");
+                        inputGroup.className = "input-group";
+                        inputGroup.id = "vehicleInputGroup";
+
+
+                        vehicleSelect = document.createElement("select");
+                        vehicleSelect.id = "vehicle";
+                        vehicleSelect.name = "vehicle";
+                        vehicleSelect.className = "form-select";
+
+                        const editButton = document.createElement("button");
+                        editButton.className = "btn btn-secondary";
+                        editButton.type = "button";
+                        editButton.id = "editVehicleBtn";
+                        editButton.textContent = "{% translate 'Edit' %}";
+                        editButton.addEventListener("click", vehicleEditBtnEventListener);
+
+                        inputGroup.appendChild(vehicleSelect);
+                        inputGroup.appendChild(editButton);
+
+                        // Replace NoVehicleCard with the select
+                        const noVehicleCard = document.getElementById("NoVehicleCard");
+                        if (noVehicleCard) {
+                            noVehicleCard.replaceWith(inputGroup);
+                        }
+
+                    }
+                    let option = vehicleSelect.querySelector(`option[value="${data.vehicle.id}"]`);
+                    if (option) {
+                        console.debug("Updating existing vehicle option");
+                        // Update existing option
+                        option.textContent = `${data.vehicle.name} - ${data.vehicle.seats} {% translate "seat" %}${data.vehicle.seats > 1 ? 's' : ''}`;
+                        option.dataset.name = data.vehicle.name;
+                        option.dataset.description = data.vehicle.description;
+                        option.dataset.seats = data.vehicle.seats;
+                        option.dataset.co2 = data.vehicle.geqCO2_per_km;
+                    } else {
+                        console.debug("Adding new vehicle option");
+                        // Add new option
+                        option = document.createElement("option");
+                        option.value = data.vehicle.id;
+                        option.textContent = `${data.vehicle.name} - ${data.vehicle.seats} {% translate "seat" %}${data.vehicle.seats > 1 ? 's' : ''}`;
+                        option.dataset.name = data.vehicle.name;
+                        option.dataset.description = data.vehicle.description;
+                        option.dataset.seats = data.vehicle.seats;
+                        option.dataset.co2 = data.vehicle.geqCO2_per_km;
+                        vehicleSelect.appendChild(option);
+                    }
+                    vehicleSelect.value = data.vehicle.id;
                 })
                 .catch((error) => {
                     console.error(error);
