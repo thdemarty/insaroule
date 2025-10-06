@@ -447,7 +447,7 @@ msgstr "Modifier"
 msgid ""
 "You don't have any vehicle registered to your account. Please add one to "
 "publish a ride."
-msgstr "
+msgstr ""
 "Vous n'avez pas de véhicule enregistré sur votre compte. Veuillez en ajouter "
 "un pour publier un trajet."
 
