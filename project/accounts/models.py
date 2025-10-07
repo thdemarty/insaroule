@@ -49,3 +49,7 @@ class UserNotificationPreferences(models.Model):
     ride_status_update_notification = models.BooleanField(
         default=True, help_text="Receive notifications for ride status updates."
     )
+
+    ride_sharing_suggestion_notification = models.BooleanField(
+        default=True, help_text="Receive notifications suggesting to share rides."
+    )
