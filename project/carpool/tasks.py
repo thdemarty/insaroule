@@ -267,7 +267,7 @@ def send_email_suggest_ride_sharing(ride_pk, similar_rides_pks, requester_pk):
         if requester.first_name
         else requester.username,
     }
-
+    # Set language to the driver's preferred language
     message = render_to_string("rides/emails/suggest_ride_sharing.html", context)
 
     email = EmailMessage(
@@ -275,7 +275,6 @@ def send_email_suggest_ride_sharing(ride_pk, similar_rides_pks, requester_pk):
         body=message,
         to=[ride.driver.email],
     )
-
     # email content
     email.content_subtype = "html"
 

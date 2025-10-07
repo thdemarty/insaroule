@@ -20,6 +20,12 @@ class User(AbstractUser):
     email = models.EmailField(_("Email Address"), unique=True)
     email_verified = models.BooleanField(default=False)
     last_verification_email_sent = models.DateTimeField(null=True, blank=True)
+    preferred_language = models.CharField(
+        max_length=10,
+        choices=settings.LANGUAGES,
+        default=settings.LANGUAGE_CODE,
+        help_text=_("Preferred language for the user interface."),
+    )
 
     @property
     def has_email_verify_cooldown(self):
