@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-01 13:47+0200\n"
+"POT-Creation-Date: 2025-10-07 22:03+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,6 +22,10 @@ msgstr ""
 #: accounts/templates/registration/verify_email/email_sent.html:8
 msgid "Email verification"
 msgstr "Vérification de l'adresse e-mail"
+
+#: accounts/admin.py:19
+msgid "Preferences"
+msgstr ""
 
 #: accounts/forms.py:33 accounts/forms.py:116
 msgid ""
@@ -47,6 +51,10 @@ msgstr ""
 #: accounts/models.py:20
 msgid "Email Address"
 msgstr "Adresse e-mail"
+
+#: accounts/models.py:27
+msgid "Preferred language for the user interface."
+msgstr ""
 
 #: accounts/tasks.py:44
 msgid "Vérification de votre adresse email"
@@ -123,7 +131,11 @@ msgstr "Dernière connexion :"
 msgid "Date joined:"
 msgstr "Date d'inscription :"
 
-#: accounts/templates/account/data_export.html:47
+#: accounts/templates/account/data_export.html:28
+msgid "Preferred language:"
+msgstr "Langue préférée :"
+
+#: accounts/templates/account/data_export.html:48
 #, python-format
 msgid ""
 "The form to automatically export your data is not fully tested yet. To "
@@ -179,11 +191,15 @@ msgstr "Notifications pour les messages non lus"
 msgid "Ride request status update"
 msgstr "Mise à jour du statut des demandes de trajet"
 
-#: accounts/templates/account/detail.html:71
+#: accounts/templates/account/detail.html:73
+msgid "Ride sharing suggestion notifications"
+msgstr "Notifications de suggestions de covoiturage"
+
+#: accounts/templates/account/detail.html:80
 msgid "Mandatory notifications (e.g., policy updates)"
 msgstr "Notifications obligatoires (ex., mises à jour des politiques)"
 
-#: accounts/templates/account/detail.html:75
+#: accounts/templates/account/detail.html:84
 msgid "Save Changes"
 msgstr "Sauvegarder les modifications"
 
@@ -410,6 +426,6 @@ msgstr "Envoyer le lien de vérification sur mon adresse mail"
 msgid "Your password has been changed successfully!"
 msgstr "Votre mot de passe vient d'être changé avec succès"
 
-#: accounts/views/profile.py:37
+#: accounts/views/profile.py:41
 msgid "Your preferences have been updated."
 msgstr "Vos préférences ont été mises à jour."

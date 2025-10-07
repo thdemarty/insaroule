@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-07 19:56+0200\n"
+"POT-Creation-Date: 2025-10-07 22:04+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -381,7 +381,7 @@ msgstr "Votre trajet a été confirmé !"
 msgid "Your ride has been declined!"
 msgstr "Votre trajet a été refusé !"
 
-#: carpool/tasks.py:272
+#: carpool/tasks.py:274
 msgid "Suggestion to share your ride"
 msgstr "Suggestion de covoiturage pour votre trajet"
 
@@ -615,7 +615,7 @@ msgid ""
 "them directly through the platform."
 msgstr ""
 "Partager un trajet peut aider à réduire les coûts et rendre le voyage plus "
-"agréable. Si vous êtes intéressé à entrer en contact avec l'un de ces
+"agréable. Si vous êtes intéressé à entrer en contact avec l'un de ces "
 "conducteurs, veuillez les contacter directement via la plateforme."
 
 #: carpool/templates/rides/emails/suggest_ride_sharing.html:34
