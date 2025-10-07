@@ -141,8 +141,8 @@
                 </div>
 
                 {% endif %}
-                <hr>
                 {% if  perms.chat.can_moderate_messages %}
+                <hr>
                 <a href="{% url 'chat:mod_index' %}{% querystring ride=ride.pk %}" class="btn btn-primary w-100">See requests for this ride</a>
                 {% endif %}
             </div>
