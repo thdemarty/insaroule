@@ -31,3 +31,10 @@ class MonthlyStatisticsAdmin(admin.ModelAdmin):
 @admin.register(Ride)
 class RideAdmin(admin.ModelAdmin):
     list_display = ("uuid", "driver", "start_dt", "end_dt")
+    list_filter = ("start_dt", "driver")
+    search_fields = (
+        "driver__username",
+        "driver__email",
+        "start_loc__fulltext",
+        "end_loc__fulltext",
+    )
