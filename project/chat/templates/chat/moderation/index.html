@@ -12,10 +12,10 @@
                     <th scope="col">#</th>
                     <th scope="col">{% translate "Chat" %}</th>
                     <th scope="col">
-                        <div class="d-flex flex-row justify-content-between align-items-center">
                             <span>{% translate "Reported" %}</span>
-                        </div>
-
+                    </th>
+                    <th scope="col">
+                            <span>{% translate "Total Messages" %}</span>
                     </th>
                 </form>
             </tr>
@@ -26,10 +26,15 @@
                 <th scope="row">{{ forloop.counter }}</th>
                 <td><a href="{% url 'chat:mod_room' chat.uuid %}">{{ chat.uuid }}</a></td>
                 <td>{{ chat.reports.exists }}</td>
+                <td>{{ chat.messages.count }}</td>
             </tr>
             {% empty %}
             <tr>
-                <td colspan="3" class="text-center">{% translate "No chats to moderate" %}</td>
+                {% if ride %}
+                <td colspan="4" class="text-center">{% translate "No chats to moderate for ride" %} {{ ride }}</td>
+                {% else %}
+                <td colspan="4" class="text-center">{% translate "No chats to moderate" %}</td>
+                {% endif %}
             </tr>
             {% endfor %}
 
