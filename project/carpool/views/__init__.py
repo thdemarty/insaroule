@@ -2,7 +2,11 @@ import datetime
 import json
 
 from chat.models import ChatRequest
-from carpool.tasks import send_email_confirmed_ride, send_email_declined_ride
+from carpool.tasks import (
+    send_email_confirmed_ride,
+    send_email_declined_ride,
+    send_email_incoming_reservation_to_driver,
+)
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -161,8 +165,15 @@ def rides_subscribe(request, ride_pk):
             return redirect("carpool:detail", pk=ride.pk)
 
         # Subscribe the user to the ride
-        ride.reservations.create(user=request.user)
+        reservation = ride.reservations.create(user=request.user)
         logging.info(f"User {request.user} booked ride {ride.pk}")
+
+        site_url = request.scheme + "://" + request.get_host()
+        send_email_incoming_reservation_to_driver.delay(
+            site_url,
+            reservation_pk=reservation.pk,
+        )
+
         messages.success(request, _("You have successfully booked this ride."))
 
         # Redirect to chat:room with join_request associated to this user and ride
