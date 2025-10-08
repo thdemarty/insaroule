@@ -8,7 +8,7 @@ from django.contrib.gis.db.models.functions import Length
 from django.core.mail import EmailMessage
 from django.db.models import Count, ExpressionWrapper, F, FloatField, Sum
 from django.template.loader import render_to_string
-from django.utils import timezone
+from django.utils import timezone, translation
 from django.utils.translation import gettext as _
 
 from carpool.models.reservation import Reservation
@@ -267,16 +267,20 @@ def send_email_suggest_ride_sharing(ride_pk, similar_rides_pks, requester_pk):
         if requester.first_name
         else requester.username,
     }
-    # Set language to the driver's preferred language
-    message = render_to_string("rides/emails/suggest_ride_sharing.html", context)
+    # Send the email using driver preferred language if available
+
+    with translation.override(ride.driver.preferred_language):
+        subject = "[INSAROULE] " + _("Suggestion to share your ride")
+        message = render_to_string("rides/emails/suggest_ride_sharing.html", context)
 
     email = EmailMessage(
-        subject="[INSAROULE] " + _("Suggestion to share your ride"),
+        subject=subject,
         body=message,
         to=[ride.driver.email],
     )
     # email content
     email.content_subtype = "html"
+    email.reply_to = [requester.email]
 
     email.send(fail_silently=False)
     logger.info(f"Sent ride sharing suggestion email to {ride.driver.email}.")
