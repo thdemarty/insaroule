@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-08 14:36+0200\n"
+"POT-Creation-Date: 2025-10-08 17:27+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -182,53 +182,53 @@ msgstr "gCO2 par km"
 msgid "Number of grams of CO2 emitted per kilometer"
 msgstr "Nombre de grammes de CO2 émis par kilomètre"
 
-#: carpool/models/reservation.py:15
+#: carpool/models/reservation.py:17
 #: carpool/templates/rides/includes/ride_card.html:10
 msgid "Pending"
 msgstr "En attente"
 
-#: carpool/models/reservation.py:17
+#: carpool/models/reservation.py:19
 #: carpool/templates/rides/includes/ride_card.html:8
 msgid "Accepted"
 msgstr "Accepté"
 
-#: carpool/models/reservation.py:18
+#: carpool/models/reservation.py:20
 msgid "Declined"
 msgstr "Refusé"
 
-#: carpool/models/reservation.py:21
+#: carpool/models/reservation.py:23
 msgid "Canceled"
 msgstr "Annulé"
 
-#: carpool/models/reservation.py:25
+#: carpool/models/reservation.py:27
 msgid "status"
 msgstr "statut"
 
-#: carpool/models/reservation.py:28
+#: carpool/models/reservation.py:30
 msgid "Status of the join request"
 msgstr "Statut de la demande de réservation"
 
-#: carpool/models/reservation.py:33
+#: carpool/models/reservation.py:35
 msgid "created at"
 msgstr "créé le"
 
-#: carpool/models/reservation.py:34
+#: carpool/models/reservation.py:36
 msgid "The date and time when the reservation was created"
 msgstr "La date et l'heure auxquelles la réservation a été créée"
 
-#: carpool/models/reservation.py:40
+#: carpool/models/reservation.py:42
 msgid "user"
 msgstr "utilisateur"
 
-#: carpool/models/reservation.py:41
+#: carpool/models/reservation.py:43
 msgid "The user who made the chat request"
 msgstr "L'utilisateur qui a fait la demande de chat"
 
-#: carpool/models/reservation.py:48
+#: carpool/models/reservation.py:50
 msgid "ride"
 msgstr "trajet"
 
-#: carpool/models/reservation.py:49
+#: carpool/models/reservation.py:51
 msgid "The ride for which the chat request is made"
 msgstr "Le trajet pour lequel la demande de chat est faite"
 
@@ -383,15 +383,20 @@ msgstr "Statistique mensuelle"
 msgid "Monthly statistics"
 msgstr "Statistiques mensuelles"
 
-#: carpool/tasks.py:204
+#: carpool/tasks.py:205
+#, python-format
+msgid "New reservation for your ride to %(destination)s"
+msgstr "Nouvelle réservation pour votre trajet vers %(destination)s"
+
+#: carpool/tasks.py:244
 msgid "Your ride has been confirmed!"
 msgstr "Votre trajet a été confirmé !"
 
-#: carpool/tasks.py:235
+#: carpool/tasks.py:275
 msgid "Your ride has been declined!"
 msgstr "Votre trajet a été refusé !"
 
-#: carpool/tasks.py:273
+#: carpool/tasks.py:313
 msgid "Suggestion to share your ride"
 msgstr "Suggestion de covoiturage pour votre trajet"
 
@@ -586,9 +591,27 @@ msgstr "Modifier le trajet"
 msgid "Payment method"
 msgstr "Méthode de paiement"
 
+#: carpool/templates/rides/emails/incoming_reservation.html:1
 #: carpool/templates/rides/emails/suggest_ride_sharing.html:1
 msgid "Hello"
 msgstr "Bonjour"
+
+#: carpool/templates/rides/emails/incoming_reservation.html:4
+#, python-format
+msgid ""
+"A new reservation has been made for your ride from %(departure)s to "
+"%(arrival)s on %(date)s by %(reservation_by)s."
+msgstr ""
+"Une nouvelle réservation a été faite pour votre trajet de %(departure)s à "
+"%(arrival)s le %(date)s par %(reservation_by)s."
+
+#: carpool/templates/rides/emails/incoming_reservation.html:10
+msgid ""
+"You can view the details of this reservation by clicking on the following "
+"link:"
+msgstr ""
+"Vous pouvez voir les détails de cette réservation en cliquant sur le lien "
+"suivant :"
 
 #: carpool/templates/rides/emails/suggest_ride_sharing.html:4
 #, python-format
