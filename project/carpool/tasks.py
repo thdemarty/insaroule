@@ -239,3 +239,44 @@ def send_email_declined_ride(reservation_pk):
 
     email.send(fail_silently=False)
     logger.info(f"Sent ride decline email to {reservation.user.email}.")
+
+
+@shared_task
+def send_email_suggest_ride_sharing(ride_pk, similar_rides_pks, requester_pk):
+    """
+    Send an email to the driver suggesting them to share their ride.
+    """
+    ride = Ride.objects.get(pk=ride_pk)
+    similar_rides = Ride.objects.filter(pk__in=similar_rides_pks)
+    requester = get_user_model().objects.get(pk=requester_pk)
+
+    # User Notification preferences
+    if not ride.driver.notification_preferences.ride_sharing_suggestion_notification:
+        logger.info(
+            f"User {ride.driver.email} has disabled ride sharing suggestion notifications."
+        )
+        return
+
+    logger.debug(f"ride: {ride}")
+
+    context = {
+        "driver": ride.driver,
+        "ride": ride,
+        "similar_rides": similar_rides,
+        "requester": requester.first_name
+        if requester.first_name
+        else requester.username,
+    }
+    # Set language to the driver's preferred language
+    message = render_to_string("rides/emails/suggest_ride_sharing.html", context)
+
+    email = EmailMessage(
+        subject="[INSAROULE] " + _("Suggestion to share your ride"),
+        body=message,
+        to=[ride.driver.email],
+    )
+    # email content
+    email.content_subtype = "html"
+
+    email.send(fail_silently=False)
+    logger.info(f"Sent ride sharing suggestion email to {ride.driver.email}.")

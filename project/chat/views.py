@@ -114,6 +114,7 @@ def mod_room(request, jr_pk):
 
 @permission_required("chat.can_moderate_messages", raise_exception=True)
 def mod_center(request):
+    query_ride = request.GET.get("ride", "")
     query_username = request.GET.get("search_by_username", "")
     query_content = request.GET.get("search_by_content", "")
 
@@ -128,6 +129,10 @@ def mod_center(request):
         print(f"Searching by content: {query_content}")
         reports = reports.filter(Q(messages__content__icontains=query_content))
 
+    if query_ride:
+        print(f"Filtering by ride: {query_ride}")
+        reports = reports.filter(ride__pk=query_ride)
+
     paginator = Paginator(reports, 10)  # Show 10 reports per page
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
@@ -136,6 +141,7 @@ def mod_center(request):
         "page_obj": page_obj,
         "search_by_username": query_username,
         "search_by_content": query_content,
+        "ride": query_ride,
     }
     return render(request, "chat/moderation/index.html", context)
 

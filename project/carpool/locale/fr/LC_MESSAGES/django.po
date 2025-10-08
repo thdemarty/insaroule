@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-06 14:32+0200\n"
+"POT-Creation-Date: 2025-10-07 22:04+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -381,6 +381,10 @@ msgstr "Votre trajet a été confirmé !"
 msgid "Your ride has been declined!"
 msgstr "Votre trajet a été refusé !"
 
+#: carpool/tasks.py:274
+msgid "Suggestion to share your ride"
+msgstr "Suggestion de covoiturage pour votre trajet"
+
 #: carpool/templates/rides/back-office/statistics.html:23
 msgid "Total Rides"
 msgstr "Nombre total de trajets"
@@ -571,6 +575,52 @@ msgstr "Modifier le trajet"
 #: carpool/templates/rides/edit.html:105
 msgid "Payment method"
 msgstr "Méthode de paiement"
+
+#: carpool/templates/rides/emails/suggest_ride_sharing.html:1
+msgid "Hello"
+msgstr "Bonjour"
+
+#: carpool/templates/rides/emails/suggest_ride_sharing.html:4
+#, python-format
+msgid ""
+"We noticed that you have a ride scheduled from %(city_start)s to "
+"%(city_end)s on %(ride_date)s."
+msgstr ""
+"Nous avons remarqué que vous avez un trajet prévu de %(city_start)s à "
+"%(city_end)s le %(ride_date)s."
+
+#: carpool/templates/rides/emails/suggest_ride_sharing.html:10
+msgid ""
+"We wanted to let you know that there are other drivers who are also planning "
+"to travel along a similar route on the same day. Here are some drivers who "
+"might be interested in sharing the ride with you:"
+msgstr ""
+"Nous voulions vous informer qu'il y a d'autres conducteurs qui prévoient de "
+"voyager sur un itinéraire similaire le même jour. Voici quelques conducteurs "
+"qui pourraient être intéressés à partager le trajet avec vous :"
+
+#: carpool/templates/rides/emails/suggest_ride_sharing.html:18
+#, python-format
+msgid ""
+"<a href=\"%(url)s\">Ride from %(s_city)s to %(e_city)s</a> proposed by "
+"%(driver)s ;"
+msgstr ""
+"<a href=\"%(url)s\">Trajet de %(s_city)s à %(e_city)s</a> proposé par "
+"%(driver)s ;"
+
+#: carpool/templates/rides/emails/suggest_ride_sharing.html:27
+msgid ""
+"Sharing a ride can help reduce costs and make the journey more enjoyable. If "
+"you're interested in connecting with any of these drivers, please contact "
+"them directly through the platform."
+msgstr ""
+"Partager un trajet peut aider à réduire les coûts et rendre le voyage plus "
+"agréable. Si vous êtes intéressé à entrer en contact avec l'un de ces "
+"conducteurs, veuillez les contacter directement via la plateforme."
+
+#: carpool/templates/rides/emails/suggest_ride_sharing.html:34
+msgid "from the INSA'ROULE team"
+msgstr "de l'équipe INSA'ROULE"
 
 #: carpool/templates/rides/includes/pagination.html:7
 #: carpool/templates/rides/includes/pagination.html:8
