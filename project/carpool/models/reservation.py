@@ -1,6 +1,8 @@
 from django.db import models
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from carpool.models.ride import Ride
+from chat.models import ChatRequest
 
 
 class Reservation(models.Model):
@@ -50,3 +52,11 @@ class Reservation(models.Model):
         on_delete=models.CASCADE,
         related_name="reservations",
     )
+
+    def get_chat_request_url(self):
+        # Go to the chat request corresponding to this reservation
+        # So the same ride, same user, but filter on the chat request
+        cr = ChatRequest.objects.filter(ride=self.ride, user=self.user).first()
+        if not cr:
+            return None
+        return reverse("chat:room", kwargs={"jr_pk": cr.pk})
