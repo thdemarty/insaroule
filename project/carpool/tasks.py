@@ -180,6 +180,46 @@ def compute_daily_statistics():
 
 
 @shared_task
+def send_email_incoming_reservation_to_driver(site_base_url, reservation_pk):
+    """
+    Send an email to the driver when a new reservation is made to a ride
+    """
+    reservation = Reservation.objects.get(pk=reservation_pk)
+
+    # User Notification preferences
+    if not reservation.ride.driver.notification_preferences.ride_status_update_notification:
+        logger.info(
+            f"User {reservation.ride.driver.email} has disabled ride status update notifications."
+        )
+        return
+
+    context = {
+        "driver": reservation.ride.driver,
+        "ride": reservation.ride,
+        "reservation": reservation,
+        "link": site_base_url + reservation.get_chat_request_url(),
+    }
+
+    with translation.override(reservation.ride.driver.preferred_language):
+        subject = "[INSAROULE] " + _(
+            "New reservation for your ride to %(destination)s"
+        ) % {
+            "destination": reservation.ride.end_loc.city,
+        }
+
+        message = render_to_string("rides/emails/incoming_reservation.html", context)
+
+    email = EmailMessage(
+        subject=subject,
+        body=message,
+        to=[reservation.ride.driver.email],
+    )
+
+    email.content_subtype = "html"
+    email.send(fail_silently=False)
+
+
+@shared_task
 def send_email_confirmed_ride(reservation_pk):
     """
     Send an email to the rider when their ride is confirmed by the driver.
