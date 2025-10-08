@@ -364,6 +364,7 @@ def rides_create(request):
                 price=form.cleaned_data["price_per_seat"],
                 geometry=GEOSGeometry(form.cleaned_data["r_geometry"], srid=4326),
                 duration=datetime.timedelta(hours=form.cleaned_data["r_duration"]),
+                comment=form.cleaned_data["comment"],
             )
             return redirect("carpool:detail", pk=ride.pk)
 

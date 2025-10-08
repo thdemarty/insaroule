@@ -172,6 +172,12 @@ class Ride(models.Model):
         blank=True,
     )
 
+    comment = models.TextField(
+        verbose_name=_("comment"),
+        help_text=_("Comment from the driver about the ride"),
+        blank=True,
+    )
+
     objects = RideManager()
 
     @property

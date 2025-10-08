@@ -34,6 +34,9 @@
         </div>
         <div class="col-lg-4">
             <h2>{% translate "Publish a new ride" %}</h2>
+            {{ form.errors }}
+
+
             <!-- Departure address autocomplete -->
             <div class="mb-3">
                 <label for="departure">
@@ -155,6 +158,16 @@
                         </div>
                     </div>
 
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    <label for="{{ form.comment.id_for_label }}">
+                        {% translate "Comment (optional)" %}
+                    </label>
+                    {{ form.comment }}
+                    {% if form.comment.errors %}
+                    <span class="text-danger">{{ form.comment.errors }}</span>
                     {% endif %}
                 </div>
 

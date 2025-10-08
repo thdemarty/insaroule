@@ -106,6 +106,17 @@ class CreateRideForm(forms.Form):
         widget=forms.CheckboxSelectMultiple,
     )
 
+    comment = forms.CharField(
+        required=False,
+        widget=forms.Textarea(
+            attrs={
+                "class": "form-control",
+                "rows": 3,
+            },
+        ),
+        label=_("Comment (optional)"),
+    )
+
     def clean(self):
         cleaned_data = super().clean()
         price = cleaned_data.get("price_per_seat")
@@ -222,6 +233,17 @@ class EditRideForm(forms.Form):
         widget=forms.CheckboxSelectMultiple,
     )
 
+    comment = forms.CharField(
+        required=False,
+        widget=forms.Textarea(
+            attrs={
+                "class": "form-control",
+                "rows": 3,
+            },
+        ),
+        label=_("Comment (optional)"),
+    )
+
     def __init__(self, *args, **kwargs):
         self.ride = kwargs.pop("instance", None)
         super().__init__(*args, **kwargs)
@@ -258,6 +280,7 @@ class EditRideForm(forms.Form):
             self.fields["payment_method"].initial = [
                 method for method in ride.payment_method
             ]
+            self.fields["comment"].initial = ride.comment
 
     def clean(self):
         cleaned_data = super().clean()
@@ -316,6 +339,7 @@ class EditRideForm(forms.Form):
         ride.vehicle.seats = self.cleaned_data["seats"]
         ride.price = self.cleaned_data["price_per_seat"]
         ride.payment_method = self.cleaned_data["payment_method"]
+        ride.comment = self.cleaned_data["comment"]
 
         ride.vehicle.save()
         ride.save()

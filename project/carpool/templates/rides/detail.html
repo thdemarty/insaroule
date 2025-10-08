@@ -75,7 +75,18 @@
                         </div>
                     </div>
                 </div>
-                <div id="ride-map" style="height: 50vh"></div>
+                <div id="ride-map" style="height: 40vh"></div>
+                
+
+                {% if ride.comment %}
+                <div class="card my-3">
+                    <div class="card-body">
+                        {{ ride.comment }}
+                    </div>
+                </div>
+                {% endif %}
+
+
             </div>
             <div class="col-xl-3">
                 <div class="card mb-3">
