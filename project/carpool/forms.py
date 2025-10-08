@@ -286,7 +286,6 @@ class EditRideForm(forms.Form):
         cleaned_data = super().clean()
 
 
-        # ---- New validation: Departure ≠ Arrival ----
         d_lat = cleaned_data.get("d_latitude")
         d_lng = cleaned_data.get("d_longitude")
         a_lat = cleaned_data.get("a_latitude")
