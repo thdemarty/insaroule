@@ -206,3 +206,19 @@ class Ride(models.Model):
                     )
                 }
             )
+        # Ensure start and end locations are not identical
+        if self.start_loc and self.end_loc:
+            try:
+                d_lat = float(self.start_loc.lat)
+                d_lng = float(self.start_loc.lng)
+                a_lat = float(self.end_loc.lat)
+                a_lng = float(self.end_loc.lng)
+            except (TypeError, ValueError):
+                # If coordinates are not set/invalid, skip this check and let other validators catch it
+                return
+
+            # small tolerance for float comparisons
+            if abs(d_lat - a_lat) < 1e-5 and abs(d_lng - a_lng) < 1e-5:
+                raise ValidationError(
+                    {"end_loc": _("Departure and arrival locations cannot be the same.")}
+                )
