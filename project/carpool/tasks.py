@@ -7,6 +7,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.gis.db.models.functions import Length
 from django.core.mail import EmailMessage
 from django.db.models import Count, ExpressionWrapper, F, FloatField, Sum
+from django.db.models.functions import Coalesce
 from django.template.loader import render_to_string
 from django.utils import timezone, translation
 from django.utils.translation import gettext as _
@@ -85,6 +86,9 @@ def compute_daily_statistics():
     Compute the current month statistics if not already done (MonthlyStatistics model).
     """
 
+    # If vehicle has no geqCO2_per_km set, we assume a default value of settings.AVERAGE_CO2_EMISSION_PER_KM
+    logger.info("Computing daily statistics for total rides.")
+
     rides = Ride.objects.annotate(
         distance_km=ExpressionWrapper(
             Length("geometry", spheroid=True) / 1000.0,
@@ -93,7 +97,14 @@ def compute_daily_statistics():
         rider_count=Count("rider", distinct=True),
     ).annotate(
         spared_co2_kg=ExpressionWrapper(
-            F("rider_count") * F("distance_km") * F("vehicle__geqCO2_per_km") / 1000,
+            F("rider_count")
+            * F("distance_km")
+            * Coalesce(
+                F("vehicle__geqCO2_per_km"),
+                settings.AVERAGE_CO2_EMISSION_PER_KM,
+                output_field=FloatField(),
+            )
+            / 1000,
             output_field=FloatField(),
         )
     )
@@ -156,7 +167,14 @@ def compute_daily_statistics():
         .annotate(distance_km=Length("geometry", spheroid=True))
         .annotate(
             spared_co2_kg=ExpressionWrapper(
-                Count("rider") * F("distance_km") * F("vehicle__geqCO2_per_km") / 1000,
+                Count("rider")
+                * F("distance_km")
+                * Coalesce(
+                    F("vehicle__geqCO2_per_km"),
+                    settings.AVERAGE_CO2_EMISSION_PER_KM,
+                    output_field=FloatField(),
+                )
+                / 1000,
                 output_field=FloatField(),
             )
         )

@@ -292,3 +292,6 @@ LOGGING = {
         },
     },
 }
+
+# co2 emission settings
+AVERAGE_CO2_EMISSION_PER_KM = env.float("AVERAGE_CO2_EMISSION_PER_KM", default=114.2)
