@@ -10,6 +10,33 @@
     {{ with_user.pk|json_script:'with-user' }}
     {{ request.user.uuid|json_script:'current-user-uuid' }}
 
+    <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <form action="{% url 'chat:report' join_request.pk %}" method="post">
+            {% csrf_token %}
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="reportModalLabel">{% translate "Report the conversation" %}</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {% blocktranslate trimmed %}
+                    By reporting this conversation, you are notifying our moderation team that you believe the content
+                    of the messages exchanged is inappropriate or violates our community guidelines. Our team will review
+                    the conversation and take appropriate action if necessary. Please note that reporting a conversation
+                    does not guarantee that any action will be taken, but it helps us maintain a safe and respectful
+                    environment for all users.
+                    {% endblocktranslate %}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% translate "Close" %}</button>
+                    <button type="submit" class="btn btn-danger">{% translate "Report the conversation" %}</button>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+
     <h1>Messages</h1>
     <div class="row h-100">
         <div class="col-lg-3 h-100 mb-3 mb-lg-0">
@@ -24,12 +51,10 @@
                         <i class="bi bi-three-dots-vertical" data-bs-toggle="dropdown" aria-expanded="false"></i>
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li>
-                                <form action="{% url 'chat:report' join_request.pk %}" method="post">
-                                    {% csrf_token %}
-                                    <button type="submit" class="dropdown-item">
-                                        {% translate "Report the conversation" %}
-                                    </button>
-                                </form>
+                                <button type="button" class="dropdown-item" data-bs-toggle="modal"
+                                    data-bs-target="#reportModal">
+                                    {% translate "Report the conversation" %}
+                                </button>
                             </li>
                         </ul>
                     </div>
@@ -142,7 +167,8 @@
                         {% endif %}
                     </div>
                     {% if reservation.status != "CANCELED" %}
-                    <form action="{% url 'carpool:update_reservation' %}{% querystring next=request.path %}" method="post">
+                    <form action="{% url 'carpool:update_reservation' %}{% querystring next=request.path %}"
+                        method="post">
                         {% csrf_token %}
                         <div class="row gap-2">
                             <div class="col-8 pe-0">
@@ -168,7 +194,7 @@
                 <div class="card-header">{% translate "Reservation" %}</div>
                 <div class="card-body">
                     {% if reservation.status == 'ACCEPTED' or reservation.status == 'PENDING' or reservation.status == 'DECLINED' %}
-                    
+
                     <span class="text-muted">
                         {% blocktranslate trimmed %}
                         You have already made a reservation for this ride. The driver will accept or decline your
@@ -193,7 +219,8 @@
                         <form action="{% url 'carpool:cancel_reservation' %}" method="post">
                             {% csrf_token %}
                             <input type="hidden" name="reservation_pk" value="{{ reservation.pk }}">
-                            <button type="submit" class="btn btn-outline-danger w-100 {% if reservation.status == 'DECLINED' or reservation.status == 'CANCELED' %}disabled{% endif %}">
+                            <button type="submit"
+                                class="btn btn-outline-danger w-100 {% if reservation.status == 'DECLINED' or reservation.status == 'CANCELED' %}disabled{% endif %}">
                                 {% translate "Cancel my reservation" %}
                             </button>
 
@@ -201,21 +228,20 @@
                         </form>
                     </div>
                 </div>
-                    {% else %}
-                    <form action="{% url 'carpool:subscribe' join_request.ride.pk %}" method="post">
-                        {% csrf_token %}
-                        <p>
-                            {% blocktrans trimmed %}
-                            To make a reservation on this ride, you need to make a request by clicking the button below.
-                            The
-                            driver will then accept or decline your request.
-                            {% endblocktrans %}
-                        </p>
+                {% else %}
+                <form action="{% url 'carpool:subscribe' join_request.ride.pk %}" method="post">
+                    {% csrf_token %}
+                    <p>
+                        {% blocktrans trimmed %}
+                        To make a reservation on this ride, you need to make a request by clicking the button below.
+                        The driver will then accept or decline your request.
+                        {% endblocktrans %}
+                    </p>
 
-                        <button type="submit" class="btn btn-primary w-100">
-                            {% translate "Make a reservation" %}
-                        </button>
-                    </form>
+                    <button type="submit" class="btn btn-primary w-100">
+                        {% translate "Make a reservation" %}
+                    </button>
+                </form>
                 {% endif %}
             </div>
         </div>
@@ -280,12 +306,12 @@
 
         const timestamp = document.createElement('div');
         timestamp.className = `text-end small ${isCurrentUser ? 'text-light' : 'text-muted'}`;
-        
+
         // Handle timestamp localization
         const date = new Date(msg.timestamp);
         const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' };
         timestamp.textContent = date.toLocaleString("{{ LANGUAGE_CODE }}", options);
-        
+
         cardBody.appendChild(messageText);
         cardBody.appendChild(timestamp);
         card.appendChild(cardBody);

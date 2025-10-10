@@ -238,10 +238,12 @@ def send_email_confirmed_ride(reservation_pk):
         "ride": reservation.ride,
     }
 
-    message = render_to_string("chat/emails/confirmed_ride.txt", context)
+    with translation.override(reservation.user.preferred_language):
+        subject = "[INSAROULE] " + _("Your ride has been confirmed!")
+        message = render_to_string("rides/emails/confirmed_ride.txt", context)
 
     email = EmailMessage(
-        subject="[INSAROULE] " + _("Your ride has been confirmed!"),
+        subject=subject,
         body=message,
         to=[reservation.user.email],
     )
@@ -269,10 +271,12 @@ def send_email_declined_ride(reservation_pk):
         "ride": reservation.ride,
     }
 
-    message = render_to_string("chat/emails/declined_ride.txt", context)
+    with translation.override(reservation.user.preferred_language):
+        subject = "[INSAROULE] " + _("Your ride has been declined!")
+        message = render_to_string("rides/emails/declined_ride.txt", context)
 
     email = EmailMessage(
-        subject="[INSAROULE] " + _("Your ride has been declined!"),
+        subject=subject,
         body=message,
         to=[reservation.user.email],
     )

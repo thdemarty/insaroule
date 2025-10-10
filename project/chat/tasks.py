@@ -10,7 +10,7 @@ from django.db.models import Case, Count, F, When
 from django.db.models.fields import UUIDField
 from django.template.loader import render_to_string
 from django.utils.translation import gettext as _
-from django.utils import timezone
+from django.utils import timezone, translation
 
 
 from chat.models import ChatMessage, ChatRequest
@@ -121,9 +121,12 @@ def send_email_unread_messages():
             "chats": chats,
         }
 
-        message = render_to_string("chat/emails/unread_messages.txt", context)
+        with translation.override(user.preferred_language):
+            subject = "[INSAROULE]" + _("You have unread messages")
+            message = render_to_string("chat/emails/unread_messages.txt", context)
+
         email = EmailMessage(
-            subject="[INSAROULE]" + _("You have unread messages"),
+            subject=subject,
             body=message,
             to=[user.email],
         )
