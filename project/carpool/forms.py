@@ -281,8 +281,15 @@ class EditRideForm(forms.Form):
 
             # The duration was saved using the following command:
             # datetime.timedelta(hours=form.cleaned_data["r_duration"])
-            self.fields["r_duration"].initial = ride.duration.total_seconds() / 3600
-            self.fields["r_geometry"].initial = ride.geometry.geojson
+            self.fields["r_duration"].initial = (
+                ride.duration.total_seconds() / 3600 if ride.duration else None
+            )
+            # ride.geometry may be None for older fixtures/factories — guard access
+            if getattr(ride, "geometry", None):
+                # geometry is a GEOS LineString
+                self.fields["r_geometry"].initial = ride.geometry.geojson
+            else:
+                self.fields["r_geometry"].initial = ""
 
             self.fields["departure_datetime"].initial = timezone.localtime(
                 ride.start_dt
