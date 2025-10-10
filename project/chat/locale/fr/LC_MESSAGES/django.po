@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-10 15:50+0200\n"
+"POT-Creation-Date: 2025-10-10 15:55+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -365,3 +365,7 @@ msgstr "Vous avez déjà demandé à discuter à propos de ce trajet."
 #: chat/views.py:55
 msgid "You have already reported this chat request."
 msgstr "Vous avez déjà signalé cette demande de chat."
+
+#: chat/views.py:69
+msgid "The chat request has been reported."
+msgstr "La demande de discussion a été signalée."
