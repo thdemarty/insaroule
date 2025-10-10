@@ -45,7 +45,7 @@ class LocationValidationTestCase(TestCase):
     def test_edit_ride_form_rejects_identical_locations(self):
         start = LocationFactory(lat=self.lat, lng=self.lng)
         end = LocationFactory()
-        ride = RideFactory(start_loc=start, end_loc=end, vehicle=self.vehicle)
+        ride = RideFactory(start_loc=start, end_loc=end, vehicle=self.vehicle, driver=self.user)
 
         data = {
             "d_fulltext": start.fulltext,
@@ -74,7 +74,7 @@ class LocationValidationTestCase(TestCase):
     def test_ride_model_clean_rejects_identical_locations(self):
         start = LocationFactory(lat=self.lat, lng=self.lng)
         end = LocationFactory(lat=self.lat, lng=self.lng)
-        ride = RideFactory(start_loc=start, end_loc=end, vehicle=self.vehicle)
+        ride = RideFactory(start_loc=start, end_loc=end, vehicle=self.vehicle, driver=self.user)
 
         with self.assertRaises(ValidationError):
             ride.clean()
