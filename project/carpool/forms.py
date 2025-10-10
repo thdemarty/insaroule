@@ -119,6 +119,21 @@ class CreateRideForm(forms.Form):
 
     def clean(self):
         cleaned_data = super().clean()
+        # Prevent creating a ride where departure and arrival are identical
+        d_lat = cleaned_data.get("d_latitude")
+        d_lng = cleaned_data.get("d_longitude")
+        a_lat = cleaned_data.get("a_latitude")
+        a_lng = cleaned_data.get("a_longitude")
+
+        # Use a small tolerance for float comparisons
+        if (d_lat is not None and a_lat is not None
+            and d_lng is not None and a_lng is not None
+            and abs(d_lat - a_lat) < 1e-5
+            and abs(d_lng - a_lng) < 1e-5):
+            self.add_error(
+                "a_fulltext",
+                _("Departure and arrival locations cannot be the same."),
+            )
         price = cleaned_data.get("price_per_seat")
         payment = cleaned_data.get("payment_method")
 
@@ -266,8 +281,15 @@ class EditRideForm(forms.Form):
 
             # The duration was saved using the following command:
             # datetime.timedelta(hours=form.cleaned_data["r_duration"])
-            self.fields["r_duration"].initial = ride.duration.total_seconds() / 3600
-            self.fields["r_geometry"].initial = ride.geometry.geojson
+            self.fields["r_duration"].initial = (
+                ride.duration.total_seconds() / 3600 if ride.duration else None
+            )
+            # ride.geometry may be None for older fixtures/factories — guard access
+            if getattr(ride, "geometry", None):
+                # geometry is a GEOS LineString
+                self.fields["r_geometry"].initial = ride.geometry.geojson
+            else:
+                self.fields["r_geometry"].initial = ""
 
             self.fields["departure_datetime"].initial = timezone.localtime(
                 ride.start_dt
@@ -284,6 +306,23 @@ class EditRideForm(forms.Form):
 
     def clean(self):
         cleaned_data = super().clean()
+
+
+        d_lat = cleaned_data.get("d_latitude")
+        d_lng = cleaned_data.get("d_longitude")
+        a_lat = cleaned_data.get("a_latitude")
+        a_lng = cleaned_data.get("a_longitude")
+
+        # Use a small tolerance for float comparisons
+        if (d_lat is not None and a_lat is not None
+            and d_lng is not None and a_lng is not None
+            and abs(d_lat - a_lat) < 1e-5
+            and abs(d_lng - a_lng) < 1e-5):
+            self.add_error(
+                "a_fulltext",
+                _("Departure and arrival locations cannot be the same."),
+            )
+
         price = cleaned_data.get("price_per_seat")
         payment = cleaned_data.get("payment_method")
 
