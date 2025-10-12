@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
-{% load duration %}
+{% load duration static i18n %} 
 
 {% block content %}
 <link rel="stylesheet" href="{% static 'vendors/bootstrap-icons/bootstrap-icons.min.css' %}">
@@ -18,7 +17,8 @@
         <div class="col-lg-6">
             <div class="card" style="min-height: 80vh;">
                 <div class="card-header d-flex justify-content-between">
-                    <h5 class="card-title mb-0">Room: {{ join_request.uuid }}</h5>
+                    <span class="card-title mb-0">Room: {{ join_request.uuid }}</span>
+                    <a href="{{ join_request.ride.get_absolute_url }}">{% translate "See associated ride" %}</a>
                 </div>
 
                 <div class="card-body p-0">

@@ -23,6 +23,7 @@ from django.urls import reverse
 from django.utils.timezone import localtime
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_http_methods
+from carpool.templatetags.duration import duration
 
 from carpool.forms import CreateRideForm, EditRideForm
 from carpool.models import Location, Vehicle
@@ -55,7 +56,7 @@ def list_my_rides(request):
 
 
 @login_required
-def ride_map(request):
+def rides_map(request):
     rides = Ride.objects.filter_upcoming()
     rides_geo = []
 
@@ -76,11 +77,9 @@ def ride_map(request):
                     "end_name": ride.end_loc.fulltext,
                     "end_lat": ride.end_loc.lat,
                     "end_lon": ride.end_loc.lng,
-                    "start_d": start_dt_local.strftime("%A %d %B %Y"),
-                    "start_t": start_dt_local.strftime("%H:%M"),
                     "start_dt": start_dt_local.isoformat(),
                     "price": ride.price,
-                    "duration": f"{int(ride.duration.total_seconds() // 3600)}h{int((ride.duration.total_seconds() % 3600) // 60)}",
+                    "duration": duration(ride.duration),
                 }
             )
 
