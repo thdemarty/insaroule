@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-10 15:48+0200\n"
+"POT-Creation-Date: 2025-10-12 12:17+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -730,6 +730,38 @@ msgstr "Rechercher une adresse de départ"
 #: carpool/templates/rides/list.html:262
 msgid "Search for an address of arrival"
 msgstr "Rechercher une adresse d'arrivée"
+
+#: carpool/templates/rides/map.html:53
+msgid "Ride's information"
+msgstr "Informations du trajet"
+
+#: carpool/templates/rides/map.html:55
+msgid "Select a ride"
+msgstr "Sélectionnez un trajet"
+
+#: carpool/templates/rides/map.html:172
+msgid "Start:"
+msgstr "Départ :"
+
+#: carpool/templates/rides/map.html:173
+msgid "Destination:"
+msgstr "Arrivée :"
+
+#: carpool/templates/rides/map.html:174
+msgid "Hour:"
+msgstr "Heure :"
+
+#: carpool/templates/rides/map.html:175
+msgid "Duration:"
+msgstr "Durée"
+
+#: carpool/templates/rides/map.html:176
+msgid "Price:"
+msgstr "Prix :"
+
+#: carpool/templates/rides/map.html:178
+msgid "See more"
+msgstr "En savoir plus"
 
 #: carpool/templates/rides/my_rides.html:29
 msgid "My rides"
