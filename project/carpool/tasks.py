@@ -1,7 +1,8 @@
+import time
 import requests
 from celery import shared_task
 from celery.utils.log import get_task_logger
-
+from requests.exceptions import RequestException, Timeout, ConnectionError
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.gis.db.models.functions import Length
@@ -26,6 +27,7 @@ from carpool.models.ride import Ride
 from carpool.models.statistics import MonthlyStatistics, Statistics
 
 logger = get_task_logger(__name__)
+
 
 """
 We wanted to use the adresse.data.gouv.fr API, but the service is migrating
@@ -73,18 +75,96 @@ def get_autocompletion(query):
 
 @shared_task(rate_limit=settings.ROUTING_TASK_RATE_LIMIT)
 def get_routing(start, end):
-    """A Celery task to get routing information.
-    This is a placeholder function that should be implemented with actual logic.
     """
-    r = requests.get(
-        f"https://data.geopf.fr/navigation/itineraire?resource=bdtopo-osrm&start={start}&end={end}&profile=car&optimization=fastest&geometryFormat=geojson&getSteps=true&getBbox=true&distanceUnit=kilometer&timeUnit=hour&crs=EPSG%3A4326",
-    )
+    Celery task to get routing information between two points using the IGN routing API.
 
-    if r.status_code == 200:
-        return r.json()
+    Args:
+        start (str): Starting point coordinates, format "lon,lat" (e.g. "-1.68365,48.110899")
+        end (str): Ending point coordinates, format "lon,lat" (e.g. "-1.466824,47.297116")
+
+    Returns:
+        dict: Routing result (JSON) or error information.
+    """
+
+    base_url = "https://data.geopf.fr/navigation/itineraire"
+    params = {
+        "resource": "bdtopo-osrm",
+        "start": start,
+        "end": end,
+        "profile": "car",
+        "optimization": "fastest",
+        "geometryFormat": "geojson",
+        "getSteps": "true",
+        "getBbox": "true",
+        "distanceUnit": "kilometer",
+        "timeUnit": "hour",
+        "crs": "EPSG:4326",
+    }
+
+    # Configuration
+    TIMEOUT = 60  # seconds
+    MAX_RETRIES = 3
+    BACKOFF_BASE = 2  # exponential backoff base
+
+    for attempt in range(1, MAX_RETRIES + 1):
+        try:
+            start_time = time.time()
+            response = requests.get(base_url, params=params, timeout=TIMEOUT)
+            duration = round(time.time() - start_time, 2)
+
+            logger.info(
+                f"[IGN Routing] Call #{attempt} ({duration}s) - "
+                f"status={response.status_code} start={start} end={end}"
+            )
+
+            if response.status_code == 200:
+                return response.json()
+
+            elif response.status_code in (502, 503, 504):
+                # Transient error → retry
+                if attempt < MAX_RETRIES:
+                    wait = BACKOFF_BASE**attempt
+                    logger.warning(
+                        f"[IGN Routing] Temporary error {response.status_code}, "
+                        f"retrying in {wait}s (attempt {attempt}/{MAX_RETRIES})"
+                    )
+                    time.sleep(wait)
+                    continue
+                else:
+                    break
+
+            else:
+                # Permanent error (e.g., 400, 404)
+                logger.error(
+                    f"[IGN Routing] Failed (HTTP {response.status_code}): {response.text[:200]}"
+                )
+                return {
+                    "error": "Failed to fetch routing information",
+                    "status_code": response.status_code,
+                    "details": response.text,
+                }
+
+        except (Timeout, ConnectionError) as e:
+            # Retry on network timeout or connectivity issues
+            if attempt < MAX_RETRIES:
+                wait = BACKOFF_BASE**attempt
+                logger.warning(
+                    f"[IGN Routing] Network error: {e}. Retrying in {wait}s..."
+                )
+                time.sleep(wait)
+                continue
+            else:
+                logger.error("[IGN Routing] Network error after retries")
+                return {"error": str(e), "status_code": None}
+
+        except RequestException as e:
+            logger.error("[IGN Routing] Unexpected request error")
+            return {"error": str(e), "status_code": None}
+
+    # If all retries failed
     return {
-        "error": "Failed to fetch routing information",
-        "status_code": r.status_code,
+        "error": "IGN routing service unavailable after retries",
+        "status_code": None,
     }
 
 
