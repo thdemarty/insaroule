@@ -12,6 +12,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_http_methods
 from django.contrib.sites.shortcuts import get_current_site
+from django.utils import timezone
 
 from chat.models import ChatMessage, ChatReport, ChatRequest, ModAction
 from chat.tasks import send_email_report_to_mods
@@ -118,8 +119,17 @@ def mod_center(request):
     query_ride = request.GET.get("ride", "")
     query_username = request.GET.get("search_by_username", "")
     query_content = request.GET.get("search_by_content", "")
+    past_rides = request.GET.get("past", "")
 
-    reports = ChatRequest.objects.all().order_by("-created_at")
+    reports = ChatRequest.objects.all()
+
+    if not past_rides == "1":
+        reports = reports.filter(
+            ride__start_dt__gte=timezone.now() - timezone.timedelta(days=1)
+        )
+
+    reports = reports.order_by("-created_at")
+
     if query_username:
         print(f"Searching by username: {query_username}")
         reports = reports.filter(
