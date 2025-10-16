@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
-{% load duration static i18n %} 
+{% load duration static i18n %}
+{% get_current_language as LANGUAGE_CODE %}
 
 {% block content %}
 <link rel="stylesheet" href="{% static 'vendors/bootstrap-icons/bootstrap-icons.min.css' %}">
@@ -101,7 +102,6 @@
         } else {
             wrapper.className = 'd-flex justify-content-end';
         }
-        // wrapper.className = `d-flex ${isCurrentUser ? 'justify-content-end' : 'justify-content-start'}`;
 
         const card = document.createElement('div');
 
@@ -138,7 +138,7 @@
 
         const messageFooter = document.createElement('div');
         messageFooter.id = `message-footer-${msg.id}`;
-        messageFooter.className = 'd-flex justify-content-between align-items-center';
+        messageFooter.className = 'd-flex justify-content-between align-items-center px-2';
         if (!msg.hidden) {
             messageFooter.innerHTML = `
                 <button type="button" class="btn btn-sm" onclick="chatSocket.send(JSON.stringify({ action: 'hide', message_id: ${msg.id} }));">
@@ -152,6 +152,18 @@
                 </button>
             `;
         }
+        // Add timestamp
+        const timestamp = document.createElement('small');
+        const date = new Date(msg.timestamp);
+        timestamp.textContent = date.toLocaleString('{{ LANGUAGE_CODE }}', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+        messageFooter.appendChild(timestamp);
+
         card.appendChild(messageFooter);
     
         
