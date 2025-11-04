@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.gis",
+    "rest_framework",
     "multiselectfield",
     "channels",
     "accounts",
@@ -299,3 +300,17 @@ AVERAGE_CO2_EMISSION_PER_KM = env.float("AVERAGE_CO2_EMISSION_PER_KM", default=1
 
 MAXIMUM_SEATS_IN_VEHICLE = 8
 MAXIMUM_STEPOVERS_IN_RIDE = 5
+
+# REST Framework settings
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ],
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
+    ],
+}
+
+SIMPLE_JWT = {
+    "USER_ID_FIELD": "pk",
+}
