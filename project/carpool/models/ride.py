@@ -54,6 +54,7 @@ class Ride(models.Model):
         CASH = "CASH", _("Cash")
         LYF = "LYF", _("Lyf Pay")
         WIRE = "WIRE", _("Wire Transfer")
+        LYDIA = "LYDIA", _("Lydia")
 
     uuid = models.UUIDField(
         verbose_name=_("UUID"),
@@ -126,6 +127,7 @@ class Ride(models.Model):
         help_text=_("The payment method for the ride"),
         blank=True,
         default=[PaymentMethod.CASH],
+        max_length=100,
     )
 
     price = models.FloatField(
@@ -220,5 +222,9 @@ class Ride(models.Model):
             # small tolerance for float comparisons
             if abs(d_lat - a_lat) < 1e-5 and abs(d_lng - a_lng) < 1e-5:
                 raise ValidationError(
-                    {"end_loc": _("Departure and arrival locations cannot be the same.")}
+                    {
+                        "end_loc": _(
+                            "Departure and arrival locations cannot be the same."
+                        )
+                    }
                 )
