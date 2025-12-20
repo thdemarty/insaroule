@@ -150,7 +150,7 @@ def rides_subscribe(request, ride_pk):
     """Create a reservation for the given ride."""
     ride = get_object_or_404(Ride, pk=ride_pk)
     if request.method == "POST":
-        if ride.has_ended():
+        if ride.has_ended:
             messages.error(request, "You cannot book a completed ride.")
             return redirect("carpool:list")
         # Get the chat request
