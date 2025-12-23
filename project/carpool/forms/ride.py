@@ -177,6 +177,7 @@ class EditRideForm(forms.ModelForm):
         ride.geometry = self.cleaned_data["geometry"]
         ride.duration = self.cleaned_data["duration"]
         ride.start_dt = self.cleaned_data["start_dt"]
+        ride.end_dt =  ride.start_dt + ride.duration
         ride.price = self.cleaned_data["price"]
         ride.comment = self.cleaned_data["comment"]
         ride.payment_method = self.cleaned_data["payment_method"]
