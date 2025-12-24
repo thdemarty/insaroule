@@ -33,7 +33,7 @@ class RideManager(models.Manager):
 
     def safe_delete(self, ride) -> bool:
         """Soft delete rides delete the ride only if has no riders or if the ride has ended."""
-        if ride.rider.count() == 0 or (ride.end_dt and ride.end_dt < timezone.now()):
+        if ride.rider.count() == 0 or ride.has_ended:
             ride.delete()
             return True
         return False
@@ -54,6 +54,7 @@ class Ride(models.Model):
         CASH = "CASH", _("Cash")
         LYF = "LYF", _("Lyf Pay")
         WIRE = "WIRE", _("Wire Transfer")
+        LYDIA = "LYDIA", _("Lydia")
 
     uuid = models.UUIDField(
         verbose_name=_("UUID"),
@@ -126,6 +127,7 @@ class Ride(models.Model):
         help_text=_("The payment method for the ride"),
         blank=True,
         default=[PaymentMethod.CASH],
+        max_length=100,
     )
 
     price = models.FloatField(
@@ -181,6 +183,10 @@ class Ride(models.Model):
     objects = RideManager()
 
     @property
+    def has_ended(self):
+        return self.end_dt and self.end_dt < timezone.now()
+
+    @property
     def remaining_seats(self):
         return self.seats_offered - self.rider.count()
 
@@ -220,5 +226,9 @@ class Ride(models.Model):
             # small tolerance for float comparisons
             if abs(d_lat - a_lat) < 1e-5 and abs(d_lng - a_lng) < 1e-5:
                 raise ValidationError(
-                    {"end_loc": _("Departure and arrival locations cannot be the same.")}
+                    {
+                        "end_loc": _(
+                            "Departure and arrival locations cannot be the same."
+                        )
+                    }
                 )
