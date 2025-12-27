@@ -177,7 +177,7 @@ class EditRideForm(forms.ModelForm):
         ride.geometry = self.cleaned_data["geometry"]
         ride.duration = self.cleaned_data["duration"]
         ride.start_dt = self.cleaned_data["start_dt"]
-        ride.end_dt =  ride.start_dt + ride.duration
+        ride.end_dt = ride.start_dt + ride.duration
         ride.price = self.cleaned_data["price"]
         ride.comment = self.cleaned_data["comment"]
         ride.payment_method = self.cleaned_data["payment_method"]
@@ -313,3 +313,21 @@ class CreateRideStep2Form(forms.Form):
         ),
         label=_("Comment (optional)"),
     )
+
+    def clean(self):
+        # Need to check here that seats_offered is not greater than vehicle.seats
+        # since we use a forms.Form instead of a forms.ModelForm, we don't have access to
+        # self.instance and call the model's clean() method.
+
+        # TODO: Maybe we need to refactor this in the future by using a ModelForm here.
+
+        cleaned_data = super().clean()
+        vehicle = cleaned_data.get("vehicle")
+        seats = cleaned_data.get("seats_offered")
+
+        if vehicle and seats and seats > vehicle.seats:
+            self.add_error(
+                "seats_offered",
+                _("Seats offered cannot be greater than vehicle seats."),
+            )
+        return cleaned_data
