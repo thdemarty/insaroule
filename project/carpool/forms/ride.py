@@ -44,6 +44,7 @@ class EditRideForm(forms.ModelForm):
                 attrs={
                     "type": "datetime-local",
                     "min": timezone.now().strftime("%Y-%m-%dT%H:%M"),
+                    "max": (timezone.now() + datetime.timedelta(days=365)).strftime("%Y-%m-%dT%H:%M"),
                 }
             ),
             "comment": forms.Textarea(attrs={"rows": 2}),
@@ -133,6 +134,10 @@ class EditRideForm(forms.ModelForm):
         self.fields["geometry"].initial = (
             self.instance.geometry.geojson if self.instance.geometry else ""
         )
+        now = timezone.now().strftime("%Y-%m-%dT%H:%M")
+        self.fields["start_dt"].widget.attrs["min"] = now
+        one_year_from_now = (timezone.now() + datetime.timedelta(days=365)).strftime("%Y-%m-%dT%H:%M")
+        self.fields["start_dt"].widget.attrs["max"] = one_year_from_now
 
     def clean_duration(self):
         hours = self.cleaned_data.get("duration")
@@ -202,6 +207,7 @@ class CreateRideStep1Form(forms.Form):
                 "type": "datetime-local",
                 "class": "form-control",
                 "min": timezone.now().strftime("%Y-%m-%dT%H:%M"),
+                "max": (timezone.now() + datetime.timedelta(days=365)).strftime("%Y-%m-%dT%H:%M"),
             },
         ),
     )
@@ -256,6 +262,8 @@ class CreateRideStep1Form(forms.Form):
 
         now = timezone.now().strftime("%Y-%m-%dT%H:%M")
         self.fields["departure_datetime"].widget.attrs["min"] = now
+        one_year_from_now = (timezone.now() + datetime.timedelta(days=365)).strftime("%Y-%m-%dT%H:%M")
+        self.fields["departure_datetime"].widget.attrs["max"] = one_year_from_now
 
 
 class CreateRideStep2Form(forms.Form):
