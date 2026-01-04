@@ -153,6 +153,9 @@ def rides_subscribe(request, ride_pk):
         if ride.has_ended:
             messages.error(request, "You cannot book a completed ride.")
             return redirect("carpool:list")
+        if ride.is_full:
+            messages.error(request, "This ride is fully booked. You cannot reserve a seat.")
+            return redirect("carpool:list")
         # Get the chat request
         ChatRequest.objects.get(user=request.user, ride=ride)
 

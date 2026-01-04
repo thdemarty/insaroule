@@ -237,10 +237,15 @@
                         The driver will then accept or decline your request.
                         {% endblocktrans %}
                     </p>
+                    
+                    {% if join_request.ride.is_full %}
+                        <p class="alert alert-danger">This ride is fully booked. You cannot reserve a seat.</p>
+                    {% else %}
+                        <button type="submit" class="btn btn-primary w-100">
+                            {% translate "Make a reservation" %}
+                        </button>
+                    {% endif %}
 
-                    <button type="submit" class="btn btn-primary w-100">
-                        {% translate "Make a reservation" %}
-                    </button>
                 </form>
                 {% endif %}
             </div>
