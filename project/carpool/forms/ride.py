@@ -237,7 +237,16 @@ class CreateRideStep1Form(forms.Form):
                 _("Departure and arrival locations cannot be the same."),
             )
 
-        return cleaned_data
+        if "departure_datetime" in cleaned_data:
+            print(cleaned_data["departure_datetime"])
+            # check if too late or before now
+            if cleaned_data["departure_datetime"] < timezone.now():
+                self.add_error("departure_datetime", _("Departure date cannot be in the past."))
+            elif cleaned_data["departure_datetime"] > timezone.now() + datetime.timedelta(days=365):
+                self.add_error(
+                    "departure_datetime",
+                    _("Departure date cannot be more than one year in the future."),
+                )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
