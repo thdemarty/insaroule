@@ -208,6 +208,10 @@
                         {% endblocktranslate %}
                     </span>
 
+                    {% if reservation.status == 'PENDING' and join_request.ride.is_full %}
+                        <p class="alert alert-danger mt-1 mb-1">This ride is fully booked. Try searching for another ride.</p>
+                    {% endif %}
+
                     <div class="ps-3 border-start mt-3 mb-4">
                         {% translate "Date:" %} {{ reservation.created_at }}<br>
                         {% translate "Status:" %}{% if reservation.status == "PENDING" %}
