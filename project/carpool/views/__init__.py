@@ -127,6 +127,9 @@ def update_reservation(request):
     action = request.POST.get("action")
 
     if action == "accept":
+        if reservation.ride.is_full and reservation.status != Reservation.Status.ACCEPTED:
+            messages.error(request, _("This ride is fully booked."))
+            return redirect(next_url)
         reservation.status = Reservation.Status.ACCEPTED
         send_email_confirmed_ride.delay(reservation.pk)
         reservation.ride.rider.add(reservation.user)

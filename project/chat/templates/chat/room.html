@@ -167,6 +167,11 @@
                         {% endif %}
                     </div>
                     {% if reservation.status != "CANCELED" %}
+                    {% if reservation.ride.is_full and reservation.status != "ACCEPTED" %}
+                    <div class="alert alert-danger">
+                        The ride is fully booked. You cannot accept new reservations.
+                    </div>
+                    {% else %}
                     <form action="{% url 'carpool:update_reservation' %}{% querystring next=request.path %}"
                         method="post">
                         {% csrf_token %}
@@ -185,6 +190,7 @@
                             </div>
                         </div>
                     </form>
+                    {% endif %}
                     {% endif %}
                     {% endif %}
                 </div>
