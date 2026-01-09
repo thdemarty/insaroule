@@ -11,6 +11,8 @@ from accounts.views.verify_email import (
     verify_email_sent,
 )
 
+from accounts.views import mfa as mfa_views
+
 app_name = "accounts"
 
 urlpatterns = [
@@ -21,6 +23,8 @@ urlpatterns = [
     path("delete/", profile.delete_profile, name="account_close"),
     path("email/change/", profile.email_change, name="email_change"),
     path("export/", profile.export, name="export"),
+    path("mfa/devices/", mfa_views.devices_list, name="mfa_devices_list"),
+    path("mfa/devices/add/", mfa_views.devices_add, name="mfa_devices_add"),
 ]
 
 # Email verification URLs

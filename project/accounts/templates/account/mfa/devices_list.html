@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
+
+
+{% block extrahead %}
+<link rel="stylesheet" href="{% static 'vendors/bootstrap-icons/bootstrap-icons.min.css' %}">
+{% endblock extrahead %}
+
+{% block content %}
+<div class="container mt-3">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card mb-3 position-relative border border-3 border-warning"
+                style="border-style: dashed !important;">
+                <div class="card-body">
+                    <h3 class="card-title my-auto">{% translate "MFA" %}</h3>
+                    <span class="position-absolute top-0 end-0 m-2 badge rounded-pill bg-warning text-dark">
+                        {% translate "beta" %}
+                    </span>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-between mb-3">
+                <h4 class="mt-auto mb-0">Your devices</h4>
+                <a class="btn btn-primary btn-sm mt-auto" href="{% url 'accounts:mfa_devices_add' %}" role="button">Add
+                    Device</a>
+            </div>
+
+
+            <div class="card">
+                <div class="card-body d-flex flex-column justify-content-center">
+                    <p class="my-auto">
+                        You have no registered MFA devices to your account. You can
+                        add a new device by clicking the "Add Device" button above.
+                    </p>
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    {% endblock %}
