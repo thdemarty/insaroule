@@ -154,6 +154,14 @@ class EditRideForm(forms.ModelForm):
             return GEOSGeometry(data)
         return data
 
+    def clean_start_dt(self):
+        data = self.cleaned_data["start_dt"]
+        if data < timezone.now():
+            self.add_error("start_dt", _("Departure date cannot be in the past."))
+        if data > timezone.now() + datetime.timedelta(days=365):
+            self.add_error("start_dt", _("Departure date cannot be more than one year in the future."))
+        return data
+
     def is_valid(self):
         valid = super().is_valid()
         dep_valid = self.departure.is_valid()
@@ -238,11 +246,11 @@ class CreateRideStep1Form(forms.Form):
             )
 
         if "departure_datetime" in cleaned_data:
-            print(cleaned_data["departure_datetime"])
+            data = cleaned_data["departure_datetime"]
             # check if too late or before now
-            if cleaned_data["departure_datetime"] < timezone.now():
+            if data < timezone.now():
                 self.add_error("departure_datetime", _("Departure date cannot be in the past."))
-            elif cleaned_data["departure_datetime"] > timezone.now() + datetime.timedelta(days=365):
+            elif data > timezone.now() + datetime.timedelta(days=365):
                 self.add_error(
                     "departure_datetime",
                     _("Departure date cannot be more than one year in the future."),
