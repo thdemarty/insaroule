@@ -7,7 +7,6 @@ from accounts.tests.factories import UserFactory
 from carpool.tests.factories import RideFactory
 from chat.consumers import ChatConsumer
 from chat.tests.factories import ChatRequestFactory, ChatMessageFactory
-
 from chat.models import ChatMessage
 
 """
