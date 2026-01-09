@@ -6,6 +6,7 @@ from django.urls import reverse
 
 from carpool.tests.factories import RideFactory, VehicleFactory
 from carpool.models.reservation import Reservation
+from chat.models import ChatRequest
 
 
 class AnonymousAccessTestCase(TestCase):
@@ -138,7 +139,6 @@ class RideSubscriptionTestCase(TestCase):
         self.client.force_login(self.passenger)
         
         # Create a chat request (required for booking)
-        from chat.models import ChatRequest
         chat_request = ChatRequest.objects.create(user=self.passenger, ride=ride)
         
         response = self.client.post(
@@ -164,7 +164,6 @@ class RideSubscriptionTestCase(TestCase):
         
         self.client.force_login(self.passenger)
         
-        from chat.models import ChatRequest
         chat_request = ChatRequest.objects.create(user=self.passenger, ride=ride)
         
         response = self.client.post(
@@ -182,7 +181,6 @@ class RideSubscriptionTestCase(TestCase):
         self.client.force_login(self.passenger)
         
         # Create a chat request (required for booking)
-        from chat.models import ChatRequest
         chat_request = ChatRequest.objects.create(user=self.passenger, ride=ride)
         
         response = self.client.post(
