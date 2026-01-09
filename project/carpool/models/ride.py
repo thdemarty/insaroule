@@ -191,6 +191,10 @@ class Ride(models.Model):
         return self.seats_offered - self.rider.count()
 
     @property
+    def is_full(self):
+        return self.remaining_seats <= 0
+
+    @property
     def booked_seats(self):
         return self.rider.count()
 

@@ -127,6 +127,8 @@ def update_reservation(request):
     action = request.POST.get("action")
 
     if action == "accept":
+        if reservation.ride.is_full and reservation.status != Reservation.Status.ACCEPTED:
+            return HttpResponse("This ride is fully booked.", status=409)
         reservation.status = Reservation.Status.ACCEPTED
         send_email_confirmed_ride.delay(reservation.pk)
         reservation.ride.rider.add(reservation.user)
@@ -152,6 +154,9 @@ def rides_subscribe(request, ride_pk):
     if request.method == "POST":
         if ride.has_ended:
             messages.error(request, "You cannot book a completed ride.")
+            return redirect("carpool:list")
+        if ride.is_full:
+            messages.error(request, "This ride is fully booked. You cannot reserve a seat.")
             return redirect("carpool:list")
         # Get the chat request
         ChatRequest.objects.get(user=request.user, ride=ride)
