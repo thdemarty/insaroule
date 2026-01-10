@@ -5,8 +5,73 @@ from django.contrib.auth.forms import SetPasswordForm as DjangoSetPasswordForm
 from django.contrib.auth.forms import UserCreationForm
 from django.utils.translation import gettext_lazy as _
 from django.conf import settings
-from accounts.models import User
+from accounts.models import User, MultiFactorAuthenticationDevice
 from accounts.tasks import send_password_reset_email
+
+import pyotp
+
+
+class TOTPForm(forms.Form):
+    totp = forms.CharField(
+        label=_("One-Time Password"),
+        max_length=6,
+        widget=forms.TextInput(
+            attrs={"class": "form-control", "placeholder": _("Enter the code")}
+        ),
+    )
+
+    def is_valid(self, totp_secret):
+        valid = super().is_valid()
+        if not valid:
+            return False
+
+        totp = pyotp.TOTP(totp_secret)
+        totp_code = self.cleaned_data["totp"]
+        if not totp.verify(totp_code):
+            self.add_error("totp", _("Invalid one-time password. Please try again."))
+            return False
+
+        return True
+
+
+class MFADeviceAddForm(forms.ModelForm):
+    totp = forms.CharField(
+        label=_("One-Time Password"),
+        max_length=6,
+        widget=forms.TextInput(
+            attrs={"class": "form-control", "placeholder": _("Enter the code")}
+        ),
+    )
+
+    class Meta:
+        model = MultiFactorAuthenticationDevice
+        fields = ["name"]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for _field_name, field in self.fields.items():
+            field.widget.attrs.update({"class": "form-control"})
+
+    def is_valid(self, totp_secret):
+        valid = super().is_valid()
+        if not valid:
+            return False
+
+        totp = pyotp.TOTP(totp_secret)
+        totp_code = self.cleaned_data["totp"]
+        if not totp.verify(totp_code):
+            self.add_error("totp", _("Invalid one-time password. Please try again."))
+            return False
+
+        return True
+
+    def save(self, user, totp_secret, commit=True):
+        device = super().save(commit=False)
+        device.user = user
+        device.totp_secret = totp_secret
+        if commit:
+            device.save()
+        return device
 
 
 class RegisterForm(UserCreationForm):

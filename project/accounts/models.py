@@ -59,3 +59,10 @@ class UserNotificationPreferences(models.Model):
     ride_sharing_suggestion_notification = models.BooleanField(
         default=True, help_text="Receive notifications suggesting to share rides."
     )
+
+
+class MultiFactorAuthenticationDevice(models.Model):
+    name = models.CharField(max_length=100, verbose_name=_("Device name"))
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="mfa_devices")
+    totp_secret = models.CharField(max_length=32)
+    created_at = models.DateTimeField(auto_now_add=True)
