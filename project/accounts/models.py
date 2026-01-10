@@ -64,5 +64,5 @@ class UserNotificationPreferences(models.Model):
 class MultiFactorAuthenticationDevice(models.Model):
     name = models.CharField(max_length=100, verbose_name=_("Device name"))
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="mfa_devices")
-    totp_secret = models.CharField(max_length=32)
+    totp_secret = models.CharField(max_length=32, editable=False)
     created_at = models.DateTimeField(auto_now_add=True)
