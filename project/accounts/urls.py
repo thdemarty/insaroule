@@ -26,7 +26,7 @@ urlpatterns = [
     path("mfa/devices/", mfa_views.devices_list, name="mfa_devices_list"),
     path("mfa/devices/add/", mfa_views.devices_add, name="mfa_devices_add"),
     path(
-        "mfa/devices/<int:device_id>/delete/",
+        "mfa/devices/<int:pk>/delete/",
         mfa_views.devices_delete,
         name="mfa_devices_delete",
     ),

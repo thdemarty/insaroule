@@ -23,8 +23,9 @@
 
             <div class="d-flex justify-content-between mb-3">
                 <h4 class="mt-auto mb-0">Your devices</h4>
-                <a class="btn btn-primary btn-sm mt-auto" href="{% url 'accounts:mfa_devices_add' %}" role="button">Add
-                    Device
+                <a class="btn btn-primary btn-sm mt-auto {% if user.mfa_devices.exists %}disabled{% endif %}" 
+                    href="{% url 'accounts:mfa_devices_add' %}" role="button">
+                    Add Device
                 </a>
             </div>
 

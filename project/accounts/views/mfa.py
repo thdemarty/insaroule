@@ -20,6 +20,14 @@ def devices_add(request):
     """Add a new MFA device for the user."""
     form = MFADeviceAddForm()
 
+    # Block adding more than one device for now (will be expanded later)
+    existing_devices = MFADevice.objects.filter(user=request.user)
+    if existing_devices.exists():
+        messages.error(
+            request, "You can only have one MFA device registered for the moment."
+        )
+        return redirect("accounts:mfa_devices_list")
+
     if request.method == "GET":
         # Generate a new TOTP secret for the user every time
         # they reload the add device page (but not on POST)
@@ -51,10 +59,10 @@ def devices_add(request):
 
 
 @login_required
-def devices_delete(request, device_id):
+def devices_delete(request, pk):
     """Delete an MFA device for the user."""
     user = request.user
-    device = MFADevice.objects.filter(id=device_id, user=user)
+    device = MFADevice.objects.filter(id=pk, user=user)
 
     if not device.exists():
         messages.error(request, "You don't have permission to delete this device.")
