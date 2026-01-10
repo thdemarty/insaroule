@@ -4,8 +4,47 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
+from accounts.models import User
 from accounts.models import MultiFactorAuthenticationDevice as MFADevice
 from accounts.forms import MFADeviceAddForm, TOTPForm
+
+from django.contrib.auth import login as auth_login
+
+
+def totp_challenge(request):
+    """
+    View that is shown to the user to enter their TOTP code for MFA verification.
+    """
+    form = TOTPForm()
+    user_pk = request.session.get("pre_mfa_user_pk")
+
+    if not user_pk:
+        # No pre-MFA user in session, redirect to login
+        return redirect("accounts:login")
+
+    user = User.objects.get(pk=user_pk)
+
+    if not user.mfa_devices.exists():
+        # Check if user has any MFA devices
+        return redirect("accounts:login")
+
+    totp_device = user.mfa_devices.first()
+
+    if request.method == "POST":
+        form = TOTPForm(request.POST)
+
+        if form.is_valid(totp_device.totp_secret):
+            # Mark MFA as verified in session
+            request.session["mfa_verified"] = True
+            next_url = request.session.get("next") or "carpool:list"
+            auth_login(request, user)
+            messages.success(request, "MFA verification successful.")
+            return redirect(next_url)
+
+    context = {
+        "form": form,
+    }
+    return render(request, "account/mfa/totp.html", context)
 
 
 @login_required

@@ -23,6 +23,7 @@ urlpatterns = [
     path("delete/", profile.delete_profile, name="account_close"),
     path("email/change/", profile.email_change, name="email_change"),
     path("export/", profile.export, name="export"),
+    path("mfa/", mfa_views.totp_challenge, name="mfa_totp_challenge"),
     path("mfa/devices/", mfa_views.devices_list, name="mfa_devices_list"),
     path("mfa/devices/add/", mfa_views.devices_add, name="mfa_devices_add"),
     path(

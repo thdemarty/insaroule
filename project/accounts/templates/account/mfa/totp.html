@@ -1,0 +1,26 @@
+{% extends 'registration/base.html' %}
+{% load static i18n %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-header">
+                    <span class="card-title text-center mb-0 text-reset">
+                        INSA'ROULE - {% translate "Carpooling platform" %}
+                    </span>
+                </div>
+                <div class="card-body">
+                    <h2 class="card-title mb-4 text-center">{% translate "TOTP" %}</h2>
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        {{ form }}
+                        <button type="submit" class="btn btn-primary w-100 mt-3">{% translate "Validate TOTP" %}</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
