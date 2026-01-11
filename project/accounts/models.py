@@ -66,3 +66,27 @@ class MultiFactorAuthenticationDevice(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="mfa_devices")
     totp_secret = models.CharField(max_length=32, editable=False)
     created_at = models.DateTimeField(auto_now_add=True)
+
+
+class MultiFactorAuthenticationPolicy(models.Model):
+    """Singleton model to define MFA enforcement policies."""
+
+    class Meta:
+        verbose_name = "Multi-Factor Authentication Policy"
+        verbose_name_plural = "Multi-Factor Authentication Policy"
+
+    enforced_groups = models.ManyToManyField("auth.Group", blank=True)
+    enforced_users = models.ManyToManyField(User, blank=True)
+    enforced_for_staff = models.BooleanField(
+        default=False,
+        help_text="Enforce MFA for all staff users.",
+    )
+    enforced_for_superusers = models.BooleanField(
+        default=True,
+        help_text="Enforce MFA for all superuser accounts.",
+    )
+
+    def save(self, *args, **kwargs):
+        """Ensure only one instance exists."""
+        self.pk = 1
+        super().save(*args, **kwargs)

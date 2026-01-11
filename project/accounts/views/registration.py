@@ -1,5 +1,8 @@
 from django.shortcuts import redirect
 from django.contrib.auth.views import LoginView as BaseLoginView
+from accounts.models import MultiFactorAuthenticationPolicy as MFAPolicy
+
+import logging
 
 
 class CustomLoginView(BaseLoginView):
@@ -25,6 +28,16 @@ class CustomLoginView(BaseLoginView):
         return response
 
     def requires_mfa(self, user):
-        # FIXME: Temporary condition for testing MFA, will be improved later
-        condition = user.is_staff and user.mfa_devices.exists()
-        return condition
+        """Check if the user requires MFA based on the policy."""
+        policy = MFAPolicy.objects.first()
+
+        if not policy:
+            logging.critical("MFA Policy not created/ Please create one now.")
+            return False
+
+        user_in_enforced_users = policy.enforced_users.filter(pk=user.pk).exists()
+        user_in_enforced_groups = policy.enforced_groups.filter(user=user).exists()
+
+        requires_mfa = user_in_enforced_users or user_in_enforced_groups
+
+        return requires_mfa

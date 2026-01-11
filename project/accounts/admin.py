@@ -6,6 +6,7 @@ from accounts.models import (
     User,
     UserNotificationPreferences,
     MultiFactorAuthenticationDevice,
+    MultiFactorAuthenticationPolicy,
 )
 
 
@@ -34,3 +35,17 @@ class UserNotificationPreferencesAdmin(admin.ModelAdmin):
 @admin.register(MultiFactorAuthenticationDevice)
 class MultiFactorAuthenticationDeviceAdmin(admin.ModelAdmin):
     pass
+
+
+@admin.register(MultiFactorAuthenticationPolicy)
+class MultiFactorAuthenticationPolicyAdmin(admin.ModelAdmin):
+    """singleton admin model for MFA policy"""
+
+    def has_add_permission(self, request):
+        if MultiFactorAuthenticationPolicy.objects.exists():
+            return False
+        return True
+
+    def has_delete_permission(self, request, obj=None):
+        # Prevent deletion of the singleton instance
+        return False
