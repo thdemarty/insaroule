@@ -109,3 +109,8 @@ help = "Generate an HTML coverage report"
 cwd = "project"
 cmd = "uv run coverage html --rcfile=../pyproject.toml"
 
+[tool.poe.tasks.createsuperuser]
+help = "Create a superuser"
+cwd = "project"
+env = { "DJANGO_SETTINGS_MODULE" = "project.settings.development" }
+cmd = "uv run manage.py createsuperuser"

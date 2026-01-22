@@ -44,7 +44,7 @@ createdb insaroule
 While you are logged in as the `postgres` user, you will also create a user `insaroule_user` with password `insaroule_password` to access the database. You can do this by running the following commands in the PostgreSQL shell (by running `psql` command):
 
 ```sql
-CREATE USER insaroule_user WITH PASSWORD 'insaroule_password';
+CREATE USER insaroule_user WITH PASSWORD 'insaroule_pass';
 GRANT ALL PRIVILEGES ON DATABASE insaroule TO insaroule_user;
 ```
 
@@ -61,6 +61,12 @@ While you are at it, you can also create a PostGIS extension for the `insaroule`
 CREATE EXTENSION postgis;
 ```
 
+**On local development environment only**, you will also need to add SUPERUSER permissions to your database user for units tests to run.
+
+```sql
+ALTER USER insaroule_user SUPERUSER
+```
+
 You can now quit the PostgreSQL shell by running the following command:
 
 ```sql
@@ -72,6 +78,15 @@ and exit the `postgres` user by running:
 ```bash
 exit
 ```
+
+You will also need to do the database migration to bring the database up to date with the current schema by running the following command:
+
+```bash
+uv run poe migrate
+```
+
+> [!IMPORTANT]
+> When an update involves database modifications, you may need to run this command again to apply those changes.
 
 ## Setup Redis
 This project uses Redis to handle background tasks and chat messages. You need to have Redis installed and running on your machine.
@@ -95,29 +110,74 @@ sudo systemctl start redis-server
 
 Sources: [Redis on Linux documentation](https://redis.io/docs/latest/operate/oss_and_stack/install/archive/install-redis/install-redis-on-linux/)
 
-## Run the background tasks worker
-As it was mentioned above, this project uses Redis to handle background tasks. To run the background tasks worker, you need to run the following command inside the `project` directory:
+## Setup the application
+Before running the application, you need to configure it. To do so, you need to copy or rename the `.env.dist` file to `.env`
+You can then open the file to edit its property as needed. In particular, you will need to change this line setting `DJANGO_DEBUG` to `True`:
 
-```bash
-uv run celery -A project worker --loglevel=info
+```dotenv
+DJANGO_DEBUG=True
 ```
 
-NB: This command need to run when the `uvicorn` server is running, so you can open a new terminal window and run this command in parallel with the `uvicorn` server.
+You will then be able to create your first superuser by running the following command: 
+
+```bash
+uv run poe createsuperuser
+```
+
+## Static files
+To make static files works (likes images, CSS and Javascript) you need to gather it by running the following command:
+
+```bash
+uv run poe collectstatic
+```
+
+> [!NOTE]
+> When editing or creating a file in the `project/static` folder, the previous command needs to be run again.
+
+## Run the background tasks worker
+As it was mentioned above, this project uses Redis to handle background tasks. To run the background tasks worker, you need to run the following command:
+
+```bash
+uv run poe celery-worker
+```
+
+> [!IMPORTANT]
+> This command need to run when the `uvicorn` server is running, so you can open a new terminal window and run this command in parallel with the `uvicorn` server.
+
+> [!NOTE]
+> In a production environment, this background worker should be managed by a systemd daemon rather than run manually.
+
 
 
 ## Run the application
-As the project is an asynchronous Django application, you can run it using the `uvicorn` development server. To do this, run the following command inside the `project` directory:
+As the project is an asynchronous Django application, you can run it using the `uvicorn` development server. To do this, run the following command:
 
 ```bash
-uv run uvicorn project.asgi:application --reload --reload-include "*.html"
+uv run poe uvicorn
 ```
 
 ## Run the tests
 This project uses Django's built-in testing framework to run tests. Try to write and run tests for your changes to ensure that everything works as expected. You can run the tests by running the following command inside the `project` directory:
 
 ```bash
-uv run manage.py test
+uv run poe test
 ```
+
+**Tests need to be run before each commits**, as they ensure nothing breaks, especially when refactoring or cleaning code.
+
+To have an overview of untested code portions, you can use the commands 
+following:
+
+```bash
+uv run poe coverage-test
+uv run poe coverage-report
+uv run poe coverage-html
+```
+
+While code coverage does not guarantee that every case is tested, it provides a clear overview and objectives to understand which parts of the codebase are covered and which are not.
+
+Beyond unit tests, the application can be tested using multi-user scenarios that simulate real-world usage and validate behavior as seen by end users.
+
 
 ## Run the GitHub Actions locally
 It may be useful to run the GitHub Actions locally to ensure that everything works as expected before pushing your changes to the repository. You need first to install the `act` tool (see https://github.com/nektos/act). 
@@ -139,13 +199,13 @@ sudo apt-get install gettext
 You can update the translation files by running the following command:
 
 ```bash
-uv run manage.py makemessages -l <language_code>
+uv run poe makemessages -l <language_code>
 ```
 
 Replace `<language_code>` with the language code you are working on (e.g., `fr` for French, `en` for English, etc.). After making your changes to the translation files, if you want to see the changes reflected in the application, you can compile the translations by running:
 
 ```bash
-uv run manage.py compilemessages
+uv run poe compilemessages
 ```
 
 The compiled translations won't be committed to the repository, as they are generated files. If you want to have translations available in your local environment, you need to run the `compilemessages` command.
