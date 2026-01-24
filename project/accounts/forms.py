@@ -6,7 +6,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.utils.translation import gettext_lazy as _
 from django.conf import settings
 from accounts.models import User
-from accounts.tasks import send_password_reset_email
+from accounts.tasks import send_password_reset_email, send_username_email
 
 
 class RegisterForm(UserCreationForm):
@@ -127,3 +127,30 @@ class EmailChangeForm(forms.Form):
         if commit:
             self.user.save()
         return self.user
+
+
+class UsernameSendForm(DjangoPasswordResetForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for _field_name, field in self.fields.items():
+            field.widget.attrs.update({"class": "form-control"})
+
+    def send_mail(
+        self,
+        subject_template_name,
+        email_template_name,
+        context,
+        from_email,
+        to_email,
+        html_email_template_name=None,
+    ):
+        context["user"] = context["user"].pk
+
+        send_username_email.delay(
+            subject_template_name=subject_template_name,
+            email_template_name="registration/username_send/email.html",
+            context=context,
+            from_email=from_email,
+            to_email=to_email,
+            html_email_template_name=html_email_template_name,
+        )

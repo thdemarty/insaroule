@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-07 22:03+0200\n"
+"POT-Creation-Date: 2026-01-24 17:52+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -236,6 +236,10 @@ msgid "Forgot Password?"
 msgstr "Mot de passe oublié ?"
 
 #: accounts/templates/registration/login.html:53
+msgid "Forgot Username?"
+msgstr "Nom d'utilisateur·rice oublié ?"
+
+#: accounts/templates/registration/login.html:55
 msgid "Create an account"
 msgstr "Créer un compte"
 
@@ -266,6 +270,7 @@ msgstr ""
 "recevoir sous peu."
 
 #: accounts/templates/registration/password_reset/done.html:15
+#: accounts/templates/registration/username_send/done.html:15
 msgid ""
 "If you don't receive an email, please make sure you've entered the address "
 "you registered with, and check your spam folder."
@@ -293,11 +298,12 @@ msgid "In case you’ve forgotten, you are:"
 msgstr "Au cas où vous auriez oublié, vous êtes :"
 
 #: accounts/templates/registration/password_reset/email.html:10
+#: accounts/templates/registration/username_send/email.html:6
 msgid "Thanks for using our site!"
 msgstr "Merci d'utiliser notre site !"
 
 #: accounts/templates/registration/password_reset/email.html:12
-#, python-format
+#: accounts/templates/registration/username_send/email.html:8
 msgid "The %(site_name)s team"
 msgstr "L'équipe %(site_name)s"
 
@@ -330,6 +336,43 @@ msgstr ""
 #: accounts/templates/registration/register.html:47
 msgid "Register"
 msgstr "S'inscrire"
+
+#: accounts/templates/registration/username_send/done.html:7
+msgid "Username sent"
+msgstr "Nom d'utilisateur·rice envoyé"
+
+#: accounts/templates/registration/username_send/done.html:9
+msgid ""
+"We have sent your username to you by email, if an account exists with the "
+"email you entered. You should receive them shortly."
+msgstr ""
+"Nous vous avons envoyé votre nom d'utilisateur·rice, si "
+"un compte existe avec l'adresse e-mail que vous avez saisi. Vous devez les "
+"recevoir sous peu."
+
+#: accounts/templates/registration/username_send/email.html:2
+msgid ""
+"You're receiving this email because you requested your username at "
+"%(site_name)s."
+msgstr ""
+"Vous recevez cet e-mail parce que vous avez demandé votre nom d'utilisateur·rice "
+"sur %(site_name)s."
+
+#: accounts/templates/registration/username_send/email.html:4
+msgid "Your username is:"
+msgstr "Votre nom d'utilisateur·rice est:"
+
+#: accounts/templates/registration/username_send/index.html:7
+msgid "Username send"
+msgstr "Envoi du nom d'utilisateur·rice"
+
+#: accounts/templates/registration/username_send/index.html:22
+msgid "Send username"
+msgstr "Envoyer le nom d'utilisateur·rice"
+
+#: accounts/templates/registration/username_send/username_send_subject.txt:2
+msgid "Username send on %(site_name)s"
+msgstr "Envoi du nom d'utilisateur·rice sur %(site_name)s"
 
 #: accounts/templates/registration/verify_email/complete.html:8
 msgid "Welcome !"

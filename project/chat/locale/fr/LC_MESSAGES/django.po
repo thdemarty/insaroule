@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-12 12:11+0200\n"
+"POT-Creation-Date: 2026-01-24 17:52+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -214,41 +214,51 @@ msgstr "Personne n'a encore demandé à rejoindre un de vos trajets."
 msgid "Choose a conversation on the left to start discussing."
 msgstr "Choisissez une conversation à gauche pour commencer à discuter."
 
-#: chat/templates/chat/moderation/index.html:6
+#: chat/templates/chat/moderation/index.html:7
 msgid "Moderation center"
 msgstr "Centre de modération"
 
-#: chat/templates/chat/moderation/index.html:13
+#: chat/templates/chat/moderation/index.html:17
 msgid "Chat"
 msgstr "Message"
 
-#: chat/templates/chat/moderation/index.html:15
+#: chat/templates/chat/moderation/index.html:24
+msgid "Hide past rides"
+msgstr ""
+
+#: chat/templates/chat/moderation/index.html:28
+#, fuzzy
+#| msgid "Search a ride"
+msgid "Show past rides"
+msgstr "Rechercher un trajet"
+
+#: chat/templates/chat/moderation/index.html:37
 msgid "Reported"
 msgstr "Signalé"
 
-#: chat/templates/chat/moderation/index.html:18
+#: chat/templates/chat/moderation/index.html:40
 msgid "Total Messages"
 msgstr "Total des messages"
 
-#: chat/templates/chat/moderation/index.html:34
+#: chat/templates/chat/moderation/index.html:56
 msgid "No chats to moderate for ride"
 msgstr "Aucun message à modérer pour le trajet"
 
-#: chat/templates/chat/moderation/index.html:36
+#: chat/templates/chat/moderation/index.html:58
 msgid "No chats to moderate"
 msgstr "Aucun message à modérer"
 
-#: chat/templates/chat/moderation/index.html:50
-#: chat/templates/chat/moderation/index.html:51
+#: chat/templates/chat/moderation/index.html:72
+#: chat/templates/chat/moderation/index.html:73
 msgid "Previous"
 msgstr "Précédent"
 
-#: chat/templates/chat/moderation/index.html:70
-#: chat/templates/chat/moderation/index.html:71
+#: chat/templates/chat/moderation/index.html:92
+#: chat/templates/chat/moderation/index.html:93
 msgid "Next"
 msgstr "Suivant"
 
-#: chat/templates/chat/moderation/room.html:21
+#: chat/templates/chat/moderation/room.html:22
 msgid "See associated ride"
 msgstr "Voir le trajet associé"
 
@@ -305,7 +315,7 @@ msgid_plural "You have already shared %(counter)s rides with this user."
 msgstr[0] "Vous avez déjà fait %(counter)s trajet avec cet utilisateur·rice."
 msgstr[1] "Vous avez déjà fait %(counter)s trajets avec cet utilisateur·rice."
 
-#: chat/templates/chat/room.html:146 chat/templates/chat/room.html:194
+#: chat/templates/chat/room.html:146 chat/templates/chat/room.html:200
 msgid "Reservation"
 msgstr "Réservation"
 
@@ -317,19 +327,19 @@ msgstr "L'utilisateur·rice n'a pas encore fait de réservation."
 msgid "The user has made a reservation for this ride."
 msgstr "L'utilisateur·rice a fait une réservation pour ce trajet."
 
-#: chat/templates/chat/room.html:177
+#: chat/templates/chat/room.html:182
 msgid "Decline"
 msgstr "Refuser"
 
-#: chat/templates/chat/room.html:178
+#: chat/templates/chat/room.html:183
 msgid "Accept"
 msgstr "Accepter"
 
-#: chat/templates/chat/room.html:183
+#: chat/templates/chat/room.html:188
 msgid "Submit"
 msgstr "Envoyer"
 
-#: chat/templates/chat/room.html:199
+#: chat/templates/chat/room.html:205
 msgid ""
 "You have already made a reservation for this ride. The driver will accept or "
 "decline your request."
@@ -337,19 +347,19 @@ msgstr ""
 "Vous avez déjà fait une réservation pour ce trajet. Le conducteur·rice "
 "acceptera ou refusera votre demande."
 
-#: chat/templates/chat/room.html:206
+#: chat/templates/chat/room.html:216
 msgid "Date:"
 msgstr "Date :"
 
-#: chat/templates/chat/room.html:207
+#: chat/templates/chat/room.html:217
 msgid "Status:"
 msgstr "Statut :"
 
-#: chat/templates/chat/room.html:224
+#: chat/templates/chat/room.html:234
 msgid "Cancel my reservation"
 msgstr "Annuler ma réservation"
 
-#: chat/templates/chat/room.html:235
+#: chat/templates/chat/room.html:245
 msgid ""
 "To make a reservation on this ride, you need to make a request by clicking "
 "the button below. The driver will then accept or decline your request."
@@ -358,18 +368,18 @@ msgstr ""
 "cliquant sur le bouton ci-dessous. Le conducteur·rice acceptera ou refusera "
 "alors votre demande."
 
-#: chat/templates/chat/room.html:242
+#: chat/templates/chat/room.html:255
 msgid "Make a reservation"
 msgstr "Faire une réservation"
 
-#: chat/views.py:30
+#: chat/views.py:31
 msgid "You have already requested to chat about this ride."
 msgstr "Vous avez déjà demandé à discuter à propos de ce trajet."
 
-#: chat/views.py:55
+#: chat/views.py:56
 msgid "You have already reported this chat request."
 msgstr "Vous avez déjà signalé cette demande de chat."
 
-#: chat/views.py:69
+#: chat/views.py:70
 msgid "The chat request has been reported."
 msgstr "La demande de discussion a été signalée."

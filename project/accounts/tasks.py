@@ -167,3 +167,27 @@ def send_email_export_data(user_pk):
     email.send()
 
     logger.info(f"Sent data export email to {user.email}.")
+
+
+@shared_task
+def send_username_email(
+    subject_template_name,
+    email_template_name,
+    context,
+    from_email,
+    to_email,
+    html_email_template_name,
+):
+    context["user"] = get_user_model().objects.get(pk=context["user"])
+
+    PasswordResetForm.send_mail(
+        None,
+        subject_template_name,
+        email_template_name,
+        context,
+        from_email,
+        to_email,
+        html_email_template_name,
+    )
+
+    logger.info(f"Sent username email to {to_email}.")

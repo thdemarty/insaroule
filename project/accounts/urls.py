@@ -2,8 +2,9 @@ from django.contrib.auth import views as auth_views
 from accounts.views.registration import CustomLoginView as LoginView
 from django.urls import path, reverse_lazy
 
-from accounts.forms import PasswordResetForm, SetPasswordForm
+from accounts.forms import PasswordResetForm, SetPasswordForm, UsernameSendForm
 from accounts.views import profile, register
+from accounts.views.username_send import UsernameSendView, UsernameSendDoneView
 from accounts.views.verify_email import (
     verify_email_complete,
     verify_email_confirm,
@@ -77,5 +78,27 @@ urlpatterns += [
         "password_change/",
         profile.PasswordChangeView.as_view(),
         name="password_change",
+    ),
+]
+
+# Username send URLs
+urlpatterns += [
+    path(
+        "username_send/",
+        # send_email.username_send,
+        UsernameSendView.as_view(
+            success_url=reverse_lazy("accounts:username_send_done"),
+            form_class=UsernameSendForm,
+            template_name="registration/username_send/index.html",
+            subject_template_name="registration/username_send/username_send_subject.txt",
+        ),
+        name="username_send",
+    ),
+    path(
+        "username_send/done/",
+        UsernameSendDoneView.as_view(
+            template_name="registration/username_send/done.html",
+        ),
+        name="username_send_done",
     ),
 ]
