@@ -11,7 +11,6 @@ from accounts.forms import (
     PasswordResetForm,
     RegisterForm,
     SetPasswordForm,
-    UsernameSendForm,
 )
 from accounts.tests.factories import UserFactory
 
@@ -171,24 +170,3 @@ class EmailChangeFormTest(TestCase):
         form = EmailChangeForm(user, data={"email": "emailnottaken@notwhitelisted.abc"})
         self.assertFalse(form.is_valid())
         self.assertIn("email", form.errors)
-
-
-class UsernameSendFormTest(TestCase):
-    def test_init_each_fields_has_form_control(self):
-        """Test that each field in UsernameSendForm has 'form-control' class."""
-        form = UsernameSendForm()
-        for field in form.fields:
-            self.assertIn(
-                "form-control", form.fields[field].widget.attrs.get("class", "")
-            )
-
-    @override_settings(WHITELIST_DOMAINS=["example.com"])
-    @patch("accounts.forms.send_username_email.delay")
-    def test_send_mail_called(self, mock_send):
-        """Test that send_mail calls the send_password_reset_email task."""
-        existing_user = UserFactory(email="testuser@example.com")
-        existing_user.save()
-        form = UsernameSendForm(data={"email": "testuser@example.com"})
-        form.is_valid()
-        form.save(domain_override="example.com")
-        self.assertTrue(mock_send.called)
