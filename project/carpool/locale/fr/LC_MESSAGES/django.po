@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-12 12:17+0200\n"
+"POT-Creation-Date: 2026-01-24 17:52+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,69 +18,58 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: carpool/forms.py:71
-msgid "Number of seats available for the carpool"
-msgstr "Nombre de places disponibles pour le covoiturage"
+#: carpool/forms/location.py:18
+msgid "Latitude must be between -90 and 90."
+msgstr "La latitude doit être comprise entre -90 et 90."
 
-#: carpool/forms.py:75
-msgid "Number of seats available for the carpool."
-msgstr "Nombre de places disponibles pour le covoiturage."
+#: carpool/forms/location.py:24
+msgid "Longitude must be between -180 and 180."
+msgstr "La longitude doit être comprise entre -180 et 180."
 
-#: carpool/forms.py:86
-msgid "Select the vehicle you will use for this ride."
-msgstr "Sélectionnez le véhicule que vous utiliserez pour ce trajet."
+#: carpool/forms/ride.py:160 carpool/forms/ride.py:252
+msgid "Departure date cannot be in the past."
+msgstr "La date de départ ne peut pas être dans le passé."
 
-#: carpool/forms.py:87 carpool/templates/rides/create.html:125
-msgid "Vehicle"
-msgstr "Véhicule"
+#: carpool/forms/ride.py:162 carpool/forms/ride.py:256
+msgid "Departure date cannot be more than one year in the future."
+msgstr "La date de départ ne peut pas être dans plus d'un an."
 
-#: carpool/forms.py:97 carpool/forms.py:239
-msgid "Price per seat"
-msgstr "Prix par personne"
-
-#: carpool/forms.py:117 carpool/forms.py:259
-#: carpool/templates/rides/create.html:166
-#: carpool/templates/rides/edit.html:118
-msgid "Comment (optional)"
-msgstr "Commentaire (optionnel)"
-
-#: carpool/forms.py:135 carpool/forms.py:323 carpool/models/ride.py:223
+#: carpool/forms/ride.py:245 carpool/models/ride.py:235
 msgid "Departure and arrival locations cannot be the same."
 msgstr "Les lieux de départ et d'arrivée ne peuvent pas être les mêmes."
 
-#: carpool/forms.py:146
-#, python-format
-msgid ""
-"The number of seats offered (%(offered)s) cannot exceed the number of seats "
-"in the vehicle (%(vehicle)s)."
+#: carpool/forms/ride.py:293
+msgid "Number of seats available for the carpool"
+msgstr "Nombre de places disponibles pour le covoiturage"
+
+#: carpool/forms/ride.py:297
+msgid "Number of seats available for the carpool."
+msgstr "Nombre de places disponibles pour le covoiturage."
+
+#: carpool/forms/ride.py:308
+msgid "Select the vehicle you will use for this ride."
+msgstr "Sélectionnez le véhicule que vous utiliserez pour ce trajet."
+
+#: carpool/forms/ride.py:309 carpool/templates/rides/create.html:125
+#: carpool/templates/rides/creation/step2.html:61
+msgid "Vehicle"
+msgstr "Véhicule"
+
+#: carpool/forms/ride.py:319
+msgid "Price per seat"
+msgstr "Prix par personne"
+
+#: carpool/forms/ride.py:339 carpool/templates/rides/create.html:166
+#: carpool/templates/rides/creation/step2.html:102
+#: carpool/templates/rides/edit.html:169
+msgid "Comment (optional)"
+msgstr "Commentaire (optionnel)"
+
+#: carpool/forms/ride.py:356 carpool/models/ride.py:215
+msgid "Seats offered cannot be greater than vehicle seats."
 msgstr ""
-"Le nombre de places offertes (%(offered)s) ne peut pas dépasser le nombre de "
-"places dans le véhicule (%(vehicle)s)."
-
-#: carpool/forms.py:155 carpool/forms.py:333
-msgid "A payment method is required if a price is set."
-msgstr "Un moyen de paiement est requis si un prix est défini."
-
-#: carpool/forms.py:161 carpool/forms.py:339
-msgid "The price per seat seems unreasonably high."
-msgstr "Le prix par personne semble déraisonnablement élevé."
-
-#: carpool/forms.py:226
-msgid "Number of seats available"
-msgstr "Nombre de places disponibles"
-
-#: carpool/forms.py:230
-msgid "Number of seats available in the carpool."
-msgstr "Nombre de places disponibles dans le véhicule"
-
-#: carpool/forms.py:350
-#, python-format
-msgid ""
-"You cannot reduce the number of seats below the number of already booked "
-"seats (%(seats)s)."
-msgstr ""
-"Vous ne pouvez pas réduire le nombre de sièges en dessous du nombre de "
-"sièges déjà réservés (%(seats)s)."
+"Le nombre de places offertes ne peut pas être supérieur au nombre de places "
+"du véhicule."
 
 #: carpool/models/__init__.py:8
 msgid "label"
@@ -130,17 +119,13 @@ msgstr "longitude"
 msgid "Longitude of the location"
 msgstr "Longitude"
 
-#: carpool/models/__init__.py:51 carpool/models/__init__.py:72
-msgid "name"
-msgstr "nom"
-
 #: carpool/models/__init__.py:54
 msgid "localisation"
-msgstr ""
+msgstr "localisation"
 
 #: carpool/models/__init__.py:55
 msgid "Location of the step"
-msgstr ""
+msgstr "Lieu de l'étape"
 
 #: carpool/models/__init__.py:61
 msgid "order"
@@ -150,11 +135,15 @@ msgstr "ordre"
 msgid "Order of the step in the ride"
 msgstr "Ordre de l'étape dans le trajet"
 
+#: carpool/models/__init__.py:72
+msgid "name"
+msgstr "nom"
+
 #: carpool/models/__init__.py:73
 msgid "Name of the vehicle"
 msgstr "Nom du véhicule"
 
-#: carpool/models/__init__.py:79 carpool/models/ride.py:66
+#: carpool/models/__init__.py:79 carpool/models/ride.py:67
 msgid "driver"
 msgstr "conducteur"
 
@@ -236,11 +225,11 @@ msgstr "trajet"
 msgid "The ride for which the chat request is made"
 msgstr "Le trajet pour lequel la demande de chat est faite"
 
-#: carpool/models/ride.py:54 carpool/templates/rides/detail.html:114
+#: carpool/models/ride.py:54 carpool/templates/rides/detail.html:139
 msgid "Cash"
 msgstr "Liquide"
 
-#: carpool/models/ride.py:55 carpool/templates/rides/detail.html:128
+#: carpool/models/ride.py:55 carpool/templates/rides/detail.html:155
 msgid "Lyf Pay"
 msgstr "Lyf Pay"
 
@@ -248,127 +237,127 @@ msgstr "Lyf Pay"
 msgid "Wire Transfer"
 msgstr "Virement bancaire"
 
-#: carpool/models/ride.py:59
+#: carpool/models/ride.py:57 carpool/templates/rides/delete.html:119
+#: carpool/templates/rides/detail.html:164
+#: carpool/templates/rides/list.html:158
+msgid "Lydia"
+msgstr "Lydia"
+
+#: carpool/models/ride.py:60
 msgid "UUID"
 msgstr "UUID"
 
-#: carpool/models/ride.py:68
+#: carpool/models/ride.py:69
 msgid "The driver of the ride"
 msgstr "Le conducteur du trajet"
 
-#: carpool/models/ride.py:74
+#: carpool/models/ride.py:75
 msgid "rider"
 msgstr "passager"
 
-#: carpool/models/ride.py:76
+#: carpool/models/ride.py:77
 msgid "The rider of the ride"
 msgstr "Le passager du trajet"
 
-#: carpool/models/ride.py:82
+#: carpool/models/ride.py:83
 msgid "start date and time"
 msgstr "date et heure de départ"
 
-#: carpool/models/ride.py:83
+#: carpool/models/ride.py:84
 msgid "The start date and time of the ride"
 msgstr "La date et l'heure de départ du trajet"
 
-#: carpool/models/ride.py:89
+#: carpool/models/ride.py:90
 msgid "end date and time"
 msgstr "date et heure d'arrivée"
 
-#: carpool/models/ride.py:90
+#: carpool/models/ride.py:91
 msgid "The end date and time of the ride"
 msgstr "La date et l'heure d'arrivée du trajet"
 
-#: carpool/models/ride.py:96
+#: carpool/models/ride.py:97
 msgid "start location"
 msgstr "lieu de départ"
 
-#: carpool/models/ride.py:98
+#: carpool/models/ride.py:99
 msgid "The start location of the ride"
 msgstr "Le lieu de départ du trajet"
 
-#: carpool/models/ride.py:106
+#: carpool/models/ride.py:107
 msgid "end location"
 msgstr "lieu d'arrivée"
 
-#: carpool/models/ride.py:108
+#: carpool/models/ride.py:109
 msgid "The end location of the ride"
 msgstr "Le lieu d'arrivée du trajet"
 
-#: carpool/models/ride.py:116
+#: carpool/models/ride.py:117
 msgid "steps"
 msgstr "étapes"
 
-#: carpool/models/ride.py:118
+#: carpool/models/ride.py:119
 msgid "The steps of the ride"
 msgstr "Les étapes du trajet"
 
-#: carpool/models/ride.py:124
+#: carpool/models/ride.py:125
 msgid "payment method"
 msgstr "méthode de paiement"
 
-#: carpool/models/ride.py:126
+#: carpool/models/ride.py:127
 msgid "The payment method for the ride"
 msgstr "La méthode de paiement pour le trajet"
 
-#: carpool/models/ride.py:132
+#: carpool/models/ride.py:134
 msgid "price"
 msgstr "prix"
 
-#: carpool/models/ride.py:133
+#: carpool/models/ride.py:135
 msgid "The price of the ride"
 msgstr "Le prix du trajet"
 
-#: carpool/models/ride.py:140 carpool/models/ride.py:176
+#: carpool/models/ride.py:142 carpool/models/ride.py:178
 msgid "comment"
 msgstr "commentaire"
 
-#: carpool/models/ride.py:141
+#: carpool/models/ride.py:143
 msgid "Comment about the ride"
 msgstr "Un commentaire sur le trajet"
 
-#: carpool/models/ride.py:146
+#: carpool/models/ride.py:148
 msgid "seats offered"
 msgstr "places disponibles"
 
-#: carpool/models/ride.py:147
+#: carpool/models/ride.py:149
 msgid "Number of seats offered for the ride"
 msgstr "Nombre de places disponibles pour le trajet"
 
-#: carpool/models/ride.py:153
+#: carpool/models/ride.py:155
 msgid "vehicle"
 msgstr "véhicule"
 
-#: carpool/models/ride.py:155
+#: carpool/models/ride.py:157
 msgid "The vehicle of the ride"
 msgstr "Le véhicule du trajet"
 
-#: carpool/models/ride.py:160
+#: carpool/models/ride.py:162
 msgid "geometry"
 msgstr "géométrie"
 
-#: carpool/models/ride.py:161
+#: carpool/models/ride.py:163
 msgid "Geographical representation of the ride"
 msgstr "Représentation géographique du trajet"
 
-#: carpool/models/ride.py:169
+#: carpool/models/ride.py:171
 msgid "duration"
 msgstr "durée"
 
-#: carpool/models/ride.py:170
+#: carpool/models/ride.py:172
 msgid "Duration of the ride"
 msgstr "Durée du trajet"
 
-#: carpool/models/ride.py:177
+#: carpool/models/ride.py:179
 msgid "Comment from the driver about the ride"
 msgstr "Commentaire du conducteur sur le trajet"
-
-#: carpool/models/ride.py:205
-msgid "Seats offered cannot be greater than vehicle seats."
-msgstr ""
-"Le nombre de places offertes ne peut pas être supérieur au nombre de places "
-"du véhicule."
 
 #: carpool/models/statistics.py:24
 msgid "Statistic"
@@ -387,20 +376,20 @@ msgstr "Statistique mensuelle"
 msgid "Monthly statistics"
 msgstr "Statistiques mensuelles"
 
-#: carpool/tasks.py:205
+#: carpool/tasks.py:327
 #, python-format
 msgid "New reservation for your ride to %(destination)s"
 msgstr "Nouvelle réservation pour votre trajet vers %(destination)s"
 
-#: carpool/tasks.py:242
+#: carpool/tasks.py:364
 msgid "Your ride has been confirmed!"
 msgstr "Votre trajet a été confirmé !"
 
-#: carpool/tasks.py:275
+#: carpool/tasks.py:397
 msgid "Your ride has been declined!"
 msgstr "Votre trajet a été refusé !"
 
-#: carpool/tasks.py:317
+#: carpool/tasks.py:439
 msgid "Suggestion to share your ride"
 msgstr "Suggestion de covoiturage pour votre trajet"
 
@@ -424,38 +413,50 @@ msgstr "CO<sub>2</sub> épargné (en kg)"
 msgid "Publish a new ride"
 msgstr "Publier un trajet"
 
-#: carpool/templates/rides/create.html:43 carpool/templates/rides/edit.html:45
+#: carpool/templates/rides/create.html:43
+#: carpool/templates/rides/creation/step1.html:96
+#: carpool/templates/rides/edit.html:92
 msgid "Departure address"
 msgstr "Adresse de départ"
 
 #: carpool/templates/rides/create.html:47
-#: carpool/templates/rides/create.html:57 carpool/templates/rides/edit.html:49
-#: carpool/templates/rides/edit.html:59
+#: carpool/templates/rides/create.html:57
+#: carpool/templates/rides/creation/step1.html:100
+#: carpool/templates/rides/creation/step1.html:136
+#: carpool/templates/rides/edit.html:96 carpool/templates/rides/edit.html:132
 msgid "This field is required"
 msgstr "Ce champ est obligatoire"
 
-#: carpool/templates/rides/create.html:54 carpool/templates/rides/edit.html:56
+#: carpool/templates/rides/create.html:54
+#: carpool/templates/rides/creation/step1.html:133
+#: carpool/templates/rides/edit.html:129
 msgid "Arrival address"
 msgstr "Adresse d'arrivée"
 
 #: carpool/templates/rides/create.html:87
+#: carpool/templates/rides/creation/step1.html:87
 msgid "Departure date"
 msgstr "Horaire de départ"
 
 #: carpool/templates/rides/create.html:95
+#: carpool/templates/rides/creation/step2.html:31
 msgid "Seats offering"
 msgstr "Places disponibles"
 
 #: carpool/templates/rides/create.html:104
+#: carpool/templates/rides/creation/step2.html:40
 msgid "Price and Payment method"
 msgstr "Prix et méthode de paiement"
 
 #: carpool/templates/rides/create.html:128
 #: carpool/templates/rides/create.html:671
+#: carpool/templates/rides/creation/step2.html:64
+#: carpool/templates/rides/creation/step2.html:424
 msgid "Add a new vehicle"
 msgstr "Ajouter un nouveau véhicule"
 
 #: carpool/templates/rides/create.html:139
+#: carpool/templates/rides/creation/step2.html:75
 #, python-format
 msgid "%(seat_count)s seat"
 msgid_plural "%(seat_count)s seats"
@@ -464,10 +465,14 @@ msgstr[1] "%(seat_count)s sièges"
 
 #: carpool/templates/rides/create.html:148
 #: carpool/templates/rides/create.html:754
+#: carpool/templates/rides/creation/step2.html:84
+#: carpool/templates/rides/creation/step2.html:507
+#: carpool/templates/rides/detail.html:59
 msgid "Edit"
 msgstr "Modifier"
 
 #: carpool/templates/rides/create.html:154
+#: carpool/templates/rides/creation/step2.html:90
 msgid ""
 "You don't have any vehicle registered to your account. Please add one to "
 "publish a ride."
@@ -476,26 +481,32 @@ msgstr ""
 "un pour publier un trajet."
 
 #: carpool/templates/rides/create.html:175
+#: carpool/templates/rides/creation/step2.html:119
 msgid "Publish ride"
 msgstr "Publier un trajet"
 
 #: carpool/templates/rides/create.html:197
+#: carpool/templates/rides/creation/step2.html:139
 msgid "Name"
 msgstr "Nom"
 
 #: carpool/templates/rides/create.html:201
+#: carpool/templates/rides/creation/step2.html:143
 msgid "Visual Description"
 msgstr "Description visuelle"
 
 #: carpool/templates/rides/create.html:207
+#: carpool/templates/rides/creation/step2.html:149
 msgid "Maximum number of seats"
 msgstr "Nombre maximum de places"
 
 #: carpool/templates/rides/create.html:212
+#: carpool/templates/rides/creation/step2.html:154
 msgid "CO<sub>2</sub> emission (g/km)"
 msgstr "Émission de CO<sub>2</sub> (g/km)"
 
 #: carpool/templates/rides/create.html:217
+#: carpool/templates/rides/creation/step2.html:159
 msgid ""
 "You can find the CO<sub>2</sub> emission on your vehicle registration "
 "certificate (in France, it's in the section V.7)."
@@ -504,48 +515,93 @@ msgstr ""
 "véhicule (section V.7)."
 
 #: carpool/templates/rides/create.html:226
+#: carpool/templates/rides/creation/step2.html:168
 msgid "Close"
 msgstr "Fermer"
 
 #: carpool/templates/rides/create.html:228
+#: carpool/templates/rides/creation/step2.html:170
 msgid "Save changes"
 msgstr "Enregistrer les modifications"
 
 #: carpool/templates/rides/create.html:286
-#: carpool/templates/rides/edit.html:187
 msgid "Search for a precise departure address"
 msgstr "Rechercher une adresse de départ"
 
 #: carpool/templates/rides/create.html:287
 #: carpool/templates/rides/create.html:292
-#: carpool/templates/rides/list.html:256 carpool/templates/rides/list.html:263
+#: carpool/templates/rides/creation/step1.html:287
+#: carpool/templates/rides/edit.html:323 carpool/templates/rides/list.html:266
+#: carpool/templates/rides/list.html:273
 msgid "No address found"
 msgstr "Aucune adresse trouvée"
 
 #: carpool/templates/rides/create.html:291
-#: carpool/templates/rides/edit.html:191
 msgid "Search for a precise arrival address"
 msgstr "Rechercher une adresse d'arrivée"
 
 #: carpool/templates/rides/create.html:637
+#: carpool/templates/rides/creation/step2.html:390
 msgid "Please select a vehicle to edit."
 msgstr "Veuillez sélectionner un véhicule à modifier."
 
 #: carpool/templates/rides/create.html:641
+#: carpool/templates/rides/creation/step2.html:394
 msgid "Edit vehicle"
 msgstr "Modifier le véhicule"
 
 #: carpool/templates/rides/create.html:730
+#: carpool/templates/rides/creation/step2.html:483
 msgid "Vehicle saved successfully!"
 msgstr "Véhicule enregistré avec succès !"
 
 #: carpool/templates/rides/create.html:771
 #: carpool/templates/rides/create.html:781
+#: carpool/templates/rides/creation/step2.html:524
+#: carpool/templates/rides/creation/step2.html:534
 msgid "seat"
 msgstr "siège"
 
+#: carpool/templates/rides/creation/step1.html:57
+#: carpool/templates/rides/creation/step2.html:13
+#: carpool/templates/rides/list.html:194
+msgid "Publish a ride"
+msgstr "Publier un trajet"
+
+#: carpool/templates/rides/creation/step1.html:109
+#: carpool/templates/rides/edit.html:105
+msgid "Stopovers"
+msgstr "Étapes"
+
+#: carpool/templates/rides/creation/step1.html:113
+#: carpool/templates/rides/detail.html:60 carpool/templates/rides/edit.html:109
+msgid "Delete"
+msgstr "Supprimer"
+
+#: carpool/templates/rides/creation/step1.html:116
+#: carpool/templates/rides/edit.html:112
+msgid "Add"
+msgstr "Ajouter"
+
+#: carpool/templates/rides/creation/step1.html:147
+msgid "Next step"
+msgstr "Étape suivante"
+
+#: carpool/templates/rides/creation/step1.html:285
+#: carpool/templates/rides/edit.html:321
+msgid "Press to select"
+msgstr "Appuyez pour sélectionner"
+
+#: carpool/templates/rides/creation/step1.html:286
+#: carpool/templates/rides/edit.html:322
+msgid "Search for a precise address"
+msgstr "Rechercher une adresse précise"
+
+#: carpool/templates/rides/creation/step2.html:114
+msgid "Cancel"
+msgstr "Annuler"
+
 #: carpool/templates/rides/delete.html:40
-#: carpool/templates/rides/detail.html:151
 msgid "Delete ride"
 msgstr "Supprimer le trajet"
 
@@ -562,38 +618,33 @@ msgstr ""
 msgid "Delete the ride"
 msgstr "Supprimer le trajet"
 
-#: carpool/templates/rides/delete.html:122
+#: carpool/templates/rides/delete.html:131
 msgid "Booked ride by"
 msgstr "Trajet réservé par"
 
-#: carpool/templates/rides/detail.html:95
+#: carpool/templates/rides/detail.html:119
 msgid "Seats available:"
 msgstr "Places disponibles : "
 
-#: carpool/templates/rides/detail.html:121
+#: carpool/templates/rides/detail.html:147
 msgid "Wire transfer"
 msgstr "Virement bancaire"
 
-#: carpool/templates/rides/detail.html:143
+#: carpool/templates/rides/detail.html:185
 msgid "Start a discussion"
 msgstr "Commencer une discussion"
 
-#: carpool/templates/rides/detail.html:146
+#: carpool/templates/rides/detail.html:189
 msgid "See the discussion"
 msgstr "Voir la discussion"
 
-#: carpool/templates/rides/detail.html:150
-#: carpool/templates/rides/edit.html:127
-msgid "Edit ride"
-msgstr "Modifier le trajet"
-
-#: carpool/templates/rides/edit.html:41
+#: carpool/templates/rides/edit.html:49
 msgid "Edit the ride"
 msgstr "Modifier le trajet"
 
-#: carpool/templates/rides/edit.html:105
-msgid "Payment method"
-msgstr "Méthode de paiement"
+#: carpool/templates/rides/edit.html:182
+msgid "Edit ride"
+msgstr "Modifier le trajet"
 
 #: carpool/templates/rides/emails/confirmed_ride.txt:1
 #: carpool/templates/rides/emails/declined_ride.txt:1
@@ -685,17 +736,24 @@ msgstr "de l'équipe INSA'ROULE"
 
 #: carpool/templates/rides/includes/pagination.html:7
 #: carpool/templates/rides/includes/pagination.html:8
-#: carpool/templates/rides/list.html:198 carpool/templates/rides/list.html:199
+#: carpool/templates/rides/list.html:207 carpool/templates/rides/list.html:208
 msgid "Previous"
 msgstr "Précédent"
 
 #: carpool/templates/rides/includes/pagination.html:25
 #: carpool/templates/rides/includes/pagination.html:26
-#: carpool/templates/rides/list.html:218 carpool/templates/rides/list.html:219
+#: carpool/templates/rides/list.html:227 carpool/templates/rides/list.html:228
 msgid "Next"
 msgstr "Suivant"
 
-#: carpool/templates/rides/includes/ride_card.html:67
+#: carpool/templates/rides/includes/ride_card.html:38
+#, python-format
+msgid "And %(ride_count)s other step"
+msgid_plural "And %(ride_count)s other steps"
+msgstr[0] ""
+msgstr[1] ""
+
+#: carpool/templates/rides/includes/ride_card.html:89
 msgid "Booked seats:"
 msgstr "Sièges réservés :"
 
@@ -703,63 +761,59 @@ msgstr "Sièges réservés :"
 msgid "Search"
 msgstr "Rechercher"
 
-#: carpool/templates/rides/list.html:168
+#: carpool/templates/rides/list.html:177
 #, python-format
 msgid "%(seat_count)s remaining seat"
 msgid_plural "%(seat_count)s remaining seats"
 msgstr[0] "%(seat_count)s siège restant"
 msgstr[1] "%(seat_count)s sièges restants"
 
-#: carpool/templates/rides/list.html:182
+#: carpool/templates/rides/list.html:191
 msgid "No rides found"
 msgstr "Aucun trajet trouvé"
 
-#: carpool/templates/rides/list.html:183
+#: carpool/templates/rides/list.html:192
 msgid "Consider taking the train or posting the first ride on the platform."
 msgstr ""
 "Considérez prendre le train ou publier un nouveau trajet sur la plateforme."
 
-#: carpool/templates/rides/list.html:185
-msgid "Publish a ride"
-msgstr "Publier un trajet"
-
-#: carpool/templates/rides/list.html:255
+#: carpool/templates/rides/list.html:265
 msgid "Search for an address of departure"
 msgstr "Rechercher une adresse de départ"
 
-#: carpool/templates/rides/list.html:262
+#: carpool/templates/rides/list.html:272
 msgid "Search for an address of arrival"
 msgstr "Rechercher une adresse d'arrivée"
 
-#: carpool/templates/rides/map.html:53
+#: carpool/templates/rides/map.html:55
 msgid "Ride's information"
 msgstr "Informations du trajet"
 
-#: carpool/templates/rides/map.html:55
+#: carpool/templates/rides/map.html:57
 msgid "Select a ride"
 msgstr "Sélectionnez un trajet"
 
-#: carpool/templates/rides/map.html:172
+#: carpool/templates/rides/map.html:184
 msgid "Start:"
 msgstr "Départ :"
 
-#: carpool/templates/rides/map.html:173
+#: carpool/templates/rides/map.html:185
 msgid "Destination:"
 msgstr "Arrivée :"
 
-#: carpool/templates/rides/map.html:174
+#: carpool/templates/rides/map.html:186
 msgid "Hour:"
 msgstr "Heure :"
 
-#: carpool/templates/rides/map.html:175
+#: carpool/templates/rides/map.html:187
 msgid "Duration:"
 msgstr "Durée"
 
-#: carpool/templates/rides/map.html:176
+#: carpool/templates/rides/map.html:188
 msgid "Price:"
 msgstr "Prix :"
 
-#: carpool/templates/rides/map.html:178
+#: carpool/templates/rides/map.html:190
 msgid "See more"
 msgstr "En savoir plus"
 
@@ -783,40 +837,71 @@ msgstr "Trajets souscrits"
 msgid "You don't have subscribed to any rides."
 msgstr "Vous n'êtes inscrit à aucun trajet."
 
-#: carpool/views/__init__.py:104
+#: carpool/views/__init__.py:100
 msgid "This reservation is already canceled."
 msgstr "Cette réservation est déjà annulée."
 
-#: carpool/views/__init__.py:111
+#: carpool/views/__init__.py:107
 msgid "You have been removed from the ride's riders."
 msgstr "Vous avez été retiré des passagers du trajet."
 
-#: carpool/views/__init__.py:114
+#: carpool/views/__init__.py:110
 msgid "You have successfully canceled your reservation."
 msgstr "Vous avez annulé votre réservation avec succès."
 
-#: carpool/views/__init__.py:164
+#: carpool/views/__init__.py:168
 msgid "You have already booked this ride."
 msgstr "Vous avez déjà réservé ce trajet."
 
-#: carpool/views/__init__.py:177
+#: carpool/views/__init__.py:181
 msgid "You have successfully booked this ride."
 msgstr "Vous avez réservé ce trajet avec succès."
 
-#: carpool/views/__init__.py:185
+#: carpool/views/__init__.py:189
 msgid "You subscribed to this ride."
 msgstr "Vous êtes inscrit à ce trajet."
 
-#: carpool/views/__init__.py:223
-msgid "You successfully updated the ride."
-msgstr "Vous avez mis à jour le trajet avec succès."
-
-#: carpool/views/__init__.py:240
+#: carpool/views/__init__.py:230
 msgid "You successfully deleted the ride."
 msgstr "Vous avez supprimé le trajet avec succès."
 
-#: carpool/views/__init__.py:245
+#: carpool/views/__init__.py:235
 msgid "You cannot delete this ride because it has riders and is not over yet."
 msgstr ""
 "Vous ne pouvez pas supprimer ce trajet car il a des passagers et n'est pas "
 "encore terminé."
+
+#: carpool/views/rides.py:129
+msgid "You successfully updated the ride."
+msgstr "Vous avez mis à jour le trajet avec succès."
+
+#, python-format
+#~ msgid ""
+#~ "The number of seats offered (%(offered)s) cannot exceed the number of "
+#~ "seats in the vehicle (%(vehicle)s)."
+#~ msgstr ""
+#~ "Le nombre de places offertes (%(offered)s) ne peut pas dépasser le nombre "
+#~ "de places dans le véhicule (%(vehicle)s)."
+
+#~ msgid "A payment method is required if a price is set."
+#~ msgstr "Un moyen de paiement est requis si un prix est défini."
+
+#~ msgid "The price per seat seems unreasonably high."
+#~ msgstr "Le prix par personne semble déraisonnablement élevé."
+
+#~ msgid "Number of seats available"
+#~ msgstr "Nombre de places disponibles"
+
+#~ msgid "Number of seats available in the carpool."
+#~ msgstr "Nombre de places disponibles dans le véhicule"
+
+#, python-format
+#~ msgid ""
+#~ "You cannot reduce the number of seats below the number of already booked "
+#~ "seats (%(seats)s)."
+#~ msgstr ""
+#~ "Vous ne pouvez pas réduire le nombre de sièges en dessous du nombre de "
+#~ "sièges déjà réservés (%(seats)s)."
+
+#~ msgid "Payment method"
+#~ msgstr "Méthode de paiement"
