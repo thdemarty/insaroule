@@ -1,4 +1,5 @@
 from django.apps import AppConfig
+from django.template import engines
 
 
 class AccountsConfig(AppConfig):
@@ -7,3 +8,5 @@ class AccountsConfig(AppConfig):
 
     def ready(self):
         import accounts.signals  # noqa: F401
+
+        engines["django"]

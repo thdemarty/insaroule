@@ -224,13 +224,11 @@ msgstr "Message"
 
 #: chat/templates/chat/moderation/index.html:24
 msgid "Hide past rides"
-msgstr ""
+msgstr "Masquer les trajets passés"
 
 #: chat/templates/chat/moderation/index.html:28
-#, fuzzy
-#| msgid "Search a ride"
 msgid "Show past rides"
-msgstr "Rechercher un trajet"
+msgstr "Rechercher des trajets passés"
 
 #: chat/templates/chat/moderation/index.html:37
 msgid "Reported"

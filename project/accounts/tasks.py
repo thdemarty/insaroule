@@ -170,24 +170,27 @@ def send_email_export_data(user_pk):
 
 
 @shared_task
-def send_username_email(
-    subject_template_name,
-    email_template_name,
-    context,
-    from_email,
+def send_forgot_username_email(
     to_email,
-    html_email_template_name,
 ):
-    context["user"] = get_user_model().objects.get(pk=context["user"])
+    # Verify that user exists with this email
+    if not get_user_model().objects.filter(email=to_email).exists():
+        logger.warning(
+            f"Attempted to send forgot_username email to non-existent user: {to_email}."
+        )
+        return
 
-    PasswordResetForm.send_mail(
-        None,
-        subject_template_name,
-        email_template_name,
-        context,
-        from_email,
-        to_email,
-        html_email_template_name,
+    user = get_user_model().objects.get(email=to_email)
+    subject = "[INSAROULE] - " + _("Forgot username")
+
+    message = render_to_string(
+        "registration/forgot_username/email.txt",
+        {
+            "user": user,
+            "site_name": "INSAROULE",
+        },
     )
+    email = EmailMessage(subject, message, to=[to_email])
+    email.send()
 
-    logger.info(f"Sent username email to {to_email}.")
+    logger.info(f"Sent forgot_username email to {to_email}.")

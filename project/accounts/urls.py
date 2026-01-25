@@ -1,10 +1,9 @@
 from django.contrib.auth import views as auth_views
-from accounts.views.registration import CustomLoginView as LoginView
+from accounts.views import registration as registration_views
 from django.urls import path, reverse_lazy
 
-from accounts.forms import PasswordResetForm, SetPasswordForm, UsernameSendForm
+from accounts.forms import PasswordResetForm, SetPasswordForm
 from accounts.views import profile, register
-from accounts.views.username_send import UsernameSendView, UsernameSendDoneView
 from accounts.views.verify_email import (
     verify_email_complete,
     verify_email_confirm,
@@ -12,10 +11,11 @@ from accounts.views.verify_email import (
     verify_email_sent,
 )
 
+
 app_name = "accounts"
 
 urlpatterns = [
-    path("login/", LoginView.as_view(), name="login"),
+    path("login/", registration_views.CustomLoginView.as_view(), name="login"),
     path("logout/", auth_views.logout_then_login, name="logout"),
     path("register/", register, name="register"),
     path("", profile.user_profile, name="me"),
@@ -81,24 +81,14 @@ urlpatterns += [
     ),
 ]
 
-# Username send URLs
+# forgot username
 urlpatterns += [
     path(
-        "username_send/",
-        # send_email.username_send,
-        UsernameSendView.as_view(
-            success_url=reverse_lazy("accounts:username_send_done"),
-            form_class=UsernameSendForm,
-            template_name="registration/username_send/index.html",
-            subject_template_name="registration/username_send/username_send_subject.txt",
-        ),
-        name="username_send",
+        "forgot_username/", registration_views.forgot_username, name="forgot_username"
     ),
     path(
-        "username_send/done/",
-        UsernameSendDoneView.as_view(
-            template_name="registration/username_send/done.html",
-        ),
-        name="username_send_done",
+        "forgot_username/done/",
+        registration_views.forgot_username_done,
+        name="forgot_username_done",
     ),
 ]

@@ -1,0 +1,15 @@
+{% extends 'registration/base.html' %}
+{% load i18n %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-4 mt-5">
+        <h1>{% translate "Username send" %}</h1>
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ form.as_p }} 
+            <button type="submit" class="btn btn-primary mt-3 w-100">{% translate "Send username" %}</button>
+        </form>
+    </div>
+</div>
+{% endblock content %}

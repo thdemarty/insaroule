@@ -20,21 +20,19 @@ msgstr ""
 
 #: carpool/forms/location.py:18
 msgid "Latitude must be between -90 and 90."
-msgstr ""
+msgstr "La latitude doit être comprise entre -90 et 90."
 
 #: carpool/forms/location.py:24
 msgid "Longitude must be between -180 and 180."
-msgstr ""
+msgstr "La longitude doit être comprise entre -180 et 180."
 
 #: carpool/forms/ride.py:160 carpool/forms/ride.py:252
-#, fuzzy
-#| msgid "Departure and arrival locations cannot be the same."
 msgid "Departure date cannot be in the past."
-msgstr "Les lieux de départ et d'arrivée ne peuvent pas être les mêmes."
+msgstr "La date de départ ne peut pas être dans le passé."
 
 #: carpool/forms/ride.py:162 carpool/forms/ride.py:256
 msgid "Departure date cannot be more than one year in the future."
-msgstr ""
+msgstr "La date de départ ne peut pas être dans plus d'un an."
 
 #: carpool/forms/ride.py:245 carpool/models/ride.py:235
 msgid "Departure and arrival locations cannot be the same."
@@ -123,11 +121,11 @@ msgstr "Longitude"
 
 #: carpool/models/__init__.py:54
 msgid "localisation"
-msgstr ""
+msgstr "localisation"
 
 #: carpool/models/__init__.py:55
 msgid "Location of the step"
-msgstr ""
+msgstr "Lieu de l'étape"
 
 #: carpool/models/__init__.py:61
 msgid "order"
@@ -243,7 +241,7 @@ msgstr "Virement bancaire"
 #: carpool/templates/rides/detail.html:164
 #: carpool/templates/rides/list.html:158
 msgid "Lydia"
-msgstr ""
+msgstr "Lydia"
 
 #: carpool/models/ride.py:60
 msgid "UUID"
@@ -573,43 +571,35 @@ msgstr "Publier un trajet"
 #: carpool/templates/rides/creation/step1.html:109
 #: carpool/templates/rides/edit.html:105
 msgid "Stopovers"
-msgstr ""
+msgstr "Étapes"
 
 #: carpool/templates/rides/creation/step1.html:113
 #: carpool/templates/rides/detail.html:60 carpool/templates/rides/edit.html:109
-#, fuzzy
-#| msgid "Delete ride"
 msgid "Delete"
-msgstr "Supprimer le trajet"
+msgstr "Supprimer"
 
 #: carpool/templates/rides/creation/step1.html:116
 #: carpool/templates/rides/edit.html:112
 msgid "Add"
-msgstr ""
+msgstr "Ajouter"
 
 #: carpool/templates/rides/creation/step1.html:147
-#, fuzzy
-#| msgid "Next"
 msgid "Next step"
-msgstr "Suivant"
+msgstr "Étape suivante"
 
 #: carpool/templates/rides/creation/step1.html:285
 #: carpool/templates/rides/edit.html:321
 msgid "Press to select"
-msgstr ""
+msgstr "Appuyez pour sélectionner"
 
 #: carpool/templates/rides/creation/step1.html:286
 #: carpool/templates/rides/edit.html:322
-#, fuzzy
-#| msgid "Search for a precise arrival address"
 msgid "Search for a precise address"
-msgstr "Rechercher une adresse d'arrivée"
+msgstr "Rechercher une adresse précise"
 
 #: carpool/templates/rides/creation/step2.html:114
-#, fuzzy
-#| msgid "Canceled"
 msgid "Cancel"
-msgstr "Annulé"
+msgstr "Annuler"
 
 #: carpool/templates/rides/delete.html:40
 msgid "Delete ride"
