@@ -12,6 +12,7 @@ from django.utils.translation import gettext as _
 from django.utils import timezone
 from datetime import timedelta
 from celery.utils.log import get_task_logger
+from django.conf import settings
 
 
 logger = get_task_logger(__name__)
@@ -207,7 +208,9 @@ def delete_non_verified_accounts():
 
     for user in get_user_model().objects.all():
         if not user.email_verified:
-            max_non_verified_time = timedelta(weeks=2)
+            max_non_verified_time = timedelta(
+                seconds=settings.MAX_SECONDS_NON_VERIFIED_ACCOUNT
+            )
             if timezone.now() - user.date_joined > max_non_verified_time:
                 user.delete()
                 logger.info("One account deleted.")
