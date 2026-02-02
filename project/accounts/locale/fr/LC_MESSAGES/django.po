@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-25 20:53+0100\n"
+"POT-Creation-Date: 2026-02-03 00:04+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -60,15 +60,15 @@ msgstr "Adresse e-mail"
 msgid "Preferred language for the user interface."
 msgstr ""
 
-#: accounts/tasks.py:44
+#: accounts/tasks.py:47
 msgid "Vérification de votre adresse email"
 msgstr "Vérification de votre adresse e-mail"
 
-#: accounts/tasks.py:147
+#: accounts/tasks.py:150
 msgid "Data export"
 msgstr "Exportation de données"
 
-#: accounts/tasks.py:183
+#: accounts/tasks.py:187
 msgid "Forgot username"
 msgstr "Nom d'utilisateur·rice oublié"
 

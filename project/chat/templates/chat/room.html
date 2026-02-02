@@ -169,7 +169,7 @@
                     {% if reservation.status != "CANCELED" %}
                     {% if reservation.ride.is_full and reservation.status != "ACCEPTED" %}
                     <div class="alert alert-danger">
-                        The ride is fully booked. You cannot accept new reservations.
+                        {% translate 'The ride is fully booked. You cannot accept new reservations.' %}
                     </div>
                     {% else %}
                     <form action="{% url 'carpool:update_reservation' %}{% querystring next=request.path %}"
@@ -209,7 +209,7 @@
                     </span>
 
                     {% if reservation.status == 'PENDING' and join_request.ride.is_full %}
-                        <p class="alert alert-danger mt-1 mb-1">This ride is fully booked. Try searching for another ride.</p>
+                        <p class="alert alert-danger mt-1 mb-1">{% translate 'This ride is fully booked. Try searching for another ride.' %} </p>
                     {% endif %}
 
                     <div class="ps-3 border-start mt-3 mb-4">
@@ -249,7 +249,7 @@
                     </p>
                     
                     {% if join_request.ride.is_full %}
-                        <p class="alert alert-danger">This ride is fully booked. You cannot reserve a seat.</p>
+                        <p class="alert alert-danger">{% translate 'This ride is fully booked. You cannot reserve a seat.' %}</p>
                     {% else %}
                         <button type="submit" class="btn btn-primary w-100">
                             {% translate "Make a reservation" %}

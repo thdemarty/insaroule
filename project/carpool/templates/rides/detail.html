@@ -174,10 +174,10 @@
             </div>
             {% if not ride.driver == user %}
             {% if ride.has_ended %}
-                <p class="alert alert-warning">Ride has been completed.</p>
+                <p class="alert alert-warning">{% translate 'Ride has been completed.' %}</p>
             {% else %}
                 {% if ride.is_full %}
-                    <p class="alert alert-danger">Ride is full.</p>
+                    <p class="alert alert-danger">{% translate 'Ride is full.' %}</p>
                 {% endif %}
                 {% if not chat_request %}
                     <form action="{% url 'carpool:chat' ride.pk %}" method="post">
