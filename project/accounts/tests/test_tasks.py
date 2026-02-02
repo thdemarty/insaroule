@@ -13,7 +13,7 @@ class DeletingNonVerifiedAccountsTest(TestCase):
     def test_delete_non_verified_account_more_two_weeks(self):
         """Test that the user is deleted if they have not been verified for more than the max time."""
         date_joined = timezone.now() - timedelta(
-            seconds=settings.MAX_SECONDS_NON_VERIFIED_ACCOUNT + 1
+            days=settings.MAX_DAYS_NON_VERIFIED_ACCOUNT + 1
         )
         user = UserFactory(
             username="testuser", email_verified=False, date_joined=date_joined
@@ -25,7 +25,7 @@ class DeletingNonVerifiedAccountsTest(TestCase):
     def test_delete_non_verified_account_less_two_weeks(self):
         """Test that the user still exist if they have not been verified for less than the max time."""
         date_joined = timezone.now() - timedelta(
-            seconds=settings.MAX_SECONDS_NON_VERIFIED_ACCOUNT - 1
+            days=settings.MAX_DAYS_NON_VERIFIED_ACCOUNT - 1
         )
         user = UserFactory(
             username="testuser", email_verified=False, date_joined=date_joined

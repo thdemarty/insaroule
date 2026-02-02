@@ -209,8 +209,10 @@ def delete_non_verified_accounts():
     for user in get_user_model().objects.all():
         if not user.email_verified:
             max_non_verified_time = timedelta(
-                seconds=settings.MAX_SECONDS_NON_VERIFIED_ACCOUNT
+                days=settings.MAX_DAYS_NON_VERIFIED_ACCOUNT
             )
             if timezone.now() - user.date_joined > max_non_verified_time:
                 user.delete()
-                logger.info("One account deleted.")
+                logger.info(
+                    "An account has been deleted since the email was not verified."
+                )
