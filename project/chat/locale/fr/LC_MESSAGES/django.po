@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-24 17:52+0100\n"
+"POT-Creation-Date: 2026-02-03 00:15+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -228,7 +228,7 @@ msgstr "Masquer les trajets passés"
 
 #: chat/templates/chat/moderation/index.html:28
 msgid "Show past rides"
-msgstr "Rechercher des trajets passés"
+msgstr "Afficher les trajets passés"
 
 #: chat/templates/chat/moderation/index.html:37
 msgid "Reported"
@@ -259,6 +259,10 @@ msgstr "Suivant"
 #: chat/templates/chat/moderation/room.html:22
 msgid "See associated ride"
 msgstr "Voir le trajet associé"
+
+#: chat/templates/chat/moderation/room.html:27 chat/templates/chat/room.html:65
+msgid "We can moderate messages if necessary."
+msgstr "Nous pouvons modérer les messages si nécessaire."
 
 #: chat/templates/chat/moderation/search.html:5
 msgid "username"
@@ -298,10 +302,6 @@ msgstr ""
 msgid "Close"
 msgstr "Fermer"
 
-#: chat/templates/chat/room.html:65
-msgid "We can moderate messages if necessary."
-msgstr "Nous pouvons modérer les messages si nécessaire."
-
 #: chat/templates/chat/room.html:97
 msgid "You have never ride with this user."
 msgstr "Vous n'avez jamais fait de trajet avec cet utilisateur·rice."
@@ -325,6 +325,11 @@ msgstr "L'utilisateur·rice n'a pas encore fait de réservation."
 msgid "The user has made a reservation for this ride."
 msgstr "L'utilisateur·rice a fait une réservation pour ce trajet."
 
+#: chat/templates/chat/room.html:172
+msgid "The ride is fully booked. You cannot accept new reservations."
+msgstr ""
+"Ce trajet est complet. Vous ne pouvez pas accepter de nouvelles réservations."
+
 #: chat/templates/chat/room.html:182
 msgid "Decline"
 msgstr "Refuser"
@@ -344,6 +349,10 @@ msgid ""
 msgstr ""
 "Vous avez déjà fait une réservation pour ce trajet. Le conducteur·rice "
 "acceptera ou refusera votre demande."
+
+#: chat/templates/chat/room.html:212
+msgid "This ride is fully booked. Try searching for another ride."
+msgstr "Ce trajet est complet. Essayez de rechercher un autre trajet."
 
 #: chat/templates/chat/room.html:216
 msgid "Date:"
@@ -365,6 +374,10 @@ msgstr ""
 "Pour faire une réservation sur ce trajet, vous devez faire une demande en "
 "cliquant sur le bouton ci-dessous. Le conducteur·rice acceptera ou refusera "
 "alors votre demande."
+
+#: chat/templates/chat/room.html:252
+msgid "This ride is fully booked. You cannot reserve a seat."
+msgstr "Ce trajet est complet. Vous ne pouvez pas réserver de place."
 
 #: chat/templates/chat/room.html:255
 msgid "Make a reservation"

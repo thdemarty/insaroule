@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-24 17:52+0100\n"
+"POT-Creation-Date: 2026-02-03 00:04+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -630,6 +630,14 @@ msgstr "Places disponibles : "
 msgid "Wire transfer"
 msgstr "Virement bancaire"
 
+#: carpool/templates/rides/detail.html:177
+msgid "Ride has been completed."
+msgstr "Le trajet est terminé."
+
+#: carpool/templates/rides/detail.html:180
+msgid "Ride is full."
+msgstr "Le trajet est complet."
+
 #: carpool/templates/rides/detail.html:185
 msgid "Start a discussion"
 msgstr "Commencer une discussion"
@@ -750,8 +758,8 @@ msgstr "Suivant"
 #, python-format
 msgid "And %(ride_count)s other step"
 msgid_plural "And %(ride_count)s other steps"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Et %(ride_count)s autre étape"
+msgstr[1] "Et %(ride_count)s autres étapes"
 
 #: carpool/templates/rides/includes/ride_card.html:89
 msgid "Booked seats:"
