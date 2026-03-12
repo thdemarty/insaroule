@@ -314,3 +314,8 @@ REST_FRAMEWORK = {
 SIMPLE_JWT = {
     "USER_ID_FIELD": "pk",
 }
+
+# GDPR settings
+MAX_DAYS_NON_VERIFIED_ACCOUNT = env.int(
+    "MAX_DAYS_NON_VERIFIED_ACCOUNT", default=14
+)  # 2 weeks

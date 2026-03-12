@@ -81,3 +81,40 @@ class TestLoginPreferredLanguage(TestCase):
         self.client.post(reverse("set_user_language"), {"language": "xx"})
         user.refresh_from_db()
         self.assertEqual(user.preferred_language, "fr")
+
+
+class ForgotUsernameViewTest(TestCase):
+    def setUp(self):
+        self.user = UserFactory(
+            username="testuser", email="testuser@example.org", email_verified=True
+        )
+
+    def test_get_forgot_username_page(self):
+        """Test that the forgot username page loads successfully."""
+        response = self.client.get(reverse("accounts:forgot_username"))
+        self.assertEqual(response.status_code, 200)
+
+    @patch("accounts.tasks.send_forgot_username_email.delay")
+    def test_post_forgot_username_valid_email(self, mock_send):
+        """Test that posting a valid email sends the username."""
+        response = self.client.post(
+            reverse("accounts:forgot_username"), {"email": self.user.email}
+        )
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, reverse("accounts:forgot_username_done"))
+
+        mock_send.assert_called_once_with(self.user.email)
+
+    @patch("accounts.tasks.send_forgot_username_email.delay")
+    def test_post_forgot_username_invalid_email(self, mock_send):
+        """Test that posting an invalid email does not send any email."""
+        invalid_email = "something@example.org"
+        response = self.client.post(
+            reverse("accounts:forgot_username"), {"email": invalid_email}
+        )
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, reverse("accounts:forgot_username_done"))
+
+        mock_send.assert_called_once_with(invalid_email)

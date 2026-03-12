@@ -1,0 +1,6 @@
+{% load i18n %}{% blocktranslate trimmed %}
+You're receiving this email because you requested your username at {{ site_name }}.
+{% endblocktranslate %}
+{% translate 'Your username is:' %} {{ user.get_username }}
+
+{% include "emails/signature.txt" %}
