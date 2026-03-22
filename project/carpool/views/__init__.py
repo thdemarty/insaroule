@@ -127,7 +127,10 @@ def update_reservation(request):
     action = request.POST.get("action")
 
     if action == "accept":
-        if reservation.ride.is_full and reservation.status != Reservation.Status.ACCEPTED:
+        if (
+            reservation.ride.is_full
+            and reservation.status != Reservation.Status.ACCEPTED
+        ):
             return HttpResponse("This ride is fully booked.", status=409)
         reservation.status = Reservation.Status.ACCEPTED
         send_email_confirmed_ride.delay(reservation.pk)
@@ -156,7 +159,9 @@ def rides_subscribe(request, ride_pk):
             messages.error(request, "You cannot book a completed ride.")
             return redirect("carpool:list")
         if ride.is_full:
-            messages.error(request, "This ride is fully booked. You cannot reserve a seat.")
+            messages.error(
+                request, "This ride is fully booked. You cannot reserve a seat."
+            )
             return redirect("carpool:list")
         # Get the chat request
         ChatRequest.objects.get(user=request.user, ride=ride)
@@ -297,7 +302,7 @@ def rides_list(request):
         "start_dt",
     )
 
-    paginator = Paginator(rides, 4)  # Show 4 rides per page.
+    paginator = Paginator(rides, 8)  # Show 4 rides per page.
 
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
