@@ -177,8 +177,6 @@ def get_sidebar_context(request):
         .order_by("ride__start_dt")
     )
 
-    # Print last_reservation_status for debugging
-
     incoming_requests = (
         ChatRequest.objects.filter(ride__in=request.user.rides_as_driver.all())
         .annotate(
@@ -208,6 +206,12 @@ def get_sidebar_context(request):
     #     incoming_requests = incoming_requests.exclude(
     #         last_reservation_status="DECLINED"
     #     )
+
+    # Filter out past ride's request by default
+    if not request.GET.get("o_past"):
+        outgoing_requests = outgoing_requests.filter(ride__start_dt__gte=timezone.now())
+    if not request.GET.get("i_past"):
+        incoming_requests = incoming_requests.filter(ride__start_dt__gte=timezone.now())
 
     # Pagination
     o_paginator = Paginator(outgoing_requests, 4)
