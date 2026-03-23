@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-03 00:15+0100\n"
+"POT-Creation-Date: 2026-03-23 15:48+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -189,26 +189,37 @@ msgstr "Demandes de trajet"
 
 #: chat/templates/chat/includes/sidebar.html:39
 #: chat/templates/chat/includes/sidebar.html:43
-#: chat/templates/chat/includes/sidebar.html:98
-#: chat/templates/chat/includes/sidebar.html:102
+#: chat/templates/chat/includes/sidebar.html:109
+#: chat/templates/chat/includes/sidebar.html:113
 msgid "Declined requests"
 msgstr "Requêtes refusées"
 
-#: chat/templates/chat/includes/sidebar.html:58
-msgid "No ride requests found"
-msgstr "Aucune demande de trajet trouvée"
+#: chat/templates/chat/includes/sidebar.html:50
+#: chat/templates/chat/includes/sidebar.html:120
+msgid "Hide past requests"
+msgstr "Masquer les trajets passés"
 
-#: chat/templates/chat/includes/sidebar.html:61
+#: chat/templates/chat/includes/sidebar.html:54
+#: chat/templates/chat/includes/sidebar.html:124
+#| msgid "Show past rides"
+msgid "Show past requests"
+msgstr "Afficher les trajets passés"
+
+#: chat/templates/chat/includes/sidebar.html:69
+msgid "No incoming ride requests found"
+msgstr "Aucune demande de trajet à venir trouvée"
+
+#: chat/templates/chat/includes/sidebar.html:72
 msgid "Search a ride"
 msgstr "Rechercher un trajet"
 
-#: chat/templates/chat/includes/sidebar.html:91
+#: chat/templates/chat/includes/sidebar.html:102
 msgid "Incoming requests"
 msgstr "Requêtes entrantes"
 
-#: chat/templates/chat/includes/sidebar.html:116
-msgid "Nobody has requested to join your rides yet."
-msgstr "Personne n'a encore demandé à rejoindre un de vos trajets."
+#: chat/templates/chat/includes/sidebar.html:138
+msgid "Nobody has requested to join your incoming rides yet."
+msgstr "Personne n'a encore demandé à rejoindre un de vos trajets à venir."
 
 #: chat/templates/chat/index.html:18
 msgid "Choose a conversation on the left to start discussing."
