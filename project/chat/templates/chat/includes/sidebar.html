@@ -44,6 +44,17 @@
                         </a>
                         {% endif %}
                     </li>
+                    <li>
+                        {% if request.GET.o_past %}
+                        <a href="{% querystring o_past=None %}" class="dropdown-item">
+                            <i class="bi bi-check-lg"></i> {% translate "Hide past requests" %}
+                        </a>
+                        {% else %}
+                        <a href="{% querystring o_past=1 %}" class="dropdown-item">
+                            {% translate "Show past requests" %}
+                        </a>
+                        {% endif %}
+                    </li>
                 </ul>
             </div>
         </div>
@@ -55,7 +66,7 @@
     <a href="{% url 'carpool:list' %}" class="list-group-item list-group-item-action">
         <div class="d-flex flex-column align-items-center">
             <span class="text-muted mb-2 small">
-                {% translate "No ride requests found" %}
+                {% translate "No incoming ride requests found" %}
             </span>
             <span type="button" class="btn btn-sm btn-outline-primary">
                 {% translate "Search a ride" %}
@@ -103,6 +114,17 @@
                         </a>
                         {% endif %}
                     </li>
+                    <li>
+                        {% if request.GET.i_past %}
+                        <a href="{% querystring i_past=None %}" class="dropdown-item">
+                            <i class="bi bi-check-lg"></i> {% translate "Hide past requests" %}
+                        </a>
+                        {% else %}
+                        <a href="{% querystring i_past=1 %}" class="dropdown-item">
+                            {% translate "Show past requests" %}
+                        </a>
+                        {% endif %}
+                    </li>
                 </ul>
             </div>
         </div>
@@ -113,7 +135,7 @@
     {% empty %}
 
     <span class="list-group-item text-muted text-center small">
-        {% translate "Nobody has requested to join your rides yet." %}
+        {% translate "Nobody has requested to join your incoming rides yet." %}
     </span>
 
     {% endfor %}
