@@ -5,6 +5,8 @@ from asgiref.sync import sync_to_async
 from channels.generic.websocket import AsyncWebsocketConsumer
 from django.utils import timezone
 
+logger = logging.getLogger(__name__)
+
 
 class ChatConsumer(AsyncWebsocketConsumer):
     # TODO: simplify the logic by using external functions for permission checks and message retrieval
@@ -20,7 +22,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         )
 
         if not await self.chat_request.aexists():
-            logging.error(f"ChatRequest with pk {self.room_name} does not exist.")
+            logger.error(f"ChatRequest with pk {self.room_name} does not exist.")
             await self.close()
             return
 
@@ -36,7 +38,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         )
 
         if self.user.is_anonymous or (not is_participant and not is_moderator):
-            logging.error(
+            logger.error(
                 f"User {self.user.username} attempted to join chat room {self.room_name} without permission. (Anonymous: {self.user.is_anonymous}, "
                 f"Participant: {is_participant}, Moderator: {is_moderator})",
             )
@@ -95,7 +97,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         """
         from chat.models import ChatMessage
 
-        logging.debug(f"Received message: {text_data}")
+        logger.debug(f"Received message: {text_data}")
 
         text_data = json.loads(text_data)
         if "message" in text_data:
@@ -103,7 +105,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             timestamp = timezone.now()
 
             if len(message.strip()) > 1000:
-                logging.warning(
+                logger.warning(
                     f"User {self.user.username} attempted to send a message exceeding 1000 characters.",
                 )
                 return
@@ -124,7 +126,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 "message_id": message.id,
             }
 
-            logging.debug(f"Broadcasting message: {data}")
+            logger.debug(f"Broadcasting message: {data}")
 
             await self.channel_layer.group_send(self.room_group_name, data)
 
@@ -134,7 +136,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
             if action == "hide" and message_id:
                 if not self.user.has_perm("chat.can_moderate_messages"):
-                    logging.warning(
+                    logger.warning(
                         f"User {self.user.username} attempted to hide a message without permission.",
                     )
                     return
@@ -154,7 +156,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
             elif action == "unhide" and message_id:
                 if not self.user.has_perm("chat.can_moderate_messages"):
-                    logging.warning(
+                    logger.warning(
                         f"User {self.user.username} attempted to unhide a message without permission.",
                     )
                     return
@@ -172,7 +174,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 )
 
             elif action == "mark_read":
-                logging.debug(
+                logger.debug(
                     f"User {self.user.username} is marking messages as read in chat {self.room_name}.",
                 )
                 # Mark all messages in this chat as read by the user
@@ -186,7 +188,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                     .update
                 )(read_at=timezone.now())
 
-                logging.debug(f"Marked {chats} messages as read.")
+                logger.debug(f"Marked {chats} messages as read.")
 
     async def chat_message(self, event):
         """Handler for type 'chat.message'."""
