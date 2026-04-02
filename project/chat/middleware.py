@@ -2,6 +2,8 @@
 import logging
 from channels.db import database_sync_to_async
 
+logger = logging.getLogger(__name__)
+
 
 @database_sync_to_async
 def get_user_from_jwt(token_key):
@@ -11,7 +13,7 @@ def get_user_from_jwt(token_key):
 
         User = get_user_model()
         access_token = AccessToken(token_key)
-        logging.debug(
+        logger.debug(
             "Find user from JWT token: %s",
             access_token,
             "user_id: %s",
@@ -20,7 +22,7 @@ def get_user_from_jwt(token_key):
         return User.objects.get(pk=access_token["user_id"])
 
     except Exception as e:
-        logging.error("JWTAuthMiddleware error:", e)
+        logger.error("JWTAuthMiddleware error:", e)
         return None
 
 
@@ -30,14 +32,14 @@ class JWTAuthMiddleware:
 
     async def __call__(self, scope, receive, send):
         headers = dict(scope.get("headers", {}))
-        logging.debug("Headers: %s", headers)
+        logger.debug("Headers: %s", headers)
         auth_header = headers.get(b"authorization", b"").decode().split()
 
         if len(auth_header) == 2 and auth_header[0].lower() == "bearer":
-            logging.debug("Found Bearer token in Authorization header")
+            logger.debug("Found Bearer token in Authorization header")
             jwt_user = await get_user_from_jwt(auth_header[1])
 
-            logging.debug("Authenticated user from JWT: %s", jwt_user)
+            logger.debug("Authenticated user from JWT: %s", jwt_user)
 
             if jwt_user:
                 scope["user"] = jwt_user
