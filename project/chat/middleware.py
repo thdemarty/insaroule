@@ -1,4 +1,5 @@
 # chat/middleware.py
+import logging
 from channels.db import database_sync_to_async
 
 
@@ -10,10 +11,16 @@ def get_user_from_jwt(token_key):
 
         User = get_user_model()
         access_token = AccessToken(token_key)
+        logging.debug(
+            "Find user from JWT token: %s",
+            access_token,
+            "user_id: %s",
+            access_token["user_id"],
+        )
         return User.objects.get(pk=access_token["user_id"])
 
     except Exception as e:
-        print("JWTAuthMiddleware error:", e)
+        logging.error("JWTAuthMiddleware error:", e)
         return None
 
 
@@ -23,11 +30,16 @@ class JWTAuthMiddleware:
 
     async def __call__(self, scope, receive, send):
         headers = dict(scope.get("headers", {}))
+        logging.debug("Headers: %s", headers)
         auth_header = headers.get(b"authorization", b"").decode().split()
 
         if len(auth_header) == 2 and auth_header[0].lower() == "bearer":
+            logging.debug("Found Bearer token in Authorization header")
             jwt_user = await get_user_from_jwt(auth_header[1])
+
+            logging.debug("Authenticated user from JWT: %s", jwt_user)
 
             if jwt_user:
                 scope["user"] = jwt_user
+
         return await self.inner(scope, receive, send)
