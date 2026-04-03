@@ -8,7 +8,9 @@ from rest_framework_simplejwt.views import (
     TokenVerifyView,
 )
 
-from .views import set_user_language
+from project.routers import router
+
+from project.views import set_user_language
 
 urlpatterns = [
     path("i18n/", include("django.conf.urls.i18n")),  # language switching
@@ -26,6 +28,7 @@ urlpatterns += [
     path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("api/token/verify/", TokenVerifyView.as_view(), name="token_verify"),
+    path("api/v1/", include(router.urls)),
 ]
 
 
