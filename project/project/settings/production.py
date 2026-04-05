@@ -56,16 +56,10 @@ INSTALLED_APPS = [
 ]
 
 if DEBUG:
-    INSTALLED_APPS += [
-        "debug_toolbar",
-    ]
+    INSTALLED_APPS += ["debug_toolbar"]
 
-if DEBUG:
-    MIDDLEWARE = [
-        "debug_toolbar.middleware.DebugToolbarMiddleware",
-    ]
-
-MIDDLEWARE += [
+MIDDLEWARE = [
+    "debug_toolbar.middleware.DebugToolbarMiddleware" if DEBUG else None,
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.locale.LocaleMiddleware",  # Enable locale middleware for translations
