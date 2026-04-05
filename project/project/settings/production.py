@@ -40,7 +40,6 @@ ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=[])
 CSRF_TRUSTED_ORIGINS = env.list("DJANGO_CSRF_TRUSTED_ORIGINS", default=[])
 
 # Application definition
-
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -56,7 +55,17 @@ INSTALLED_APPS = [
     "chat",
 ]
 
-MIDDLEWARE = [
+if DEBUG:
+    INSTALLED_APPS += [
+        "debug_toolbar",
+    ]
+
+if DEBUG:
+    MIDDLEWARE = [
+        "debug_toolbar.middleware.DebugToolbarMiddleware",
+    ]
+
+MIDDLEWARE += [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.locale.LocaleMiddleware",  # Enable locale middleware for translations
@@ -304,3 +313,5 @@ MAXIMUM_STEPOVERS_IN_RIDE = 5
 MAX_DAYS_NON_VERIFIED_ACCOUNT = env.int(
     "MAX_DAYS_NON_VERIFIED_ACCOUNT", default=14
 )  # 2 weeks
+
+INTERNAL_IPS = ["127.0.0.1"]
