@@ -55,11 +55,7 @@ INSTALLED_APPS = [
     "chat",
 ]
 
-if DEBUG:
-    INSTALLED_APPS += ["debug_toolbar"]
-
 MIDDLEWARE = [
-    "debug_toolbar.middleware.DebugToolbarMiddleware" if DEBUG else None,
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.locale.LocaleMiddleware",  # Enable locale middleware for translations
