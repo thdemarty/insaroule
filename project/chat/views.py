@@ -185,17 +185,6 @@ def get_sidebar_context(request):
         .order_by("ride__start_dt")
     )
 
-    print("Outgoing Requests with last_reservation_status:")
-    for jr in outgoing_requests:
-        print(
-            f"JoinRequest ID: {jr.pk}, Last Reservation Status: {jr.last_reservation_status}"
-        )
-    print("Incoming Requests with last_reservation_status:")
-    for jr in incoming_requests:
-        print(
-            f"JoinRequest ID: {jr.pk}, Last Reservation Status: {jr.last_reservation_status}"
-        )
-
     # Filtering for declined (if you re-enable later)
     # if not request.GET.get("o_declined"):
     #     outgoing_requests = outgoing_requests.exclude(
