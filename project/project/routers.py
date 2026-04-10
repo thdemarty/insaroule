@@ -8,4 +8,4 @@ router = routers.DefaultRouter()
 
 router.register(r"conversations", ChatRequestViewSet)
 router.register(r"rides", RideListViewSet)
-router.register(r"me", UserViewSet, basename="me")
+router.register(r"users", UserViewSet)

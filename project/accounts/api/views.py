@@ -1,14 +1,18 @@
 from rest_framework import viewsets
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.decorators import action
 from accounts.api.serializers import UserSerializer
+from accounts.models import User
 
 
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
-    """API endpoint that allows a user to get its information."""
-
     serializer_class = UserSerializer
-    queryset = None
+    queryset = User.objects.all()
+    permission_classes = [IsAdminUser]
 
-    def get_queryset(self):
-        """This view should return a list of all the users for the currently authenticated user."""
-        user = self.request.user
-        return user.__class__.objects.filter(uuid=user.uuid)
+    @action(detail=False, methods=["get"], permission_classes=[IsAuthenticated])
+    def me(self, request):
+        """Return some information of the user instance of the currently authenticated user."""
+        serializer = self.get_serializer(request.user)
+        return Response(serializer.data)
